@@ -3,23 +3,12 @@ package tn.esprit.powerHR.models;
 public class CLFr {
     private int id;
     private String nom;
-    private int matriculeFiscale; // Changement de String à int
+    private String matriculeFiscale;
     private String adresse;
-    private int numtel; // Changement de String à int
+    private String numTel;  // Ajoutez ce champ si ce n'est pas déjà fait
     private String type;
 
-    // Constructeurs
-    public CLFr() {}
-
-    public CLFr(String nom, int matriculeFiscale, String adresse, int numtel, String type) {
-        this.nom = nom;
-        this.matriculeFiscale = matriculeFiscale;
-        this.adresse = adresse;
-        this.numtel = numtel;
-        this.type = type;
-    }
-
-    // Getters et Setters
+    // Getter et Setter pour l'ID
     public int getId() {
         return id;
     }
@@ -27,7 +16,7 @@ public class CLFr {
     public void setId(int id) {
         this.id = id;
     }
-
+    // Getters et Setters
     public String getNom() {
         return nom;
     }
@@ -36,14 +25,13 @@ public class CLFr {
         this.nom = nom;
     }
 
-    public int getMatriculeFiscale() {
+    public String getMatriculeFiscale() {
         return matriculeFiscale;
     }
 
     public void setMatriculeFiscale(String matriculeFiscale) {
         this.matriculeFiscale = matriculeFiscale;
     }
-
 
     public String getAdresse() {
         return adresse;
@@ -53,12 +41,12 @@ public class CLFr {
         this.adresse = adresse;
     }
 
-    public int getNumtel() {
-        return numtel;
+    public String getNumTel() {
+        return numTel;
     }
 
-    public void setNumtel(int numtel) {
-        this.numtel = numtel;
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
     }
 
     public String getType() {
@@ -74,11 +62,10 @@ public class CLFr {
         return "CLFr{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
-                ", matriculeFiscale=" + matriculeFiscale + // Correction ici
+                ", matriculeFiscale='" + matriculeFiscale + '\'' +
                 ", adresse='" + adresse + '\'' +
-                ", numtel=" + numtel + // Correction ici
+                ", numTel='" + numTel + '\'' +
                 ", type='" + type + '\'' +
                 '}';
     }
 }
-

@@ -20,9 +20,9 @@ public class ServiceCLFr implements IService<CLFr> {
         String query = "INSERT INTO CLFr (nom, matricule_fiscale, adresse, numtel, type) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, clfr.getNom());
-            preparedStatement.setInt(2, clfr.getMatriculeFiscale()); // int(11)
+            preparedStatement.setString(2, clfr.getMatriculeFiscale());
             preparedStatement.setString(3, clfr.getAdresse());
-            preparedStatement.setInt(4, clfr.getNumtel()); // int(11)
+            preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
             preparedStatement.executeUpdate();
             System.out.println("CLFr ajouté avec succès !");
@@ -36,9 +36,9 @@ public class ServiceCLFr implements IService<CLFr> {
         String query = "UPDATE CLFr SET nom = ?, matricule_fiscale = ?, adresse = ?, numtel = ?, type = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, clfr.getNom());
-            preparedStatement.setInt(2, clfr.getMatriculeFiscale()); // int(11)
+            preparedStatement.setString(2, clfr.getMatriculeFiscale());
             preparedStatement.setString(3, clfr.getAdresse());
-            preparedStatement.setInt(4, clfr.getNumtel()); // int(11)
+            preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
             preparedStatement.setInt(6, clfr.getId());
             preparedStatement.executeUpdate();
@@ -70,9 +70,9 @@ public class ServiceCLFr implements IService<CLFr> {
                 CLFr clfr = new CLFr();
                 clfr.setId(resultSet.getInt("id"));
                 clfr.setNom(resultSet.getString("nom"));
-                clfr.setMatriculeFiscale(resultSet.getInt("matricule_fiscale")); // int(11)
+                clfr.setMatriculeFiscale(resultSet.getString("matricule_fiscale"));
                 clfr.setAdresse(resultSet.getString("adresse"));
-                clfr.setNumtel(resultSet.getInt("numtel")); // int(11)
+                clfr.setNumTel(resultSet.getString("numtel"));
                 clfr.setType(resultSet.getString("type"));
                 clfrs.add(clfr);
             }
@@ -81,4 +81,18 @@ public class ServiceCLFr implements IService<CLFr> {
         }
         return clfrs;
     }
+    public boolean exists(int idClFr) {
+        String query = "SELECT COUNT(*) FROM CLFr WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, idClFr);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                return true;  // Le CLFr existe
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la vérification du CLFr : " + e.getMessage());
+        }
+        return false;  // Le CLFr n'existe pas
+    }
+
 }

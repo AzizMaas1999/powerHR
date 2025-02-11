@@ -1,16 +1,18 @@
 package tn.esprit.powerHR.models;
 
+import java.sql.Date;
+
 public class Feedback {
     private int id;
     private int idClFr;
-    private String dateCreation;
+    private Date dateCreation; // Utilisation du type Date pour correspondre à 'date' dans la base
     private String type;
     private String description;
 
     // Constructeurs
     public Feedback() {}
 
-    public Feedback(int idClFr, String dateCreation, String type, String description) {
+    public Feedback(int idClFr, Date dateCreation, String type, String description) {
         this.idClFr = idClFr;
         this.dateCreation = dateCreation;
         this.type = type;
@@ -34,11 +36,11 @@ public class Feedback {
         this.idClFr = idClFr;
     }
 
-    public String getDateCreation() {
+    public Date getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(String dateCreation) {
+    public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
 
@@ -63,7 +65,7 @@ public class Feedback {
         return "Feedback{" +
                 "id=" + id +
                 ", idClFr=" + idClFr +
-                ", dateCreation='" + dateCreation + '\'' +
+                ", dateCreation=" + dateCreation +
                 ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 '}';
