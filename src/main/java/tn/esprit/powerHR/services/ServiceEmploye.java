@@ -53,7 +53,7 @@ public class ServiceEmploye implements IService<Employe> {
 
     @Override
     public void delete(Employe employe) {
-        String query = "DELETE FROM employe WHERE id = ?";
+        String query = "DELETE * FROM employe WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, employe.getId());
             preparedStatement.executeUpdate();

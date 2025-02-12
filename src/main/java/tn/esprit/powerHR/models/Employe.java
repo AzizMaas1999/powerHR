@@ -11,13 +11,14 @@ public class Employe {
 
     public Employe() {
     }
-    public Employe(int id,String username,String password, String poste, Double salaire, String rib, String codeSociale) {
+
+    public Employe(int id, String username, String password, String poste, Double salaire, String rib, String codeSociale) {
         this.id = id;
-        this.username = username;
-        this.password = password;
-        this.poste = poste;
+        setUsername(username);
+        setPassword(password);
+        setPoste(poste);
         this.salaire = salaire;
-        this.rib = rib;
+        setRib(rib);
         this.codeSociale = codeSociale;
     }
 
@@ -34,10 +35,16 @@ public class Employe {
     }
 
     public void setUsername(String username) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("username cannot be null or empty");
+        }
         this.username = username;
     }
 
     public String getPassword() {
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
         return password;
     }
 
@@ -50,6 +57,9 @@ public class Employe {
     }
 
     public void setPoste(String poste) {
+        if (!poste.equals("DirecteurRH") && !poste.equals("chargesRH") && !poste.equals("ouvrier")) {
+            throw new IllegalArgumentException("Poste must be 'DirecteurRH', 'chargesRH', or 'ouvrier'");
+        }
         this.poste = poste;
     }
 
@@ -66,6 +76,9 @@ public class Employe {
     }
 
     public void setRib(String rib) {
+        if (!rib.matches("\\d{12}")) {
+            throw new IllegalArgumentException("RIB must be exactly 12 numero");
+        }
         this.rib = rib;
     }
 
@@ -84,8 +97,8 @@ public class Employe {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", poste='" + poste + '\'' +
-                ", salaire='" + salaire + '\'' +
-                ", rib=" + rib +
+                ", salaire=" + salaire +
+                ", rib='" + rib + '\'' +
                 ", codeSociale='" + codeSociale + '\'' +
                 '}';
     }

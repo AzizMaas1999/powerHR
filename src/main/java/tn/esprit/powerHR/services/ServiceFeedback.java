@@ -51,7 +51,7 @@ public class ServiceFeedback implements IService<Feedback> {
 
     @Override
     public void delete(Feedback feedback) {
-        String query = "DELETE FROM feedback WHERE id = ?";
+        String query = "DELETE * FROM feedback WHERE id = ?";
         try (PreparedStatement preparedStatement=connection.prepareStatement(query)){
             
             preparedStatement.setInt(1,feedback.getId());

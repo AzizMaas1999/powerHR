@@ -14,8 +14,8 @@ public class Candidat {
 
     public Candidat(int id, String nom, String prenom, String email, String telephone, Blob cvPdf) {
         this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
+        setNom(nom);
+        setPrenom(prenom);
         setEmail(email);
         setTelephone(telephone);
         this.cvPdf = cvPdf;
