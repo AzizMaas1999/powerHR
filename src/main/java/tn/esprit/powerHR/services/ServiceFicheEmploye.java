@@ -61,7 +61,7 @@ public class ServiceFicheEmploye implements IService<FicheEmploye> {
 
     @Override
     public void delete(FicheEmploye ficheEmploye) {
-        String query = "DELETE FROM ficheEmploye WHERE id = ?";
+        String query = "DELETE * FROM ficheEmploye WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, ficheEmploye.getId());
             preparedStatement.executeUpdate();
