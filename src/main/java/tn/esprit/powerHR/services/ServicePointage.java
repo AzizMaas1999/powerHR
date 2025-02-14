@@ -1,6 +1,7 @@
 package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
+import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.Paie;
 import tn.esprit.powerHR.models.Pointage;
 import tn.esprit.powerHR.utils.MyDataBase;
@@ -53,7 +54,7 @@ public class ServicePointage implements IService<Pointage> {
                 p.setDate(rs.getDate("date"));
                 p.setHeureEntree(rs.getTime("heureEntree"));
                 p.setHeureSortie(rs.getTime("heureSortie"));
-                Employe employe = new Employe(rs.getInt("employe_id"));
+                Employe employe = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null);
                 p.setEmploye(employe);
                 Paie paie = new Paie(rs.getInt("paie_id"),0,0,null,null);
                 p.setPaie(paie);
