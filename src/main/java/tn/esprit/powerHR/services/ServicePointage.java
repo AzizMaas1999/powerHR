@@ -1,6 +1,7 @@
 package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
+import tn.esprit.powerHR.models.Paie;
 import tn.esprit.powerHR.models.Pointage;
 import tn.esprit.powerHR.utils.MyDataBase;
 
@@ -19,13 +20,14 @@ public class ServicePointage implements IService<Pointage> {
     public void add(Pointage pointage) {
         //create Qry SQL
         //execute Qry
-        String qry ="INSERT INTO `pointage`(`employe_id`, `date`, `heureEntree`, `heureSortie`) VALUES (?,?,?,?)";
+        String qry ="INSERT INTO `pointage`(`date`, `heureEntree`, `heureSortie`, `employe_id`, `paie_id`) VALUES (?,?,?,?,?)";
         try {
             PreparedStatement pstm = cnx.prepareStatement(qry);
-            pstm.setInt(1, pointage.getEmploye_id());
-            pstm.setDate(2, pointage.getDate());
-            pstm.setTime(3, pointage.getHeureEntree());
-            pstm.setTime(4, pointage.getHeureSortie());
+            pstm.setDate(1, pointage.getDate());
+            pstm.setTime(2, pointage.getHeureEntree());
+            pstm.setTime(3, pointage.getHeureSortie());
+            pstm.setInt(4, pointage.getEmploye().getId());
+            pstm.setInt(5, pointage.getPaie().getId());
 
             pstm.executeUpdate();
             System.out.println("Pointage added");
@@ -48,10 +50,13 @@ public class ServicePointage implements IService<Pointage> {
             while (rs.next()){
                 Pointage p = new Pointage();
                 p.setId(rs.getInt("id"));
-                p.setEmploye_id(rs.getInt("employe_id"));
                 p.setDate(rs.getDate("date"));
                 p.setHeureEntree(rs.getTime("heureEntree"));
                 p.setHeureSortie(rs.getTime("heureSortie"));
+                Employe employe = new Employe(rs.getInt("employe_id"));
+                p.setEmploye(employe);
+                Paie paie = new Paie(rs.getInt("paie_id"),0,0,null,null);
+                p.setPaie(paie);
 
                 pointages.add(p);
             }

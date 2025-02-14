@@ -20,13 +20,12 @@ public class ServicePaie implements IService<Paie> {
     public void add(Paie paie) {
         //create Qry SQL
         //execute Qry
-        String qry ="INSERT INTO `Paie`(`id_pointage`, `nbJour`, `montant`, `mois`) VALUES (?,?,?,?)";
+        String qry ="INSERT INTO `Paie`(`nbJour`, `montant`, `mois`) VALUES (?,?,?)";
         try {
             PreparedStatement pstm = cnx.prepareStatement(qry);
-            pstm.setInt(1, paie.getId_pointage());
-            pstm.setInt(2, paie.getNbjour());
-            pstm.setFloat(3, paie.getMontant());
-            pstm.setString(4, paie.getMois());
+            pstm.setInt(1, paie.getNbjour());
+            pstm.setFloat(2, paie.getMontant());
+            pstm.setString(3, paie.getMois());
 
             pstm.executeUpdate();
             System.out.println("Paie added");
@@ -49,7 +48,6 @@ public class ServicePaie implements IService<Paie> {
             while (rs.next()){
                 Paie p = new Paie();
                 p.setId(rs.getInt("id"));
-                p.setId_pointage(rs.getInt("id_pointage"));
                 p.setNbjour(rs.getInt("nbjour"));
                 p.setMontant(rs.getFloat("montant"));
                 p.setMois(rs.getString("mois"));

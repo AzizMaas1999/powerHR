@@ -4,19 +4,22 @@ import java.sql.Time;
 import java.sql.Date;
 
 public class Pointage {
-    private int id,employe_id;
+    private int id;
     private Date date;
     private Time heureEntree;
     private Time heureSortie;
+    private Employe employe;
+    private Paie paie;
 
     public Pointage() {}
 
-    public Pointage(int id, int employe_id, Date date, Time heureEntree, Time heureSortie) {
+    public Pointage(int id, Date date, Time heureEntree, Time heureSortie, Employe employe, Paie paie) {
         this.id = id;
-        this.employe_id = employe_id;
         this.date = date;
         this.heureEntree = heureEntree;
         this.heureSortie = heureSortie;
+        this.employe = employe;
+        this.paie = paie;
     }
 
     public int getId() {
@@ -25,14 +28,6 @@ public class Pointage {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getEmploye_id() {
-        return employe_id;
-    }
-
-    public void setEmploye_id(int employe_id) {
-        this.employe_id = employe_id;
     }
 
     public Date getDate() {
@@ -59,14 +54,31 @@ public class Pointage {
         this.heureSortie = heureSortie;
     }
 
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
+
+    public Paie getPaie() {
+        return paie;
+    }
+
+    public void setPaie(Paie paie) {
+        this.paie = paie;
+    }
+
     @Override
     public String toString() {
         return "Pointage{" +
                 "id=" + id +
-                ", employe_id=" + employe_id +
                 ", date=" + date +
                 ", heureEntree=" + heureEntree +
                 ", heureSortie=" + heureSortie +
+                ", employe=" + employe.getID() +
+                ", paie=" + paie.getId() +
                 '}';
     }
 }

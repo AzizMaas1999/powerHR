@@ -1,19 +1,23 @@
 package tn.esprit.powerHR.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Paie {
-    private int id,id_pointage;
+    private int id;
     private int nbjour;
     private float montant;
     private String mois;
+    private List<Pointage> pointages = new ArrayList<>();
 
     public Paie() {}
 
-    public Paie(int id, int id_pointage, int nbjour, float montant, String mois) {
+    public Paie(int id, int nbjour, float montant, String mois, List<Pointage> pointages) {
         this.id = id;
-        this.id_pointage = id_pointage;
         this.nbjour = nbjour;
         this.montant = montant;
         this.mois = mois;
+        this.pointages = pointages;
     }
 
     public int getId() {
@@ -22,14 +26,6 @@ public class Paie {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getId_pointage() {
-        return id_pointage;
-    }
-
-    public void setId_pointage(int id_pointage) {
-        this.id_pointage = id_pointage;
     }
 
     public int getNbjour() {
@@ -56,14 +52,22 @@ public class Paie {
         this.mois = mois;
     }
 
+    public List<Pointage> getPointages() {
+        return pointages;
+    }
+
+    public void setPointages(Pointage pointage) {
+        this.pointages.add(pointage);
+    }
+
     @Override
     public String toString() {
         return "Paie{" +
                 "id=" + id +
-                ", id_pointage=" + id_pointage +
                 ", nbjour=" + nbjour +
                 ", montant=" + montant +
                 ", mois='" + mois + '\'' +
+                ", pointages=" + pointages +
                 '}';
     }
 }
