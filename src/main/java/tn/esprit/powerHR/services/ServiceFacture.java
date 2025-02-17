@@ -16,13 +16,13 @@ public class ServiceFacture implements IService<Facture> {
 
     @Override
     public void add(Facture facture) {
-        String qry = "INSERT INTO facture (id_clfr, typeFact, date, num, total) VALUES (?, ?, ?, ?, ?)";
+        String qry = "INSERT INTO facture (typeFact, date, num, total, id_clfr) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
-            pstm.setInt(1, facture.getIdClfr());
-            pstm.setString(2, facture.getTypeFact());
-            pstm.setDate(3, new java.sql.Date(facture.getDate().getTime()));
-            pstm.setString(4, facture.getNum());
-            pstm.setDouble(5, facture.getTotal());
+            pstm.setString(1, facture.getTypeFact());
+            pstm.setDate(2, new java.sql.Date(facture.getDate().getTime()));
+            pstm.setString(3, facture.getNum());
+            pstm.setDouble(4, facture.getTotal());
+            pstm.setInt(5, facture.getClFr().getId());
             pstm.executeUpdate();
             System.out.println("Facture ajoutée avec succès.");
         } catch (SQLException e) {
@@ -38,11 +38,12 @@ public class ServiceFacture implements IService<Facture> {
             while (rs.next()) {
                 Facture facture = new Facture();
                 facture.setId(rs.getInt("id"));
-                facture.setIdClfr(rs.getInt("id_clfr"));
                 facture.setTypeFact(rs.getString("typeFact"));
                 facture.setDate(rs.getDate("date"));
                 facture.setNum(rs.getString("num"));
                 facture.setTotal(rs.getDouble("total"));
+                ClFr c = new ClFr(rs.getInt("clfr_id"),null,null,null,null,null,null);
+                facture.setClFr(c);
                 factures.add(facture);
             }
         } catch (SQLException e) {
@@ -53,14 +54,13 @@ public class ServiceFacture implements IService<Facture> {
 
     @Override
     public void update(Facture facture) {
-        String qry = "UPDATE facture SET id_clfr = ?, typeFact = ?, date = ?, num = ?, total = ? WHERE id = ?";
+        String qry = "UPDATE facture SET typeFact = ?, date = ?, num = ?, total = ? WHERE id = ?";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
-            pstm.setInt(1, facture.getIdClfr());
-            pstm.setString(2, facture.getTypeFact());
-            pstm.setDate(3, new java.sql.Date(facture.getDate().getTime()));
-            pstm.setString(4, facture.getNum());
-            pstm.setDouble(5, facture.getTotal());
-            pstm.setInt(6, facture.getId());
+            pstm.setString(1, facture.getTypeFact());
+            pstm.setDate(2, new java.sql.Date(facture.getDate().getTime()));
+            pstm.setString(3, facture.getNum());
+            pstm.setDouble(4, facture.getTotal());
+            pstm.setInt(5, facture.getId());
             pstm.executeUpdate();
             System.out.println("Facture mise à jour avec succès.");
         } catch (SQLException e) {

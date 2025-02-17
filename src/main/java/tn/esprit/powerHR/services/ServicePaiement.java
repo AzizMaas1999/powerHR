@@ -7,6 +7,7 @@ import tn.esprit.powerHR.utils.MyDataBase;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
 public class ServicePaiement implements IService<Paiement> {
     private Connection cnx;
@@ -17,13 +18,12 @@ public class ServicePaiement implements IService<Paiement> {
 
     @Override
     public void add(Paiement paiement) {
-        String qry = "INSERT INTO paiement (id_facture, date, mode, reference, montant) VALUES (?, ?, ?, ?, ?)";
+        String qry = "INSERT INTO paiement (date, mode, reference, montant) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
-            pstm.setInt(1, paiement.getIdFacture());
-            pstm.setDate(2, new java.sql.Date(paiement.getDate().getTime()));
-            pstm.setString(3, paiement.getMode());
-            pstm.setString(4, paiement.getReference());
-            pstm.setDouble(5, paiement.getMontant());
+            pstm.setDate(1, paiement.getDate());
+            pstm.setString(2, paiement.getMode());
+            pstm.setString(3, paiement.getReference());
+            pstm.setDouble(4, paiement.getMontant());
             pstm.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Erreur lors de l'ajout du paiement : " + e.getMessage());
@@ -38,7 +38,6 @@ public class ServicePaiement implements IService<Paiement> {
             while (rs.next()) {
                 Paiement p = new Paiement();
                 p.setId(rs.getInt("id"));
-                p.setIdFacture(rs.getInt("id_facture"));
                 p.setDate(rs.getDate("date"));
                 p.setMode(rs.getString("mode"));
                 p.setReference(rs.getString("reference"));
@@ -55,12 +54,11 @@ public class ServicePaiement implements IService<Paiement> {
     public void update(Paiement paiement) {
         String qry = "UPDATE paiement SET id_facture = ?, date = ?, mode = ?, reference = ?, montant = ? WHERE id = ?";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
-            pstm.setInt(1, paiement.getIdFacture());
-            pstm.setDate(2, new java.sql.Date(paiement.getDate().getTime()));
-            pstm.setString(3, paiement.getMode());
-            pstm.setString(4, paiement.getReference());
-            pstm.setDouble(5, paiement.getMontant());
-            pstm.setInt(6, paiement.getId());
+            pstm.setDate(1, new java.sql.Date(paiement.getDate().getTime()));
+            pstm.setString(2, paiement.getMode());
+            pstm.setString(3, paiement.getReference());
+            pstm.setDouble(4, paiement.getMontant());
+            pstm.setInt(5, paiement.getId());
             pstm.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Erreur lors de la mise à jour du paiement : " + e.getMessage());

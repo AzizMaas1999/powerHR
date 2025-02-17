@@ -1,65 +1,107 @@
 package tn.esprit.powerHR.models;
 
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Facture {
-    private int id;               // Correspond à la colonne `id` (int)
-    private int idClfr;           // Correspond à la colonne `id_clfr` (int)
-    private String typeFact;      // Correspond à la colonne `typeFact` (enum)
-    private Date date;            // Correspond à la colonne `date` (date)
-    private String num;           // Correspond à la colonne `num` (varchar)
-    private double total;         // Correspond à la colonne `total` (decimal)
+    private int id;
+    private String typeFact;
+    private Date date;
+    private String num;
+    private double total;
+    private ClFr clFr;
+    private Paiement paiement;
+    private List<Article> articles = new ArrayList<>();
 
-    // Constructeurs
     public Facture() {}
 
-    public Facture(int id, int idClfr, String typeFact, Date date, String num, double total) {
+    public Facture(int id, String typeFact, Date date, String num, double total, Paiement paiement, ClFr clFr, List<Article> articles) {
         this.id = id;
-        this.idClfr = idClfr;
         this.typeFact = typeFact;
         this.date = date;
         this.num = num;
         this.total = total;
+        this.paiement = paiement;
+        this.clFr = clFr;
+        this.articles = articles;
     }
 
-    // Getters et Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public int getIdClfr() { return idClfr; }
-    public void setIdClfr(int idClfr) { this.idClfr = idClfr; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getTypeFact() { return typeFact; }
+    public String getTypeFact() {
+        return typeFact;
+    }
+
     public void setTypeFact(String typeFact) {
-        if (!typeFact.equals("Facture") && !typeFact.equals("Avoir")) {
-            throw new IllegalArgumentException("Le type de facture doit être 'Facture' ou 'Avoir'.");
-        }
         this.typeFact = typeFact;
     }
 
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
+    public Date getDate() {
+        return date;
+    }
 
-    public String getNum() { return num; }
-    public void setNum(String num) { this.num = num; }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-    public double getTotal() { return total; }
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
     public void setTotal(double total) {
-        if (total < 0) {
-            throw new IllegalArgumentException("Le total ne peut pas être négatif.");
-        }
         this.total = total;
+    }
+
+    public ClFr getClFr() {
+        return clFr;
+    }
+
+    public void setClFr(ClFr clFr) {
+        this.clFr = clFr;
+    }
+
+    public Paiement getPaiement() {
+        return paiement;
+    }
+
+    public void setPaiement(Paiement paiement) {
+        this.paiement = paiement;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     @Override
     public String toString() {
         return "Facture{" +
                 "id=" + id +
-                ", idClfr=" + idClfr +
                 ", typeFact='" + typeFact + '\'' +
                 ", date=" + date +
                 ", num='" + num + '\'' +
                 ", total=" + total +
+                ", clFr=" + clFr +
+                ", paiement=" + paiement +
+                ", articles=" + articles +
                 '}';
     }
 }
