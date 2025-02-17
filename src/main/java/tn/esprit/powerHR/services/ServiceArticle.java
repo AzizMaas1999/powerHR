@@ -2,6 +2,7 @@ package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.Article;
+import tn.esprit.powerHR.models.Facture;
 import tn.esprit.powerHR.utils.MyDataBase;
 
 import java.sql.*;
@@ -18,14 +19,14 @@ public class ServiceArticle implements IService<Article> {
     @Override
     public void add(Article article) {
         // Requête SQL pour insérer un article
-        String qry = "INSERT INTO article (id_facture, description, quantity, prixUni, TVA) VALUES (?, ?, ?, ?, ?)";
+        String qry = "INSERT INTO article (description, quantity, prixUni, TVA, facture_id) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
             // Définir les paramètres de la requête
-            pstm.setInt(1, article.getIdFacture());
-            pstm.setString(2, article.getDescription());
-            pstm.setInt(3, article.getQuantity());
-            pstm.setDouble(4, article.getPrixUni());
-            pstm.setDouble(5, article.getTVA());
+            pstm.setString(1, article.getDescription());
+            pstm.setInt(2, article.getQuantity());
+            pstm.setDouble(3, article.getPrixUni());
+            pstm.setDouble(4, article.getTVA());
+            pstm.setInt(5, article.getFacture().getId());
 
             // Exécuter la requête
             pstm.executeUpdate();
@@ -45,11 +46,12 @@ public class ServiceArticle implements IService<Article> {
             while (rs.next()) {
                 Article a = new Article();
                 a.setId(rs.getInt("id"));
-                a.setIdFacture(rs.getInt("id_facture"));
                 a.setDescription(rs.getString("description"));
                 a.setQuantity(rs.getInt("quantity"));
                 a.setPrixUni(rs.getDouble("prixUni"));
                 a.setTVA(rs.getDouble("TVA"));
+                Facture f = new Facture(rs.getInt("facture_id"),null,null,null,0,null,null,null);
+                a.setFacture(f);
                 articles.add(a);
             }
         } catch (SQLException e) {
@@ -61,15 +63,14 @@ public class ServiceArticle implements IService<Article> {
     @Override
     public void update(Article article) {
         // Requête SQL pour mettre à jour un article
-        String qry = "UPDATE article SET id_facture = ?, description = ?, quantity = ?, prixUni = ?, TVA = ? WHERE id = ?";
+        String qry = "UPDATE article SET description = ?, quantity = ?, prixUni = ?, TVA = ? ? WHERE id = ?";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
             // Définir les paramètres de la requête
-            pstm.setInt(1, article.getIdFacture());
-            pstm.setString(2, article.getDescription());
-            pstm.setInt(3, article.getQuantity());
-            pstm.setDouble(4, article.getPrixUni());
-            pstm.setDouble(5, article.getTVA());
-            pstm.setInt(6, article.getId());
+            pstm.setString(1, article.getDescription());
+            pstm.setInt(2, article.getQuantity());
+            pstm.setDouble(3, article.getPrixUni());
+            pstm.setDouble(4, article.getTVA());
+            pstm.setInt(5, article.getId());
 
             // Exécuter la requête
             pstm.executeUpdate();
