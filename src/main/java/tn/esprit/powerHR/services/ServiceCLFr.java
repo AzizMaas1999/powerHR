@@ -17,13 +17,14 @@ public class ServiceCLFr implements IService<CLFr> {
 
     @Override
     public void add(CLFr clfr) {
-        String query = "INSERT INTO CLFr (nom, matricule_fiscale, adresse, numtel, type) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO CLFr (nom, matricule_fiscale, adresse, numtel, type, employe_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, clfr.getNom());
             preparedStatement.setString(2, clfr.getMatriculeFiscale());
             preparedStatement.setString(3, clfr.getAdresse());
             preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
+            preparedStatement.setInt(6, clf);
             preparedStatement.executeUpdate();
             System.out.println("CLFr ajouté avec succès !");
         } catch (SQLException e) {
