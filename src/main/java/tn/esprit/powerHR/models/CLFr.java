@@ -11,10 +11,12 @@ public class CLFr {
     private String numTel;  // Ajoutez ce champ si ce n'est pas déjà fait
     private String type;
     private List<Feedback> feedbacks = new ArrayList<>();
+    private Employe employe ;
+    private List<Facture> factures = new ArrayList<>();
 
     public CLFr() {}
 
-    public CLFr(int id, String nom, String matriculeFiscale, String adresse, String numTel, String type, List<Feedback> feedbacks) {
+    public CLFr(int id, String nom, String matriculeFiscale, String adresse, String numTel, String type, List<Feedback> feedbacks, Employe employe, List<Facture> factures) {
         this.id = id;
         this.nom = nom;
         this.matriculeFiscale = matriculeFiscale;
@@ -22,6 +24,8 @@ public class CLFr {
         this.numTel = numTel;
         this.type = type;
         this.feedbacks = feedbacks;
+        this.employe = employe;
+        this.factures = factures;
     }
 
     public int getId() {
@@ -80,6 +84,22 @@ public class CLFr {
         this.feedbacks = feedbacks;
     }
 
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
+
+    public List<Facture> getFactures() {
+        return factures;
+    }
+
+    public void setFactures(List<Facture> factures) {
+        this.factures = factures;
+    }
+
     @Override
     public String toString() {
         return "CLFr{" +
@@ -90,6 +110,8 @@ public class CLFr {
                 ", numTel='" + numTel + '\'' +
                 ", type='" + type + '\'' +
                 ", feedbacks=" + feedbacks +
+                ", employe=" + employe +
+                ", factures=" + factures +
                 '}';
     }
 }

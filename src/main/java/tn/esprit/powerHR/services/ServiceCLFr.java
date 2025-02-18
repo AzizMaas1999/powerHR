@@ -2,6 +2,7 @@ package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.CLFr;
+import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.utils.MyDataBase;
 
 import java.sql.*;
@@ -24,7 +25,7 @@ public class ServiceCLFr implements IService<CLFr> {
             preparedStatement.setString(3, clfr.getAdresse());
             preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
-            preparedStatement.setInt(6, clf);
+            preparedStatement.setInt(6, clfr.getEmploye().getId());
             preparedStatement.executeUpdate();
             System.out.println("CLFr ajouté avec succès !");
         } catch (SQLException e) {
@@ -75,6 +76,8 @@ public class ServiceCLFr implements IService<CLFr> {
                 clfr.setAdresse(resultSet.getString("adresse"));
                 clfr.setNumTel(resultSet.getString("numtel"));
                 clfr.setType(resultSet.getString("type"));
+                Employe e = new Employe(resultSet.getInt("employe_id"),"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
+                clfr.setEmploye(e);
                 clfrs.add(clfr);
             }
         } catch (SQLException e) {
@@ -82,18 +85,4 @@ public class ServiceCLFr implements IService<CLFr> {
         }
         return clfrs;
     }
-    public boolean exists(int idClFr) {
-        String query = "SELECT COUNT(*) FROM CLFr WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, idClFr);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next() && resultSet.getInt(1) > 0) {
-                return true;  // Le CLFr existe
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la vérification du CLFr : " + e.getMessage());
-        }
-        return false;  // Le CLFr n'existe pas
-    }
-
 }
