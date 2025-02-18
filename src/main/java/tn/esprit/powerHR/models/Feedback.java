@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Feedback {
     private int id;
-    private Date dateCreation; // Utilisation du type Date pour correspondre à 'date' dans la base
+    private Date dateCreation; // Utilisation du type Date pour correspondre à 'date'
     private String type;
     private String description;
     private CLFr clfr ;
