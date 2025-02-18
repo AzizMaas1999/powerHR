@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="714.0" prefWidth="1052.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.AjoutController">
+   <children>
+      <TextField fx:id="tf1" layoutX="251.0" layoutY="131.0" />
+      <TextField fx:id="tf2" layoutX="251.0" layoutY="192.0" />
+      <TextField fx:id="tf3" layoutX="251.0" layoutY="252.0" />
+      <TextField fx:id="tf4" layoutX="251.0" layoutY="322.0" />
+   </children>
+</AnchorPane>
