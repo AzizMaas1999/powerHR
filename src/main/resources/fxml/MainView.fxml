@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<HBox xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="tn.esprit.powerHr.controllers.MainController"
+      stylesheets="@../styles/main.css">
+    
+    <!-- Left Sidebar -->
+    <VBox styleClass="sidebar" spacing="20" style="-fx-padding: 20;">
+        <!-- Title -->
+        <Label text="Power HR" styleClass="sidebar-title"/>
+        
+        <!-- Navigation Buttons -->
+        <VBox spacing="10" alignment="CENTER">
+            <Button styleClass="menu-button" onAction="#showEntreprises">
+                <graphic>
+                    <VBox alignment="CENTER" spacing="5">
+                        <ImageView fitHeight="32" fitWidth="32">
+                            <Image url="@../images/enterprise.png"/>
+                        </ImageView>
+                        <Label text="Entreprises" styleClass="button-label"/>
+                    </VBox>
+                </graphic>
+            </Button>
+
+            <Button styleClass="menu-button" onAction="#showDepartements">
+                <graphic>
+                    <VBox alignment="CENTER" spacing="5">
+                        <ImageView fitHeight="32" fitWidth="32">
+                            <Image url="@../images/department.png"/>
+                        </ImageView>
+                        <Label text="Départements" styleClass="button-label"/>
+                    </VBox>
+                </graphic>
+            </Button>
+        </VBox>
+    </VBox>
+
+    <!-- Main Content Area -->
+    <StackPane fx:id="contentArea" HBox.hgrow="ALWAYS" styleClass="content-area">
+        <!-- Content will be loaded here dynamically -->
+    </StackPane>
+</HBox> 
