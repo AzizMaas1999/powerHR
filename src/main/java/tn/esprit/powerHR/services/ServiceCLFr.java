@@ -2,6 +2,7 @@ package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.CLFr;
+import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.utils.MyDataBase;
 
 import java.sql.*;
@@ -17,13 +18,14 @@ public class ServiceCLFr implements IService<CLFr> {
 
     @Override
     public void add(CLFr clfr) {
-        String query = "INSERT INTO CLFr (nom, matricule_fiscale, adresse, numtel, type) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO CLFr (nom, matricule_fiscale, adresse, numtel, type, employe_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, clfr.getNom());
-            preparedStatement.setInt(2, clfr.getMatriculeFiscale()); // int(11)
+            preparedStatement.setString(2, clfr.getMatriculeFiscale());
             preparedStatement.setString(3, clfr.getAdresse());
-            preparedStatement.setInt(4, clfr.getNumtel()); // int(11)
+            preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
+            preparedStatement.setInt(6, clfr.getEmploye().getId());
             preparedStatement.executeUpdate();
             System.out.println("CLFr ajouté avec succès !");
         } catch (SQLException e) {
@@ -36,9 +38,9 @@ public class ServiceCLFr implements IService<CLFr> {
         String query = "UPDATE CLFr SET nom = ?, matricule_fiscale = ?, adresse = ?, numtel = ?, type = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, clfr.getNom());
-            preparedStatement.setInt(2, clfr.getMatriculeFiscale()); // int(11)
+            preparedStatement.setString(2, clfr.getMatriculeFiscale());
             preparedStatement.setString(3, clfr.getAdresse());
-            preparedStatement.setInt(4, clfr.getNumtel()); // int(11)
+            preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
             preparedStatement.setInt(6, clfr.getId());
             preparedStatement.executeUpdate();
@@ -70,10 +72,12 @@ public class ServiceCLFr implements IService<CLFr> {
                 CLFr clfr = new CLFr();
                 clfr.setId(resultSet.getInt("id"));
                 clfr.setNom(resultSet.getString("nom"));
-                clfr.setMatriculeFiscale(resultSet.getInt("matricule_fiscale")); // int(11)
+                clfr.setMatriculeFiscale(resultSet.getString("matricule_fiscale"));
                 clfr.setAdresse(resultSet.getString("adresse"));
-                clfr.setNumtel(resultSet.getInt("numtel")); // int(11)
+                clfr.setNumTel(resultSet.getString("numtel"));
                 clfr.setType(resultSet.getString("type"));
+                Employe e = new Employe(resultSet.getInt("employe_id"),"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
+                clfr.setEmploye(e);
                 clfrs.add(clfr);
             }
         } catch (SQLException e) {

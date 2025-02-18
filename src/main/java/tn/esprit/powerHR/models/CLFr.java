@@ -1,25 +1,33 @@
 package tn.esprit.powerHR.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CLFr {
     private int id;
     private String nom;
-    private int matriculeFiscale; // Changement de String à int
+    private String matriculeFiscale;
     private String adresse;
-    private int numtel; // Changement de String à int
+    private String numTel;  // Ajoutez ce champ si ce n'est pas déjà fait
     private String type;
+    private List<Feedback> feedbacks = new ArrayList<>();
+    private Employe employe ;
+    private List<Facture> factures = new ArrayList<>();
 
-    // Constructeurs
     public CLFr() {}
 
-    public CLFr(String nom, int matriculeFiscale, String adresse, int numtel, String type) {
+    public CLFr(int id, String nom, String matriculeFiscale, String adresse, String numTel, String type, List<Feedback> feedbacks, Employe employe, List<Facture> factures) {
+        this.id = id;
         this.nom = nom;
         this.matriculeFiscale = matriculeFiscale;
         this.adresse = adresse;
-        this.numtel = numtel;
+        this.numTel = numTel;
         this.type = type;
+        this.feedbacks = feedbacks;
+        this.employe = employe;
+        this.factures = factures;
     }
 
-    // Getters et Setters
     public int getId() {
         return id;
     }
@@ -36,14 +44,13 @@ public class CLFr {
         this.nom = nom;
     }
 
-    public int getMatriculeFiscale() {
+    public String getMatriculeFiscale() {
         return matriculeFiscale;
     }
 
     public void setMatriculeFiscale(String matriculeFiscale) {
         this.matriculeFiscale = matriculeFiscale;
     }
-
 
     public String getAdresse() {
         return adresse;
@@ -53,12 +60,12 @@ public class CLFr {
         this.adresse = adresse;
     }
 
-    public int getNumtel() {
-        return numtel;
+    public String getNumTel() {
+        return numTel;
     }
 
-    public void setNumtel(int numtel) {
-        this.numtel = numtel;
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
     }
 
     public String getType() {
@@ -69,16 +76,42 @@ public class CLFr {
         this.type = type;
     }
 
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
+
+    public List<Facture> getFactures() {
+        return factures;
+    }
+
+    public void setFactures(List<Facture> factures) {
+        this.factures = factures;
+    }
+
     @Override
     public String toString() {
         return "CLFr{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
-                ", matriculeFiscale=" + matriculeFiscale + // Correction ici
+                ", matriculeFiscale='" + matriculeFiscale + '\'' +
                 ", adresse='" + adresse + '\'' +
-                ", numtel=" + numtel + // Correction ici
+                ", numTel='" + numTel + '\'' +
                 ", type='" + type + '\'' +
+                ", feedbacks=" + feedbacks +
+                ", employe=" + employe +
+                ", factures=" + factures +
                 '}';
     }
 }
-

@@ -1,6 +1,7 @@
 package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
+import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.models.Facture;
 import tn.esprit.powerHR.utils.MyDataBase;
 import java.sql.*;
@@ -42,7 +43,7 @@ public class ServiceFacture implements IService<Facture> {
                 facture.setDate(rs.getDate("date"));
                 facture.setNum(rs.getString("num"));
                 facture.setTotal(rs.getDouble("total"));
-                ClFr c = new ClFr(rs.getInt("clfr_id"),null,null,null,null,null,null);
+                CLFr c = new CLFr(rs.getInt("clfr_id"),null,null,null,null,null,null,null,null);
                 facture.setClFr(c);
                 factures.add(facture);
             }

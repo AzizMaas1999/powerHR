@@ -10,13 +10,13 @@ public class Facture {
     private Date date;
     private String num;
     private double total;
-    private ClFr clFr;
+    private CLFr clFr;
     private Paiement paiement;
     private List<Article> articles = new ArrayList<>();
 
     public Facture() {}
 
-    public Facture(int id, String typeFact, Date date, String num, double total, Paiement paiement, ClFr clFr, List<Article> articles) {
+    public Facture(int id, String typeFact, Date date, String num, double total, Paiement paiement, CLFr clFr, List<Article> articles) {
         this.id = id;
         this.typeFact = typeFact;
         this.date = date;
@@ -67,11 +67,11 @@ public class Facture {
         this.total = total;
     }
 
-    public ClFr getClFr() {
+    public CLFr getClFr() {
         return clFr;
     }
 
-    public void setClFr(ClFr clFr) {
+    public void setClFr(CLFr clFr) {
         this.clFr = clFr;
     }
 
