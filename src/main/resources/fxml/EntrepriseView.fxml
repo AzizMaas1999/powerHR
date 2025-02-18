@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="tn.esprit.powerHr.controllers.EntrepriseController">
+    
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="searchField" promptText="Search entreprises..." HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <GridPane hgap="10" vgap="10">
+        <TextField fx:id="nomField" promptText="Nom" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <TextField fx:id="secteurField" promptText="Secteur" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="matriculeField" promptText="Matricule Fiscale" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        
+        <Label text="Nom:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label text="Secteur:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="Matricule Fiscale:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Ajouter" onAction="#handleAdd"/>
+        <Button text="Modifier" onAction="#handleUpdate"/>
+        <Button text="Supprimer" onAction="#handleDelete"/>
+    </HBox>
+
+    <TableView fx:id="entrepriseTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID"/>
+            <TableColumn fx:id="nomColumn" text="Nom"/>
+            <TableColumn fx:id="secteurColumn" text="Secteur"/>
+            <TableColumn fx:id="matriculeColumn" text="Matricule Fiscale"/>
+        </columns>
+    </TableView>
+</VBox> 

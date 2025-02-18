@@ -1,10 +1,10 @@
-package tn.esprit.powerHR.test;
+package tn.esprit.powerHr;
 
-import tn.esprit.powerHR.models.Departement;
-import tn.esprit.powerHR.models.Entreprise;
-import tn.esprit.powerHR.services.DepartementService;
-import tn.esprit.powerHR.services.EntrepriseService;
-import tn.esprit.powerHR.utils.MyDataBase;
+import tn.esprit.powerHr.entities.Departement;
+import tn.esprit.powerHr.entities.Entreprise;
+import tn.esprit.powerHr.services.DepartementService;
+import tn.esprit.powerHr.services.EntrepriseService;
+import tn.esprit.powerHr.utils.MyDataBase;
 
 import java.util.Scanner;
 
@@ -119,14 +119,12 @@ public class Main {
         System.out.println("\n=== Add New Entreprise ===");
         System.out.print("Enter name: ");
         String nom = scanner.nextLine();
-        System.out.print("Enter type: ");
-        String type = scanner.nextLine();
         System.out.print("Enter sector: ");
         String secteur = scanner.nextLine();
         System.out.print("Enter fiscal registration: ");
         String matricule = scanner.nextLine();
 
-        Entreprise entreprise = new Entreprise(nom, type, secteur, matricule);
+        Entreprise entreprise = new Entreprise(nom, secteur, matricule);
         entrepriseService.add(entreprise);
         System.out.println("Entreprise added successfully!");
     }
@@ -150,15 +148,12 @@ public class Main {
 
         System.out.print("Enter new name (current: " + entreprise.getNom() + "): ");
         String nom = scanner.nextLine();
-        System.out.print("Enter new type (current: " + entreprise.getType() + "): ");
-        String type = scanner.nextLine();
         System.out.print("Enter new sector (current: " + entreprise.getSecteur() + "): ");
         String secteur = scanner.nextLine();
         System.out.print("Enter new fiscal registration (current: " + entreprise.getMatriculeFiscale() + "): ");
         String matricule = scanner.nextLine();
 
         entreprise.setNom(nom);
-        entreprise.setType(type);
         entreprise.setSecteur(secteur);
         entreprise.setMatriculeFiscale(matricule);
 
@@ -184,7 +179,7 @@ public class Main {
         System.out.print("Enter description: ");
         String description = scanner.nextLine();
 
-        Departement departement = new Departement(nom, description);
+        Departement departement = new Departement(nom, description, 0);
         departementService.add(departement);
         System.out.println("Department added successfully!");
     }

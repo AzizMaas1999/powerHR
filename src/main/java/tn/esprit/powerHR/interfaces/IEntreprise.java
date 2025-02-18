@@ -1,6 +1,6 @@
-package tn.esprit.powerHR.interfaces;
+package tn.esprit.powerHr.interfaces;
 
-import tn.esprit.powerHR.models.Entreprise;
+import tn.esprit.powerHr.entities.Entreprise;
 import java.util.List;
 
 public interface IEntreprise {

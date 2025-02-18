@@ -1,9 +1,11 @@
-package tn.esprit.powerHR.services;
+package tn.esprit.powerHr.services;
 
-import tn.esprit.powerHR.models.Departement;
-import tn.esprit.powerHR.interfaces.IDepartement;
-import tn.esprit.powerHR.utils.MyDataBase;
-
+import tn.esprit.powerHr.entities.Departement;
+import tn.esprit.powerHr.interfaces.IDepartement;
+import tn.esprit.powerHr.utils.MyDataBase;
+import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.Optional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +19,11 @@ public class DepartementService implements IDepartement {
 
     @Override
     public void add(Departement departement) {
-        String sql = "INSERT INTO departement (nom, description) VALUES (?, ?)";
-        try (PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setString(1, departement.getNom());//set fi var
+        String query = "INSERT INTO departement (nom, description, entreprise_id) VALUES (?, ?, ?)";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, departement.getNom());
             pst.setString(2, departement.getDescription());
+            pst.setInt(3, departement.getEntrepriseId());
             pst.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -29,11 +32,12 @@ public class DepartementService implements IDepartement {
 
     @Override
     public void update(Departement departement) {
-        String sql = "UPDATE departement SET nom=?, description=? WHERE id=?";
-        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+        String query = "UPDATE departement SET nom=?, description=?, entreprise_id=? WHERE id=?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, departement.getNom());
             pst.setString(2, departement.getDescription());
-            pst.setInt(3, departement.getId());
+            pst.setInt(3, departement.getEntrepriseId());
+            pst.setInt(4, departement.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -42,8 +46,8 @@ public class DepartementService implements IDepartement {
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM departement WHERE id=?";
-        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+        String query = "DELETE FROM departement WHERE id=?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setInt(1, id);
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -58,11 +62,7 @@ public class DepartementService implements IDepartement {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                Departement departement = new Departement();
-                departement.setId(rs.getInt("id"));
-                departement.setNom(rs.getString("nom"));
-                departement.setDescription(rs.getString("description"));
-                return departement;
+                return extractDepartementFromResultSet(rs);
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -73,19 +73,36 @@ public class DepartementService implements IDepartement {
     @Override
     public List<Departement> getAll() {
         List<Departement> departements = new ArrayList<>();
-        String sql = "SELECT * FROM departement";
+        String query = "SELECT * FROM departement";
         try (Statement st = connection.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+             ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
-                Departement departement = new Departement();
-                departement.setId(rs.getInt("id"));
-                departement.setNom(rs.getString("nom"));
-                departement.setDescription(rs.getString("description"));
-                departements.add(departement);
+
+                departements.add(extractDepartementFromResultSet(rs));
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
         return departements;
+    }
+    public List<Departement> getDepartementsByEntreprise(int entrepriseId) {
+        return getAll().stream()
+                .filter(dep -> dep.getEntrepriseId() == entrepriseId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Departement> searchDepartements(String searchTerm) {
+        return getAll().stream()
+                .filter(dep -> dep.getNom().toLowerCase().contains(searchTerm.toLowerCase())
+                        || dep.getDescription().toLowerCase().contains(searchTerm.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+    private Departement extractDepartementFromResultSet(ResultSet rs) throws SQLException {
+        Departement departement = new Departement();
+        departement.setId(rs.getInt("id"));
+        departement.setNom(rs.getString("nom"));
+        departement.setDescription(rs.getString("description"));
+        departement.setEntrepriseId(rs.getInt("entreprise_id"));
+        return departement;
     }
 } 

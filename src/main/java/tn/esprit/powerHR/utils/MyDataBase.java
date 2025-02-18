@@ -1,4 +1,4 @@
-package tn.esprit.powerHR.utils;
+package tn.esprit.powerHr.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ public class MyDataBase {
     private static MyDataBase instance;
     private static Connection connection;
     
-    private final String URL = "jdbc:mysql://127.0.0.1:3306/maha1";
+    private final String URL = "jdbc:mysql://127.0.0.1:3306/powerhr1";
     private final String USERNAME = "root";
     private final String PASSWORD = "";
 
