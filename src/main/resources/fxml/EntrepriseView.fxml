@@ -1,42 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1" 
-      fx:controller="tn.esprit.powerHr.controllers.EntrepriseController">
+<AnchorPane prefHeight="809.0" prefWidth="1201.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHr.controllers.EntrepriseController">
     
-    <padding>
-        <Insets bottom="20" left="20" right="20" top="20"/>
-    </padding>
+    <VBox spacing="10" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
 
-    <HBox spacing="10" alignment="CENTER">
-        <TextField fx:id="searchField" promptText="Search entreprises..." HBox.hgrow="ALWAYS"/>
-    </HBox>
+        <!-- Search Bar -->
+        <HBox>
+            <TextField fx:id="searchField" promptText="Search entreprises..." styleClass="search-box" HBox.hgrow="ALWAYS" />
+        </HBox>
 
-    <GridPane hgap="10" vgap="10">
-        <TextField fx:id="nomField" promptText="Nom" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <TextField fx:id="secteurField" promptText="Secteur" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <TextField fx:id="matriculeField" promptText="Matricule Fiscale" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        
-        <Label text="Nom:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label text="Secteur:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <Label text="Matricule Fiscale:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    </GridPane>
+        <!-- Form Section -->
+        <GridPane hgap="10" styleClass="form-section" vgap="5">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
 
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Ajouter" onAction="#handleAdd"/>
-        <Button text="Modifier" onAction="#handleUpdate"/>
-        <Button text="Supprimer" onAction="#handleDelete"/>
-    </HBox>
+            <columnConstraints>
+                <ColumnConstraints maxWidth="120" minWidth="120" prefWidth="120" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+            </columnConstraints>
 
-    <TableView fx:id="entrepriseTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="idColumn" text="ID"/>
-            <TableColumn fx:id="nomColumn" text="Nom"/>
-            <TableColumn fx:id="secteurColumn" text="Secteur"/>
-            <TableColumn fx:id="matriculeColumn" text="Matricule Fiscale"/>
-        </columns>
-    </TableView>
-</VBox> 
+            <Label styleClass="form-label" text="Nom:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nomField" promptText="Nom" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            
+            <Label styleClass="form-label" text="Secteur:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="secteurField" promptText="Secteur" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            
+            <Label styleClass="form-label" text="Matricule Fiscale:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="matriculeField" promptText="Matricule Fiscale" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER" spacing="20" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                <padding>
+                    <Insets top="10" />
+                </padding>
+                <Button minWidth="120" onAction="#handleAdd" styleClass="action-button" text="Ajouter" />
+                <Button minWidth="120" onAction="#handleUpdate" styleClass="action-button" text="Modifier" />
+                <Button minWidth="120" onAction="#handleDelete" styleClass="action-button" text="Supprimer" />
+            </HBox>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <!-- List View -->
+        <AnchorPane styleClass="list-container" VBox.vgrow="ALWAYS">
+            <ListView fx:id="entrepriseList" styleClass="custom-list-view" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            </ListView>
+        </AnchorPane>
+    </VBox>
+</AnchorPane>

@@ -7,6 +7,9 @@ import tn.esprit.powerHr.utils.MyDataBase;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.Optional;
 
 public class DepartementService implements IDepartement {
     private Connection connection;
@@ -90,5 +93,61 @@ public class DepartementService implements IDepartement {
         departement.setDescription(rs.getString("description"));
         departement.setEntrepriseId(rs.getInt("entreprise_id"));
         return departement;
+    }
+
+    // Stream-based methods
+    public List<Departement> getDepartementsByEntreprise(int entrepriseId) {
+        return getAll().stream()
+            .filter(dep -> dep.getEntrepriseId() == entrepriseId)
+            .collect(Collectors.toList());
+    }
+
+    public List<Departement> searchDepartements(String searchTerm) {
+        return getAll().stream()
+            .filter(dep -> dep.getNom().toLowerCase().contains(searchTerm.toLowerCase()) 
+                || dep.getDescription().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+    }
+
+    public List<String> getAllDepartementNames() {
+        return getAll().stream()
+            .map(Departement::getNom)
+            .collect(Collectors.toList());
+    }
+
+    public List<Departement> getAllSortedByName() {
+        return getAll().stream()
+            .sorted(Comparator.comparing(Departement::getNom))
+            .collect(Collectors.toList());
+    }
+
+    public Optional<Departement> findFirstByName(String name) {
+        return getAll().stream()
+            .filter(dep -> dep.getNom().equalsIgnoreCase(name))
+            .findFirst();
+    }
+
+    public long countDepartementsInEntreprise(int entrepriseId) {
+        return getAll().stream()
+            .filter(dep -> dep.getEntrepriseId() == entrepriseId)
+            .count();
+    }
+
+    public List<Departement> getDistinctDepartementsByDescription() {
+        return getAll().stream()
+            .filter(dep -> dep.getDescription() != null && !dep.getDescription().isEmpty())
+            .collect(Collectors.toMap(
+                Departement::getDescription,
+                dep -> dep,
+                (dep1, dep2) -> dep1
+            ))
+            .values()
+            .stream()
+            .collect(Collectors.toList());
+    }
+
+    public boolean hasAnyDepartementWithName(String name) {
+        return getAll().stream()
+            .anyMatch(dep -> dep.getNom().equalsIgnoreCase(name));
     }
 } 

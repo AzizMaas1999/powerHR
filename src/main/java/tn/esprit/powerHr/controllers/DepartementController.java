@@ -6,7 +6,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
 import tn.esprit.powerHr.entities.Departement;
 import tn.esprit.powerHr.entities.Entreprise;
 import tn.esprit.powerHr.services.DepartementService;
@@ -23,15 +24,12 @@ public class DepartementController implements Initializable {
     @FXML private TextField descriptionField;
     @FXML private ComboBox<Entreprise> entrepriseComboBox;
     
-    @FXML private TableView<Departement> departementTable;
-    @FXML private TableColumn<Departement, Integer> idColumn;
-    @FXML private TableColumn<Departement, String> nomColumn;
-    @FXML private TableColumn<Departement, String> descriptionColumn;
+    @FXML private ListView<Departement> departementList;
 
     private DepartementService departementService;
     private EntrepriseService entrepriseService;
     private Departement selectedDepartement;
-    private ObservableList<Departement> departementList;
+    private ObservableList<Departement> departementItems;
     private FilteredList<Departement> filteredList;
 
     @Override
@@ -39,17 +37,40 @@ public class DepartementController implements Initializable {
         departementService = new DepartementService();
         entrepriseService = new EntrepriseService();
         
-        // Initialize table columns
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
         // Initialize Observable List and Filtered List
-        departementList = FXCollections.observableArrayList();
-        filteredList = new FilteredList<>(departementList, p -> true);
+        departementItems = FXCollections.observableArrayList();
+        filteredList = new FilteredList<>(departementItems, p -> true);
 
-        // Bind the TableView to the Filtered List
-        departementTable.setItems(filteredList);
+        // Setup ListView cell factory
+        departementList.setCellFactory(lv -> new ListCell<Departement>() {
+            @Override
+            protected void updateItem(Departement item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    VBox container = new VBox(5);
+                    container.setPadding(new Insets(5, 0, 5, 0));
+                    
+                    Label nameLabel = new Label(item.getNom());
+                    nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                    
+                    Label descLabel = new Label(item.getDescription());
+                    
+                    // Get entreprise name
+                    Entreprise entreprise = entrepriseService.getById(item.getEntrepriseId());
+                    Label entrepriseLabel = new Label("Entreprise: " + 
+                        (entreprise != null ? entreprise.getNom() : "N/A"));
+                    
+                    container.getChildren().addAll(nameLabel, descLabel, entrepriseLabel);
+                    setGraphic(container);
+                }
+            }
+        });
+
+        // Bind the ListView to the Filtered List
+        departementList.setItems(filteredList);
 
         // Add search field listener
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -71,7 +92,7 @@ public class DepartementController implements Initializable {
         });
 
         // Add selection listener
-        departementTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        departementList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedDepartement = newSelection;
                 populateFields(newSelection);
@@ -81,7 +102,7 @@ public class DepartementController implements Initializable {
         // Setup entreprise ComboBox
         setupEntrepriseComboBox();
 
-        refreshTable();
+        refreshList();
     }
 
     private void setupEntrepriseComboBox() {
@@ -118,7 +139,7 @@ public class DepartementController implements Initializable {
         
         departementService.add(departement);
         clearFields();
-        refreshTable();
+        refreshList();
     }
 
     @FXML
@@ -130,10 +151,11 @@ public class DepartementController implements Initializable {
 
         selectedDepartement.setNom(nomField.getText());
         selectedDepartement.setDescription(descriptionField.getText());
+        selectedDepartement.setEntrepriseId(entrepriseComboBox.getValue().getId());
 
         departementService.update(selectedDepartement);
         clearFields();
-        refreshTable();
+        refreshList();
     }
 
     @FXML
@@ -145,12 +167,12 @@ public class DepartementController implements Initializable {
 
         departementService.delete(selectedDepartement.getId());
         clearFields();
-        refreshTable();
+        refreshList();
     }
 
-    private void refreshTable() {
-        departementList.clear();
-        departementList.addAll(departementService.getAll());
+    private void refreshList() {
+        departementItems.clear();
+        departementItems.addAll(departementService.getAll());
     }
 
     private void clearFields() {

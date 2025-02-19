@@ -6,7 +6,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
 import tn.esprit.powerHr.entities.Entreprise;
 import tn.esprit.powerHr.services.EntrepriseService;
 
@@ -19,34 +20,48 @@ public class EntrepriseController implements Initializable {
     @FXML private TextField secteurField;
     @FXML private TextField matriculeField;
     
-    @FXML private TableView<Entreprise> entrepriseTable;
-    @FXML private TableColumn<Entreprise, Integer> idColumn;
-    @FXML private TableColumn<Entreprise, String> nomColumn;
-    @FXML private TableColumn<Entreprise, String> secteurColumn;
-    @FXML private TableColumn<Entreprise, String> matriculeColumn;
+    @FXML private ListView<Entreprise> entrepriseList;
 
     private EntrepriseService entrepriseService;
     private Entreprise selectedEntreprise;
 
-    private ObservableList<Entreprise> entrepriseList;
+    private ObservableList<Entreprise> entrepriseItems;
     private FilteredList<Entreprise> filteredList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         entrepriseService = new EntrepriseService();
         
-        // Initialize table columns
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        secteurColumn.setCellValueFactory(new PropertyValueFactory<>("secteur"));
-        matriculeColumn.setCellValueFactory(new PropertyValueFactory<>("matriculeFiscale"));
-
         // Initialize Observable List and Filtered List
-        entrepriseList = FXCollections.observableArrayList();
-        filteredList = new FilteredList<>(entrepriseList, p -> true);
+        entrepriseItems = FXCollections.observableArrayList();
+        filteredList = new FilteredList<>(entrepriseItems, p -> true);
 
-        // Bind the TableView to the Filtered List
-        entrepriseTable.setItems(filteredList);
+        // Setup ListView cell factory
+        entrepriseList.setCellFactory(lv -> new ListCell<Entreprise>() {
+            @Override
+            protected void updateItem(Entreprise item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    VBox container = new VBox(5);
+                    container.setPadding(new Insets(5, 0, 5, 0));
+                    
+                    Label nameLabel = new Label(item.getNom());
+                    nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                    
+                    Label sectorLabel = new Label("Secteur: " + item.getSecteur());
+                    Label matriculeLabel = new Label("Matricule: " + item.getMatriculeFiscale());
+                    
+                    container.getChildren().addAll(nameLabel, sectorLabel, matriculeLabel);
+                    setGraphic(container);
+                }
+            }
+        });
+
+        // Bind the ListView to the Filtered List
+        entrepriseList.setItems(filteredList);
 
         // Add search field listener
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -71,14 +86,14 @@ public class EntrepriseController implements Initializable {
         });
 
         // Add selection listener
-        entrepriseTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        entrepriseList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedEntreprise = newSelection;
                 populateFields(newSelection);
             }
         });
 
-        refreshTable();
+        refreshList();
     }
 
     @FXML
@@ -91,7 +106,7 @@ public class EntrepriseController implements Initializable {
         
         entrepriseService.add(entreprise);
         clearFields();
-        refreshTable();
+        refreshList();
     }
 
     @FXML
@@ -107,7 +122,7 @@ public class EntrepriseController implements Initializable {
 
         entrepriseService.update(selectedEntreprise);
         clearFields();
-        refreshTable();
+        refreshList();
     }
 
     @FXML
@@ -119,12 +134,12 @@ public class EntrepriseController implements Initializable {
 
         entrepriseService.delete(selectedEntreprise.getId());
         clearFields();
-        refreshTable();
+        refreshList();
     }
 
-    private void refreshTable() {
-        entrepriseList.clear();
-        entrepriseList.addAll(entrepriseService.getAll());
+    private void refreshList() {
+        entrepriseItems.clear();
+        entrepriseItems.addAll(entrepriseService.getAll());
     }
 
     private void clearFields() {

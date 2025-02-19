@@ -7,6 +7,10 @@ import tn.esprit.powerHr.utils.MyDataBase;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.Map;
 
 public class EntrepriseService implements IEntreprise {
     private Connection connection;
@@ -90,5 +94,63 @@ public class EntrepriseService implements IEntreprise {
         entreprise.setSecteur(rs.getString("secteur"));
         entreprise.setMatriculeFiscale(rs.getString("matricule_fiscale"));
         return entreprise;
+    }
+
+    // Stream-based methods
+    public List<Entreprise> getEntreprisesBySector(String sector) {
+        return getAll().stream()
+            .filter(ent -> ent.getSecteur().equalsIgnoreCase(sector))
+            .collect(Collectors.toList());
+    }
+
+    public List<Entreprise> searchEntreprises(String searchTerm) {
+        return getAll().stream()
+            .filter(ent -> 
+                ent.getNom().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                ent.getMatriculeFiscale().contains(searchTerm) ||
+                ent.getSecteur().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+    }
+
+    public List<Entreprise> getAllSortedByName() {
+        return getAll().stream()
+            .sorted(Comparator.comparing(Entreprise::getNom))
+            .collect(Collectors.toList());
+    }
+
+    public Map<String, List<Entreprise>> groupEntreprisesBySector() {
+        return getAll().stream()
+            .collect(Collectors.groupingBy(Entreprise::getSecteur));
+    }
+
+    public Optional<Entreprise> findByMatriculeFiscale(String matriculeFiscale) {
+        return getAll().stream()
+            .filter(ent -> ent.getMatriculeFiscale().equals(matriculeFiscale))
+            .findFirst();
+    }
+
+    public List<String> getAllEntrepriseNames() {
+        return getAll().stream()
+            .map(Entreprise::getNom)
+            .collect(Collectors.toList());
+    }
+
+    public List<String> getUniqueSectors() {
+        return getAll().stream()
+            .map(Entreprise::getSecteur)
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList());
+    }
+
+    public boolean existsByMatriculeFiscale(String matriculeFiscale) {
+        return getAll().stream()
+            .anyMatch(ent -> ent.getMatriculeFiscale().equals(matriculeFiscale));
+    }
+
+    public long countEntreprisesInSector(String sector) {
+        return getAll().stream()
+            .filter(ent -> ent.getSecteur().equalsIgnoreCase(sector))
+            .count();
     }
 } 

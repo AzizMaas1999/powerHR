@@ -18,12 +18,12 @@ public class MainController {
     }
 
     @FXML
-    private void showEntreprises() {
+    public void showEntreprises() {
         loadView("/fxml/EntrepriseView.fxml");
     }
 
     @FXML
-    private void showDepartements() {
+    public void showDepartements() {
         loadView("/fxml/DepartementView.fxml");
     }
 
@@ -34,6 +34,7 @@ public class MainController {
             contentArea.getChildren().add(view);
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("Error loading view: " + fxmlPath);
         }
     }
 } 
