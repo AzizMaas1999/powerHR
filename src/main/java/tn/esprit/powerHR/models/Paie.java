@@ -62,12 +62,8 @@ public class Paie {
 
     @Override
     public String toString() {
-        return "Paie{" +
-                "id=" + id +
-                ", nbjour=" + nbjour +
-                ", montant=" + montant +
-                ", mois='" + mois + '\'' +
-                ", pointages=" + pointages +
-                '}';
+        return nbjour +
+                " | " + montant +
+                " | " + mois;
     }
 }

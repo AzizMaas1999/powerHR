@@ -54,7 +54,7 @@ public class ServicePointage implements IService<Pointage> {
                 p.setDate(rs.getDate("date"));
                 p.setHeureEntree(rs.getTime("heureEntree"));
                 p.setHeureSortie(rs.getTime("heureSortie"));
-                Employe employe = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null);
+                Employe employe = new Employe(1,"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
                 p.setEmploye(employe);
                 Paie paie = new Paie(rs.getInt("paie_id"),0,0,null,null);
                 p.setPaie(paie);

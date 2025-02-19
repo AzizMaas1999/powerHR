@@ -18,12 +18,12 @@ public class MainFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/AddPointage.fxml"));
+                getClass().getResource("/Home.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Ajouter Pointage");
+            primaryStage.setTitle("Home");
             primaryStage.show();
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());

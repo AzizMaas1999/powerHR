@@ -72,13 +72,9 @@ public class Pointage {
 
     @Override
     public String toString() {
-        return "Pointage{" +
-                "id=" + id +
-                ", date=" + date +
-                ", heureEntree=" + heureEntree +
-                ", heureSortie=" + heureSortie +
-                ", employe=" + employe.getId() +
-                ", paie=" + paie.getId() +
-                '}';
+        return date +
+                " | " + heureEntree +
+                " | " + heureSortie +
+                " | " + employe.getUsername();
     }
 }
