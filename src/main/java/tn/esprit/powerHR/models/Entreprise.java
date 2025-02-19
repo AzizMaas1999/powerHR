@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.entities;
+package tn.esprit.powerHR.models;
 
 public class Entreprise {
     private int id;
@@ -9,7 +9,8 @@ public class Entreprise {
     // Constructor
     public Entreprise() {}
 
-    public Entreprise(String nom, String secteur, String matriculeFiscale) {
+    public Entreprise(int id, String nom, String secteur, String matriculeFiscale) {
+        this.id = id;
         this.nom = nom;
         this.secteur = secteur;
         this.matriculeFiscale = matriculeFiscale;

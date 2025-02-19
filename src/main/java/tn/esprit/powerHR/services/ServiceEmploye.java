@@ -1,6 +1,7 @@
 package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
+import tn.esprit.powerHR.models.Departement;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.utils.MyDataBase;
 
@@ -16,7 +17,7 @@ public class ServiceEmploye implements IService<Employe> {
     }
     @Override
     public void add(Employe employe) {
-        String query = "INSERT INTO employe (username, password, poste, salaire, rib,codeSociale) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO employe (username, password, poste, salaire, rib, codeSociale, departement_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, employe.getUsername());
@@ -25,6 +26,8 @@ public class ServiceEmploye implements IService<Employe> {
             preparedStatement.setDouble(4, employe.getSalaire());
             preparedStatement.setString(5,employe.getRib());
             preparedStatement.setString(6, employe.getCodeSociale());
+            preparedStatement.setInt(7, employe.getDepartement().getId());
+
             preparedStatement.executeUpdate();
             System.out.println("employe ajouté avec succès !");
         } catch (SQLException e) {
@@ -78,7 +81,9 @@ public class ServiceEmploye implements IService<Employe> {
                 employe.setPoste(resultSet.getString("poste"));
                 employe.setSalaire(resultSet.getDouble("Salaire"));
                 employe.setRib(resultSet.getString("Rib"));
-                employe.setCodeSociale(resultSet.getString("CodePostale"));
+                employe.setCodeSociale(resultSet.getString("CodeSociale"));
+                Departement departement = new Departement(resultSet.getInt("departement_id"),"",null,0);
+                employe.setDepartement(departement);
                 employes.add(employe);
             }
         } catch (SQLException e) {

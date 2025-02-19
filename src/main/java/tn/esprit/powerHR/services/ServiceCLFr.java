@@ -76,7 +76,7 @@ public class ServiceCLFr implements IService<CLFr> {
                 clfr.setAdresse(resultSet.getString("adresse"));
                 clfr.setNumTel(resultSet.getString("numtel"));
                 clfr.setType(resultSet.getString("type"));
-                Employe e = new Employe(resultSet.getInt("employe_id"),"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
+                Employe e = new Employe(resultSet.getInt("employe_id"),"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg",null,null,null,null,null);
                 clfr.setEmploye(e);
                 clfrs.add(clfr);
             }

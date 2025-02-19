@@ -9,16 +9,18 @@ public class Candidat {
     private String email;
     private String telephone;
     private Blob cvPdf;
+    private Entreprise entreprise;
 
     public Candidat() {}
 
-    public Candidat(int id, String nom, String prenom, String email, String telephone, Blob cvPdf) {
+    public Candidat(int id, String nom, String prenom, String email, String telephone, Blob cvPdf, Entreprise entreprise) {
         this.id = id;
-        setNom(nom);
-        setPrenom(prenom);
-        setEmail(email);
-        setTelephone(telephone);
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.telephone = telephone;
         this.cvPdf = cvPdf;
+        this.entreprise = entreprise;
     }
 
     public int getId() {
@@ -34,16 +36,10 @@ public class Candidat {
     }
 
     public void setNom(String nom) {
-        if (nom == null || nom.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nom cannot be null or empty");
-        }
         this.nom = nom;
     }
 
     public String getPrenom() {
-        if (prenom == null || prenom.trim().isEmpty()) {
-            throw new IllegalArgumentException("Prenom cannot be null or empty");
-        }
         return prenom;
     }
 
@@ -56,9 +52,6 @@ public class Candidat {
     }
 
     public void setEmail(String email) {
-        if (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
-            throw new IllegalArgumentException("Invalid email format");
-        }
         this.email = email;
     }
 
@@ -67,9 +60,6 @@ public class Candidat {
     }
 
     public void setTelephone(String telephone) {
-        if (!telephone.matches("^\\+?[0-9]{10,15}$")) {
-            throw new IllegalArgumentException("Invalid phone number format");
-        }
         this.telephone = telephone;
     }
 
@@ -81,6 +71,14 @@ public class Candidat {
         this.cvPdf = cvPdf;
     }
 
+    public Entreprise getEntreprise() {
+        return entreprise;
+    }
+
+    public void setEntreprise(Entreprise entreprise) {
+        this.entreprise = entreprise;
+    }
+
     @Override
     public String toString() {
         return "Candidat{" +
@@ -89,7 +87,8 @@ public class Candidat {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
-                ", cvPdf=" + (cvPdf != null ? "Exists" : "No File") +
+                ", cvPdf=" + cvPdf +
+                ", entreprise=" + entreprise +
                 '}';
     }
 }

@@ -94,7 +94,7 @@ public class DemandeService implements IService<Demande> {
                 d.setSalaire(rs.getFloat("salaire"));
                 d.setCause(rs.getString("cause"));
                 d.setStatus(rs.getString("status"));
-                Employe e = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null);
+                Employe e = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null,null,null,null,null,null);
                 d.setEmploye(e);
                 liste.add(d);
             }

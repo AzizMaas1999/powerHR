@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.entities;
+package tn.esprit.powerHR.models;
 
 public class Departement {
     private int id;
@@ -9,15 +9,11 @@ public class Departement {
     // Constructor
     public Departement() {}
 
-    public Departement(String nom, String description, int entrepriseId) {
+    public Departement(int id, String nom, String description, int entrepriseId) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
         this.entrepriseId = entrepriseId;
-    }
-
-    public Departement(String name, String description) {
-        this.nom = name;
-        this.description = description;
     }
 
     // Getters and Setters

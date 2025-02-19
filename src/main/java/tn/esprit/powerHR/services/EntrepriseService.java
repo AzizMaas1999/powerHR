@@ -1,8 +1,8 @@
 package tn.esprit.powerHr.services;
 
-import tn.esprit.powerHr.entities.Entreprise;
+import tn.esprit.powerHR.models.Entreprise;
+import tn.esprit.powerHR.utils.MyDataBase;
 import tn.esprit.powerHr.interfaces.IEntreprise;
-import tn.esprit.powerHr.utils.MyDataBase;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class EntrepriseService implements IEntreprise {
     private Connection connection;
 
     public EntrepriseService() {
-        connection = MyDataBase.getInstance().getConnection();
+        connection = MyDataBase.getInstance().getCnx();
     }
 
     @Override

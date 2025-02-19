@@ -1,11 +1,10 @@
 package tn.esprit.powerHr.services;
 
-import tn.esprit.powerHr.entities.Departement;
+import tn.esprit.powerHR.models.Departement;
+import tn.esprit.powerHR.utils.MyDataBase;
 import tn.esprit.powerHr.interfaces.IDepartement;
-import tn.esprit.powerHr.utils.MyDataBase;
+
 import java.util.stream.Collectors;
-import java.util.Comparator;
-import java.util.Optional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class DepartementService implements IDepartement {
     private Connection connection;
 
     public DepartementService() {
-        connection = MyDataBase.getInstance().getConnection();
+        connection = MyDataBase.getInstance().getCnx();
     }
 
     @Override
