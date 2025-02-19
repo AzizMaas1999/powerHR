@@ -1,5 +1,10 @@
 package tn.esprit.powerHR.test;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.utils.MyDataBase;
 import tn.esprit.powerHR.models.CLFr;
@@ -57,4 +62,20 @@ public class Main {
 //        System.out.println("Après suppression du feedback :");
 //        serviceFeedback.getAll().forEach(System.out::println);
     }
+
+    public static class MainApp extends Application {
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/controllers/views/AjouterFeedback.fxml"));
+            AnchorPane root = loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setTitle("Ajouter Feedback");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+
+        public static void main(String[] args) {
+            launch(args);
+        }
     }
+}

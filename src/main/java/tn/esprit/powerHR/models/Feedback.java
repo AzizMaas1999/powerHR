@@ -62,12 +62,7 @@ public class Feedback {
 
     @Override
     public String toString() {
-        return "Feedback{" +
-                "id=" + id +
-                ", dateCreation=" + dateCreation +
-                ", type='" + type + '\'' +
-                ", description='" + description + '\'' +
-                ", clfr=" + clfr +
-                '}';
+        return type + " | " + description + " | " + dateCreation;
     }
+
 }

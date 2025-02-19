@@ -102,16 +102,7 @@ public class CLFr {
 
     @Override
     public String toString() {
-        return "CLFr{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", matriculeFiscale='" + matriculeFiscale + '\'' +
-                ", adresse='" + adresse + '\'' +
-                ", numTel='" + numTel + '\'' +
-                ", type='" + type + '\'' +
-                ", feedbacks=" + feedbacks +
-                ", employe=" + employe +
-                ", factures=" + factures +
-                '}';
+        return nom + " | " + matriculeFiscale + " | " + adresse + " | " + numTel + " | " + type;
     }
+
 }
