@@ -17,13 +17,14 @@ public class ServiceFacture implements IService<Facture> {
 
     @Override
     public void add(Facture facture) {
-        String qry = "INSERT INTO facture (typeFact, date, num, total, id_clfr) VALUES (?, ?, ?, ?, ?)";
+        String qry = "INSERT INTO facture (typeFact, date, num, total, clfr_id, paiement_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
             pstm.setString(1, facture.getTypeFact());
-            pstm.setDate(2, new java.sql.Date(facture.getDate().getTime()));
+            pstm.setDate(2, facture.getDate());
             pstm.setString(3, facture.getNum());
             pstm.setDouble(4, facture.getTotal());
             pstm.setInt(5, facture.getClFr().getId());
+            pstm.setInt(6, facture.getPaiement().getId());
             pstm.executeUpdate();
             System.out.println("Facture ajoutée avec succès.");
         } catch (SQLException e) {

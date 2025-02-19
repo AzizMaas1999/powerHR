@@ -63,7 +63,7 @@ public class ServiceArticle implements IService<Article> {
     @Override
     public void update(Article article) {
         // Requête SQL pour mettre à jour un article
-        String qry = "UPDATE article SET description = ?, quantity = ?, prixUni = ?, TVA = ? ? WHERE id = ?";
+        String qry = "UPDATE article SET description = ?, quantity = ?, prixUni = ?, TVA = ? WHERE id = ?";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
             // Définir les paramètres de la requête
             pstm.setString(1, article.getDescription());
