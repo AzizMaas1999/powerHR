@@ -42,7 +42,7 @@ public class ServiceEmploye implements IService<Employe> {
                 System.err.println("Erreur : Département non trouvé !");
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de l'ajout de l'employé : " + e.getMessage());
+            System.err.println("Erreur lors de l'ajout de l'employé :" + e.getMessage());
         }
     }
 
