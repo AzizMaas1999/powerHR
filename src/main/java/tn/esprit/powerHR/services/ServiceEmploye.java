@@ -123,5 +123,29 @@ public class ServiceEmploye implements IService<Employe> {
 
         return departements;
     }
+    public Employe getById(int id) {
+        Employe employe = null;
+        String query = "SELECT * FROM employe WHERE id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    employe = new Employe();
+                    employe.setId(resultSet.getInt("id"));
+                    employe.setUsername(resultSet.getString("username"));
+                    employe.setPassword(resultSet.getString("password"));
+                    employe.setPoste(Poste.valueOf(resultSet.getString("poste")));
+                    employe.setSalaire(resultSet.getDouble("salaire"));
+                    employe.setRib(resultSet.getString("rib"));
+                    employe.setCodeSociale(resultSet.getString("codeSociale"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération de l'employé : " + e.getMessage());
+        }
+
+        return employe;
+    }
 
 }
