@@ -1,5 +1,6 @@
 package tn.esprit.powerHR.services;
 
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.models.Employe;
@@ -76,7 +77,7 @@ public class ServiceCLFr implements IService<CLFr> {
                 clfr.setAdresse(resultSet.getString("adresse"));
                 clfr.setNumTel(resultSet.getString("numtel"));
                 clfr.setType(resultSet.getString("type"));
-                Employe e = new Employe(resultSet.getInt("employe_id"),"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg",null,null,null,null,null);
+                Employe e = new Employe(resultSet.getInt("employe_id"),"fdkbgkndfg","fdkbgkndfg", Poste.Charges,445.2,"123456789125","fdkbgkndfg",null,null,null,null,null);
                 clfr.setEmploye(e);
                 clfrs.add(clfr);
             }

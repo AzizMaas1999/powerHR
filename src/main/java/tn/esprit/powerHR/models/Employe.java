@@ -1,5 +1,7 @@
 package tn.esprit.powerHR.models;
 
+import tn.esprit.powerHR.controllers.enums.Poste;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +9,11 @@ public class Employe {
     private int id;
     private String username;
     private String password;
-    private String poste;
+    private Poste poste;
     private Double salaire;
     private String rib;
     private String codeSociale;
-    private Departement departement;
+    private String nomDepartement;
     private List<Demande> demandes = new ArrayList<>();
     private List<RepQuestionnaire> RepQuestionnaires = new ArrayList<>();
     private List<Pointage> pointages = new  ArrayList<>();
@@ -21,7 +23,7 @@ public class Employe {
     public Employe() {
     }
 
-    public Employe(int id, String username, String password, String poste, Double salaire, String rib, String codeSociale, Departement departement, List<Demande> demandes, List<RepQuestionnaire> repQuestionnaires, List<Pointage> pointages, List<CLFr> clFrs) {
+    public Employe(int id, String username, String password, Poste poste, Double salaire, String rib, String codeSociale, String nomDepartement, List<Demande> demandes, List<RepQuestionnaire> repQuestionnaires, List<Pointage> pointages, List<CLFr> clFrs) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -29,7 +31,7 @@ public class Employe {
         this.salaire = salaire;
         this.rib = rib;
         this.codeSociale = codeSociale;
-        this.departement = departement;
+        this.nomDepartement = nomDepartement;
         this.demandes = demandes;
         RepQuestionnaires = repQuestionnaires;
         this.pointages = pointages;
@@ -60,11 +62,11 @@ public class Employe {
         this.password = password;
     }
 
-    public String getPoste() {
+    public Poste getPoste() {
         return poste;
     }
 
-    public void setPoste(String poste) {
+    public void setPoste(Poste poste) {
         this.poste = poste;
     }
 
@@ -92,12 +94,12 @@ public class Employe {
         this.codeSociale = codeSociale;
     }
 
-    public Departement getDepartement() {
-        return departement;
+    public String getDepartement() {
+        return nomDepartement;
     }
 
-    public void setDepartement(Departement departement) {
-        this.departement = departement;
+    public void setDepartement(String nomDepartement) {
+        this.nomDepartement = nomDepartement;
     }
 
     public List<Demande> getDemandes() {
@@ -142,7 +144,7 @@ public class Employe {
                 ", salaire=" + salaire +
                 ", rib='" + rib + '\'' +
                 ", codeSociale='" + codeSociale + '\'' +
-                ", departement=" + departement +
+                ", departement=" + nomDepartement +
                 ", demandes=" + demandes +
                 ", RepQuestionnaires=" + RepQuestionnaires +
                 ", pointages=" + pointages +
