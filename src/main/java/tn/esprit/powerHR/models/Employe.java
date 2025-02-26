@@ -1,17 +1,29 @@
 package tn.esprit.powerHR.models;
 
+import tn.esprit.powerHR.controllers.enums.Poste;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employe {
     private int id;
     private String username;
     private String password;
-    private String poste;
+    private Poste poste;
     private Double salaire;
     private String rib;
     private String codeSociale;
+    private String nomDepartement;
+    private List<Demande> demandes = new ArrayList<>();
+    private List<RepQuestionnaire> RepQuestionnaires = new ArrayList<>();
+    private List<Pointage> pointages = new  ArrayList<>();
+    private List<CLFr> clFrs = new ArrayList<>();
+
 
     public Employe() {
     }
-    public Employe(int id,String username,String password, String poste, Double salaire, String rib, String codeSociale) {
+
+    public Employe(int id, String username, String password, Poste poste, Double salaire, String rib, String codeSociale, String nomDepartement, List<Demande> demandes, List<RepQuestionnaire> repQuestionnaires, List<Pointage> pointages, List<CLFr> clFrs) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -19,6 +31,11 @@ public class Employe {
         this.salaire = salaire;
         this.rib = rib;
         this.codeSociale = codeSociale;
+        this.nomDepartement = nomDepartement;
+        this.demandes = demandes;
+        RepQuestionnaires = repQuestionnaires;
+        this.pointages = pointages;
+        this.clFrs = clFrs;
     }
 
     public int getId() {
@@ -45,11 +62,11 @@ public class Employe {
         this.password = password;
     }
 
-    public String getPoste() {
+    public Poste getPoste() {
         return poste;
     }
 
-    public void setPoste(String poste) {
+    public void setPoste(Poste poste) {
         this.poste = poste;
     }
 
@@ -77,6 +94,46 @@ public class Employe {
         this.codeSociale = codeSociale;
     }
 
+    public String getDepartement() {
+        return nomDepartement;
+    }
+
+    public void setDepartement(String nomDepartement) {
+        this.nomDepartement = nomDepartement;
+    }
+
+    public List<Demande> getDemandes() {
+        return demandes;
+    }
+
+    public void setDemandes(List<Demande> demandes) {
+        this.demandes = demandes;
+    }
+
+    public List<RepQuestionnaire> getRepQuestionnaires() {
+        return RepQuestionnaires;
+    }
+
+    public void setRepQuestionnaires(List<RepQuestionnaire> repQuestionnaires) {
+        RepQuestionnaires = repQuestionnaires;
+    }
+
+    public List<Pointage> getPointages() {
+        return pointages;
+    }
+
+    public void setPointages(List<Pointage> pointages) {
+        this.pointages = pointages;
+    }
+
+    public List<CLFr> getClFrs() {
+        return clFrs;
+    }
+
+    public void setClFrs(List<CLFr> clFrs) {
+        this.clFrs = clFrs;
+    }
+
     @Override
     public String toString() {
         return "Employe{" +
@@ -84,9 +141,14 @@ public class Employe {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", poste='" + poste + '\'' +
-                ", salaire='" + salaire + '\'' +
-                ", rib=" + rib +
+                ", salaire=" + salaire +
+                ", rib='" + rib + '\'' +
                 ", codeSociale='" + codeSociale + '\'' +
+                ", departement=" + nomDepartement +
+                ", demandes=" + demandes +
+                ", RepQuestionnaires=" + RepQuestionnaires +
+                ", pointages=" + pointages +
+                ", clFrs=" + clFrs +
                 '}';
     }
 }

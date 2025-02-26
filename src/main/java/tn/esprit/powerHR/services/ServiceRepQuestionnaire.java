@@ -50,7 +50,7 @@ public class ServiceRepQuestionnaire implements IService<RepQuestionnaire> {
                 rep.setDateCreation(rs.getDate("dateCreation"));
                 rep.setReponse(rs.getString("reponse"));
 
-                Employe employe = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null);
+                Employe employe = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null,null,null,null,null,null);
                 rep.setEmploye(employe);
 
                 Questionnaire questionnaire = new Questionnaire(rs.getInt("questionnaire_id"), null, null, null, null);
