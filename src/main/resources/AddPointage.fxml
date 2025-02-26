@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="480.0" prefWidth="891.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.AddPointageController">
-    <Button fx:id="bt_submit" layoutX="304.0" layoutY="305.0" mnemonicParsing="false" onAction="#AjouterPointage" style="-fx-background-color: #56aeff;" text="Ajouter" textFill="WHITE">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="480.0" prefWidth="892.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.AddPointageController">
+   <VBox alignment="CENTER" layoutX="141.0" layoutY="98.0" prefHeight="200.0" prefWidth="610.0">
+      <children>
+         <HBox prefHeight="40.0" prefWidth="610.0" style="-fx-background-color: #eeeeee; -fx-padding: 5px; -fx-border-color: #cccccc; -fx-border-width: 1px;">
+            <children>
+               <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-text-fill: #333333; -fx-alignment: center;" text="Date" />
+               <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-text-fill: #333333; -fx-alignment: center;" text="Entrée" />
+               <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-text-fill: #333333; -fx-alignment: center;" text="Sortie" />
+               <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-text-fill: #333333; -fx-alignment: center;" text="Employé" />
+            </children>
+         </HBox>
+
+         <ListView fx:id="lv_pointage" prefHeight="200.0" prefWidth="610.0" />
+      </children>
+   </VBox>
+
+   <Button fx:id="bt_upload" layoutX="405.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleUpload" style="-fx-background-color: #4CAF50;" text="Upload CSV" textFill="WHITE">
       <font>
          <Font name="Arial Narrow" size="14.0" />
-      </font></Button>
+      </font>
+   </Button>
+
+   <Button fx:id="bt_submit" layoutX="418.0" layoutY="400.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#AjouterPointage" style="-fx-background-color: #56aeff;" text="Ajouter" textFill="WHITE">
+      <font>
+         <Font name="Arial Narrow" size="14.0" />
+      </font>
+   </Button>
+
    <AnchorPane prefHeight="17.0" prefWidth="892.0" style="-fx-background-color: #292e30;">
       <children>
          <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
@@ -21,28 +45,7 @@
                <Image url="@images/Logo.png" />
             </image>
          </ImageView>
-      </children></AnchorPane>
-   <AnchorPane layoutY="60.0" prefHeight="422.0" prefWidth="198.0" style="-fx-background-color: #56aeff;">
-      <children>
-         <Button fx:id="bt_ajouterpointage" layoutX="4.0" layoutY="6.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Ajouter Pointage" textFill="WHITE">
-            <font>
-               <Font name="Arial Narrow" size="14.0" />
-            </font>
-         </Button>
-         <Button fx:id="bt_modiferpointage" layoutX="4.0" layoutY="58.0" mnemonicParsing="false" onAction="#ModifierPage" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Modifier Pointage" textFill="WHITE">
-            <font>
-               <Font name="Arial Narrow" size="14.0" />
-            </font>
-         </Button>
-         <Button fx:id="bt_supppointage" layoutX="4.0" layoutY="110.0" mnemonicParsing="false" onAction="#Supp" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Supprimer Pointage" textFill="WHITE">
-            <font>
-               <Font name="Arial Narrow" size="14.0" />
-            </font>
-         </Button>
       </children>
    </AnchorPane>
-   <DatePicker fx:id="dp_date" layoutX="257.0" layoutY="154.0" prefHeight="26.0" prefWidth="150.0" promptText="Date" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-   <ListView fx:id="lv_pointage" layoutX="569.0" layoutY="141.0" prefHeight="200.0" prefWidth="250.0" />
-   <TextField fx:id="tf_heureEntree" layoutX="256.0" layoutY="199.0" promptText="Heure D'entrée" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-   <TextField fx:id="tf_heureSortie" layoutX="256.0" layoutY="243.0" promptText="Heure De Sortie" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
+
 </AnchorPane>

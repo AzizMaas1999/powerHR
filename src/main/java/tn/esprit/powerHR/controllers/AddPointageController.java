@@ -2,135 +2,101 @@ package tn.esprit.powerHR.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.models.Employe;
-import tn.esprit.powerHR.models.Paie;
-import tn.esprit.powerHR.models.Pointage;
-import tn.esprit.powerHR.services.ServicePointage;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.Paie;
+import tn.esprit.powerHR.models.Pointage; // Import your model
+import tn.esprit.powerHR.services.ServicePaie;
+import tn.esprit.powerHR.services.ServicePointage;
 
 public class AddPointageController {
 
     @FXML
-    private Button bt_ajouterpointage;
+    private Button bt_upload;
 
     @FXML
-    private Button bt_modiferpointage;
+    private ListView<Pointage> lv_pointage; // Store Pointage objects
 
     @FXML
     private Button bt_submit;
 
-    @FXML
-    private Button bt_supppointage;
-
-    @FXML
-    private ListView<Pointage> lv_pointage;
-
-    @FXML
-    private DatePicker dp_date;
-
-    @FXML
-    private TextField tf_heureEntree;
-
-    @FXML
-    private TextField tf_heureSortie;
-
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private Pointage p;
-    public void setListPointage(Pointage p) {
-        this.p = p;
-        System.out.println("Received Id: " + p); // Debugging
-    }
-    public Pointage getListPointage() {
-        return p;
-    }
+    private ObservableList<Pointage> pointageList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        ServicePointage ps = new ServicePointage();
-        try {
-            List<Pointage> list = ps.getAll();
-            ObservableList<Pointage> observableList = FXCollections.observableList(list);
-            lv_pointage.setItems(observableList);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        lv_pointage.setItems(pointageList);
     }
 
     @FXML
-    void AjouterPointage(ActionEvent event) {
-        ServicePointage ps = new ServicePointage();
-        Pointage p = new Pointage();
-        p.setDate(Date.valueOf(dp_date.getValue()));
-        p.setHeureEntree(Time.valueOf(tf_heureEntree.getText()));
-        p.setHeureSortie(Time.valueOf(tf_heureSortie.getText()));
-        Employe employe = new Employe(1,"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
-        Paie paie = new Paie(1,0,0,null,null);
-        p.setEmploye(employe);
-        p.setPaie(paie);
-        if(!tf_heureEntree.getText().isEmpty() && !tf_heureSortie.getText().isEmpty() && dp_date.getValue() != null) {
-        try {
-            ps.add(p);
-            initialize();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        }
-        else {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Vérifiez les champs");
+    private void handleUpload() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showOpenDialog(new Stage());
+
+        if (file != null) {
+            loadCSVData(file);
         }
     }
 
-    @FXML
-    void ModifierPage(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/UpdatePointage.fxml"));
-        try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Modifier Pointage");
-            Stage.setScene(scene);
-            Stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+    private void loadCSVData(File file) {
+        pointageList.clear();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            br.readLine(); // Skip the header
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(","); // Assuming CSV format: date,heureEntree,heureSortie,employeId
+                if (parts.length == 4) {
+                    String date = parts[0];
+                    String heureEntree = parts[1];
+                    String heureSortie = parts[2];
+                    Employe employe = new Employe(Integer.parseInt(parts[3]),"Aziz","aziz","DirecteurRH",2000.0,"123456789123","123456789");
 
+                    Pointage pointage = new Pointage( 0, Date.valueOf(date), Time.valueOf(heureEntree), Time.valueOf(heureSortie), employe, null);
+                    pointageList.add(pointage);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
     }
-
-    @FXML
-    void Supp(ActionEvent event) {
-        setListPointage(lv_pointage.getSelectionModel().getSelectedItem());
-        ServicePointage ps = new ServicePointage();
-        try {
-            ps.delete(getListPointage());
-            initialize();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-
-
 }
 
+    @FXML
+    private void AjouterPointage() {
+//        List<Integer> emp = pointageList.stream()
+//                .map(Pointage::getId)
+//                .distinct()
+//                .collect(Collectors.toList());
+//        ServicePaie spaie = new ServicePaie();
+//        for (int i : emp) {
+//            long nbjr = pointageList.stream()
+//                    .map(Pointage::getId)
+//                    .filter(e->e.equals(i))
+//                    .count();
+//            String mois = pointageList.getFirst().getDate().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+//
+//            long To
 
+//        }
+//        ServicePointage spoin = new ServicePointage();
+//        for (Pointage pointage : pointageList) {
+//            spoin.add(pointage);
+//        }
+
+}
+}
