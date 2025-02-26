@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.entities;
+package tn.esprit.powerHr.models;
 
 public class Entreprise {
     private int id;

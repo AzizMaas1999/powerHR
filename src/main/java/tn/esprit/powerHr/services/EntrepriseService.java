@@ -1,48 +1,78 @@
 package tn.esprit.powerHr.services;
 
-import tn.esprit.powerHr.entities.Entreprise;
+import tn.esprit.powerHr.models.Entreprise;
 import tn.esprit.powerHr.interfaces.IEntreprise;
 import tn.esprit.powerHr.utils.MyDataBase;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Map;
+import java.util.DoubleSummaryStatistics;
 
 public class EntrepriseService implements IEntreprise {
-    private Connection connection;
+    private final Connection connection;
 
     public EntrepriseService() {
         connection = MyDataBase.getInstance().getConnection();
     }
 
     @Override
-    public void add(Entreprise entreprise) {
-        String query = "INSERT INTO entreprise (nom, secteur, matricule_fiscale) VALUES (?, ?, ?)";
+    public void add(Entreprise entreprise) throws Exception {
+        // Validate required fields
+        if (entreprise.getNom() == null || entreprise.getNom().trim().isEmpty()) {
+            throw new IllegalArgumentException("Company name is required");
+        }
+        if (entreprise.getSecteur() == null || entreprise.getSecteur().trim().isEmpty()) {
+            throw new IllegalArgumentException("Sector is required");
+        }
+        if (entreprise.getMatriculeFiscale() == null || entreprise.getMatriculeFiscale().trim().isEmpty()) {
+            throw new IllegalArgumentException("Matricule fiscale is required");
+        }
+
+        // Email can be null or empty
+        String email = entreprise.getEmail();
+        if (email != null) {
+            email = email.trim();
+            if (email.isEmpty()) {
+                email = null;
+            }
+        }
+        
+        String query = "INSERT INTO entreprise (nom, secteur, matricule_fiscale, email) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
-            pst.setString(1, entreprise.getNom());
-            pst.setString(2, entreprise.getSecteur());
-            pst.setString(3, entreprise.getMatriculeFiscale());
+            pst.setString(1, entreprise.getNom().trim());
+            pst.setString(2, entreprise.getSecteur().trim());
+            pst.setString(3, entreprise.getMatriculeFiscale().trim());
+            pst.setString(4, email);
+            
             pst.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
         }
     }
 
     @Override
     public void update(Entreprise entreprise) {
-        String query = "UPDATE entreprise SET nom=?, secteur=?, matricule_fiscale=? WHERE id=?";
-        try (PreparedStatement pst = connection.prepareStatement(query)) {
-            pst.setString(1, entreprise.getNom());
-            pst.setString(2, entreprise.getSecteur());
-            pst.setString(3, entreprise.getMatriculeFiscale());
-            pst.setInt(4, entreprise.getId());
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
+        try {
+            String query = "UPDATE entreprise SET nom=?, secteur=?, matricule_fiscale=?, email=? WHERE id=?";
+            try (PreparedStatement pst = connection.prepareStatement(query)) {
+                pst.setString(1, entreprise.getNom());
+                pst.setString(2, entreprise.getSecteur());
+                pst.setString(3, entreprise.getMatriculeFiscale());
+                pst.setString(4, entreprise.getEmail());
+                pst.setInt(5, entreprise.getId());
+                pst.executeUpdate();
+            }
+
+            showAlert(Alert.AlertType.INFORMATION, "Success", 
+                "Company " + entreprise.getNom() + " has been updated successfully.");
+} catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", 
+                "Failed to update company: " + e.getMessage());
         }
     }
 
@@ -93,10 +123,11 @@ public class EntrepriseService implements IEntreprise {
         entreprise.setNom(rs.getString("nom"));
         entreprise.setSecteur(rs.getString("secteur"));
         entreprise.setMatriculeFiscale(rs.getString("matricule_fiscale"));
+        entreprise.setEmail(rs.getString("email"));
         return entreprise;
     }
 
-    // Stream-based methods
+    // Stream operations
     public List<Entreprise> getEntreprisesBySector(String sector) {
         return getAll().stream()
             .filter(ent -> ent.getSecteur().equalsIgnoreCase(sector))
@@ -107,8 +138,8 @@ public class EntrepriseService implements IEntreprise {
         return getAll().stream()
             .filter(ent -> 
                 ent.getNom().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                ent.getMatriculeFiscale().contains(searchTerm) ||
-                ent.getSecteur().toLowerCase().contains(searchTerm.toLowerCase()))
+                ent.getSecteur().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                ent.getMatriculeFiscale().toLowerCase().contains(searchTerm.toLowerCase()))
             .collect(Collectors.toList());
     }
 
@@ -148,9 +179,38 @@ public class EntrepriseService implements IEntreprise {
             .anyMatch(ent -> ent.getMatriculeFiscale().equals(matriculeFiscale));
     }
 
-    public long countEntreprisesInSector(String sector) {
+    public long countEntreprisesBySector(String sector) {
         return getAll().stream()
             .filter(ent -> ent.getSecteur().equalsIgnoreCase(sector))
             .count();
+    }
+
+    public Map<String, Long> getEntrepriseCountBySector() {
+        return getAll().stream()
+            .collect(Collectors.groupingBy(
+                Entreprise::getSecteur,
+                Collectors.counting()
+            ));
+    }
+
+    public List<Entreprise> getTopNEntreprises(int n) {
+        return getAll().stream()
+            .sorted(Comparator.comparing(Entreprise::getNom))
+            .limit(n)
+            .collect(Collectors.toList());
+    }
+
+    public DoubleSummaryStatistics getEntrepriseStatistics() {
+        return getAll().stream()
+            .mapToDouble(e -> e.getId())
+            .summaryStatistics();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 } 

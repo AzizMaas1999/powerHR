@@ -57,6 +57,20 @@
             <artifactId>ikonli-fontawesome5-pack</artifactId>
             <version>12.3.1</version>
         </dependency>
+
+        <!-- Unirest -->
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+
+        <!-- Mailtrap -->
+        <dependency>
+            <groupId>io.mailtrap</groupId>
+            <artifactId>mailtrap-java</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

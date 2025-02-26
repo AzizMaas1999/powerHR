@@ -1,7 +1,7 @@
 package tn.esprit.powerHr;
 
-import tn.esprit.powerHr.entities.Departement;
-import tn.esprit.powerHr.entities.Entreprise;
+import tn.esprit.powerHr.models.Departement;
+import tn.esprit.powerHr.models.Entreprise;
 import tn.esprit.powerHr.services.DepartementService;
 import tn.esprit.powerHr.services.EntrepriseService;
 import tn.esprit.powerHr.utils.MyDataBase;
@@ -116,22 +116,48 @@ public class Main {
 
     // Entreprise operations
     private static void addEntreprise() {
-        System.out.println("\n=== Add New Entreprise ===");
-        System.out.print("Enter name: ");
-        String nom = scanner.nextLine();
-        System.out.print("Enter sector: ");
-        String secteur = scanner.nextLine();
-        System.out.print("Enter fiscal registration: ");
-        String matricule = scanner.nextLine();
+        try {
+            System.out.println("\n=== Add New Entreprise ===");
+            System.out.print("Enter name: ");
+            String nom = scanner.nextLine();
+            System.out.print("Enter sector: ");
+            String secteur = scanner.nextLine();
+            System.out.print("Enter fiscal registration: ");
+            String matricule = scanner.nextLine();
+            System.out.print("Enter email: ");
+            String email = scanner.nextLine();
 
-        Entreprise entreprise = new Entreprise(nom, secteur, matricule);
-        entrepriseService.add(entreprise);
-        System.out.println("Entreprise added successfully!");
+            Entreprise entreprise = new Entreprise(nom, secteur, matricule, email);
+            entrepriseService.add(entreprise);
+            System.out.println("Entreprise added successfully!");
+        } catch (Exception e) {
+            System.err.println("Error adding entreprise: " + e.getMessage());
+        }
     }
 
     private static void showAllEntreprises() {
         System.out.println("\n=== All Entreprises ===");
-        entrepriseService.getAll().forEach(System.out::println);
+        System.out.println("----------------------------------------");
+        System.out.printf("%-5s | %-20s | %-15s | %-20s | %-30s%n", 
+            "ID", "Name", "Sector", "Fiscal ID", "Email");
+        System.out.println("----------------------------------------");
+        
+        for (Entreprise e : entrepriseService.getAll()) {
+            System.out.printf("%-5d | %-20s | %-15s | %-20s | %-30s%n",
+                e.getId(),
+                truncateString(e.getNom(), 20),
+                truncateString(e.getSecteur(), 15),
+                truncateString(e.getMatriculeFiscale(), 20),
+                truncateString(e.getEmail(), 30)
+            );
+        }
+        System.out.println("----------------------------------------");
+    }
+
+    // Helper method to truncate long strings
+    private static String truncateString(String str, int length) {
+        if (str == null) return "";
+        return str.length() > length ? str.substring(0, length - 3) + "..." : str;
     }
 
     private static void updateEntreprise() {
@@ -152,10 +178,13 @@ public class Main {
         String secteur = scanner.nextLine();
         System.out.print("Enter new fiscal registration (current: " + entreprise.getMatriculeFiscale() + "): ");
         String matricule = scanner.nextLine();
+        System.out.print("Enter new email (current: " + entreprise.getEmail() + "): ");
+        String email = scanner.nextLine();
 
         entreprise.setNom(nom);
         entreprise.setSecteur(secteur);
         entreprise.setMatriculeFiscale(matricule);
+        entreprise.setEmail(email);
 
         entrepriseService.update(entreprise);
         System.out.println("Entreprise updated successfully!");

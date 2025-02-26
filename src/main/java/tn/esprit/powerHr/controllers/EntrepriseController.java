@@ -7,9 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.geometry.Insets;
-import tn.esprit.powerHr.entities.Entreprise;
+import tn.esprit.powerHr.models.Entreprise;
 import tn.esprit.powerHr.services.EntrepriseService;
+import tn.esprit.powerHr.services.EmailService;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +22,8 @@ public class EntrepriseController implements Initializable {
     @FXML private TextField nomField;
     @FXML private TextField secteurField;
     @FXML private TextField matriculeField;
+    @FXML private TextField emailField;
+    @FXML private Button validateEmailBtn;
     
     @FXML private ListView<Entreprise> entrepriseList;
 
@@ -27,6 +32,8 @@ public class EntrepriseController implements Initializable {
 
     private ObservableList<Entreprise> entrepriseItems;
     private FilteredList<Entreprise> filteredList;
+
+    private final EmailService emailService = new EmailService();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -53,17 +60,16 @@ public class EntrepriseController implements Initializable {
                     
                     Label sectorLabel = new Label("Secteur: " + item.getSecteur());
                     Label matriculeLabel = new Label("Matricule: " + item.getMatriculeFiscale());
+                    Label emailLabel = new Label("Email: " + item.getEmail());
                     
-                    container.getChildren().addAll(nameLabel, sectorLabel, matriculeLabel);
+                    container.getChildren().addAll(nameLabel, sectorLabel, matriculeLabel, emailLabel);
                     setGraphic(container);
                 }
             }
         });
 
-        // Bind the ListView to the Filtered List
         entrepriseList.setItems(filteredList);
 
-        // Add search field listener
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(entreprise -> {
                 if (newValue == null || newValue.isEmpty()) {
@@ -79,6 +85,9 @@ public class EntrepriseController implements Initializable {
                     return true;
                 }
                 if (entreprise.getMatriculeFiscale().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                if (entreprise.getEmail().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false;
@@ -98,15 +107,47 @@ public class EntrepriseController implements Initializable {
 
     @FXML
     private void handleAdd() {
+        // First check if required fields are filled
+        if (nomField.getText().trim().isEmpty() || 
+            secteurField.getText().trim().isEmpty() || 
+            matriculeField.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Missing Information", 
+                "Please fill in all required fields (Nom, Secteur, Matricule Fiscale).");
+            return;
+        }
+
+        String email = emailField.getText().trim();
+        
+        // If email is provided, validate it first
+        if (!email.isEmpty()) {
+            System.out.println("Validating email before adding: " + email);
+            JSONObject validationResult = emailService.validateEmail(email);
+            
+            if (validationResult == null || !validationResult.getBoolean("is_valid")) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Email", 
+                    "The provided email address is not valid. Please check and try again or leave it empty.");
+                return;
+            }
+        }
+        
+        // Create entreprise object
         Entreprise entreprise = new Entreprise(
-            nomField.getText(),
-            secteurField.getText(),
-            matriculeField.getText()
+            nomField.getText().trim(),
+            secteurField.getText().trim(),
+            matriculeField.getText().trim(),
+            email.isEmpty() ? null : email
         );
         
-        entrepriseService.add(entreprise);
-        clearFields();
-        refreshList();
+        try {
+            entrepriseService.add(entreprise);
+            clearFields();
+            refreshList();
+            showAlert(Alert.AlertType.INFORMATION, "Success", 
+                "Company " + entreprise.getNom() + " has been added successfully.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", 
+                "Failed to add company: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -137,6 +178,37 @@ public class EntrepriseController implements Initializable {
         refreshList();
     }
 
+    @FXML
+    private void validateEmail() {
+        String email = emailField.getText();
+        System.out.println("Validate button clicked for email: " + email);
+        
+        if (email == null || email.trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Input Error", "Please enter an email address.");
+            return;
+        }
+
+        System.out.println("Calling email service...");
+        JSONObject validationResult = emailService.validateEmail(email);
+        System.out.println("Validation result: " + validationResult);
+
+        if (validationResult != null) {
+            try {
+                System.out.println("Creating dialog...");
+                EmailValidationDialog dialog = new EmailValidationDialog(validationResult);
+                dialog.initModality(Modality.WINDOW_MODAL);
+                dialog.initOwner(emailField.getScene().getWindow());
+                dialog.showAndWait();
+            } catch (Exception e) {
+                System.err.println("Error showing dialog: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", 
+                "Failed to validate email. Please try again.");
+        }
+    }
+
     private void refreshList() {
         entrepriseItems.clear();
         entrepriseItems.addAll(entrepriseService.getAll());
@@ -146,6 +218,7 @@ public class EntrepriseController implements Initializable {
         nomField.clear();
         secteurField.clear();
         matriculeField.clear();
+        emailField.clear();
         selectedEntreprise = null;
     }
 
@@ -153,6 +226,7 @@ public class EntrepriseController implements Initializable {
         nomField.setText(entreprise.getNom());
         secteurField.setText(entreprise.getSecteur());
         matriculeField.setText(entreprise.getMatriculeFiscale());
+        emailField.setText(entreprise.getEmail());
     }
 
     private void showAlert(String message) {
@@ -160,6 +234,14 @@ public class EntrepriseController implements Initializable {
         alert.setTitle("Warning");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 } 
