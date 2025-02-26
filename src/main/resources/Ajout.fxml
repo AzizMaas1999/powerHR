@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="480.0" prefWidth="891.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.EmployeAjoutController">
+   <Button fx:id="bt_submit" layoutX="304.0" layoutY="367.0" mnemonicParsing="false" onAction="#AjouterEmploye" style="-fx-background-color: #56aeff;" text="Ajouter" textFill="WHITE">
+      <font>
+         <Font name="Arial Narrow" size="14.0" />
+      </font></Button>
+   <AnchorPane prefHeight="17.0" prefWidth="892.0" style="-fx-background-color: #292e30;">
+      <children>
+         <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
+            <image>
+               <Image url="@image/PowerHR.png" />
+            </image>
+         </ImageView>
+      </children></AnchorPane>
+   <AnchorPane layoutY="60.0" prefHeight="422.0" prefWidth="198.0" style="-fx-background-color: #56aeff;">
+      <children>
+         <Button fx:id="bt_ajouteremploye" layoutX="4.0" layoutY="6.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Ajouter Employe" textFill="WHITE">
+            <font>
+               <Font name="Arial Narrow" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="bt_modiferemploye" layoutX="4.0" layoutY="58.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Modifier Employe" textFill="WHITE">
+            <font>
+               <Font name="Arial Narrow" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="bt_suppemploye" layoutX="4.0" layoutY="110.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Supprimer Employe" textFill="WHITE">
+            <font>
+               <Font name="Arial Narrow" size="14.0" />
+            </font>
+         </Button>
+      </children>
+   </AnchorPane>
+   <TextField fx:id="tf_username" layoutX="256.0" layoutY="113.0" promptText="Username" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
+   <ListView fx:id="lv_Ajout" layoutX="570.0" layoutY="130.0" prefHeight="200.0" prefWidth="250.0" />
+   <TextField fx:id="tf_salaire" layoutX="256.0" layoutY="230.0" promptText="Salaire" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
+   <TextField fx:id="tf_pwd" layoutX="256.0" layoutY="154.0" promptText="Password" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
+   <TextField fx:id="tf_rib" layoutX="256.0" layoutY="271.0" promptText="Rib" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
+   <TextField fx:id="tf_CodeSociale" layoutX="256.0" layoutY="313.0" promptText="Code Sociale" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
+   <ChoiceBox fx:id="cb_poste" layoutX="257.0" layoutY="193.0" prefWidth="150.0" />
+</AnchorPane>
