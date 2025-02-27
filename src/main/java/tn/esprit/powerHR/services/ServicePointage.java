@@ -1,5 +1,6 @@
 package tn.esprit.powerHR.services;
 
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.Paie;
@@ -47,6 +48,8 @@ public class ServicePointage implements IService<Pointage> {
         try {
             Statement stm = cnx.createStatement();
             ResultSet rs = stm.executeQuery(qry);
+            ServiceEmploye se = new ServiceEmploye();
+            ServicePaie sp = new ServicePaie();
 
             while (rs.next()){
                 Pointage p = new Pointage();
@@ -54,9 +57,9 @@ public class ServicePointage implements IService<Pointage> {
                 p.setDate(rs.getDate("date"));
                 p.setHeureEntree(rs.getTime("heureEntree"));
                 p.setHeureSortie(rs.getTime("heureSortie"));
-                Employe employe = new Employe(1,"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
+                Employe employe = se.getById(rs.getInt("employe_id"));
                 p.setEmploye(employe);
-                Paie paie = new Paie(rs.getInt("paie_id"),0,0,null,null);
+                Paie paie = sp.getById(rs.getInt("paie_id"));
                 p.setPaie(paie);
 
                 pointages.add(p);

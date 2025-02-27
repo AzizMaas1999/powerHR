@@ -75,6 +75,6 @@ public class Pointage {
         return date +
                 "                                           " + heureEntree +
                 "                                " + heureSortie +
-                "                                       " + employe.getId();
+                "                                   " + employe.getUsername();
     }
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="480.0" prefWidth="892.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.StatPaieController">
+
+    <!-- Footer avec logo -->
+    <AnchorPane prefHeight="17.0" prefWidth="892.0" style="-fx-background-color: #292e30;">
+        <children>
+            <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
+                <image>
+                    <Image url="@images/Logo.png" />
+                </image>
+            </ImageView>
+         <ImageView fx:id="bt_back" accessibleRole="BUTTON" fitHeight="24.0" fitWidth="36.0" layoutX="8.0" layoutY="18.0" onMouseClicked="#Retour" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@images/backIcon.png" />
+            </image>
+         </ImageView>
+        </children>
+    </AnchorPane>
+    <TabPane layoutY="61.0" prefHeight="419.0" prefWidth="892.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab fx:id="tab_RetardParMois" text="Moyenne Retard Par Mois">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="892.0">
+                        <children>
+                            <LineChart fx:id="c_retardParMois" layoutX="96.0" layoutY="22.0" prefHeight="346.0" prefWidth="700.0">
+                                <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                </yAxis>
+                            </LineChart>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <Tab fx:id="tab_retardParSalaire" text="Moyenne Retard Par Salaire">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <BarChart fx:id="c_retardParSalaire" layoutX="96.0" layoutY="22.0" prefHeight="346.0" prefWidth="700.0">
+                                <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                </yAxis>
+                            </BarChart>
+                        </children></AnchorPane>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+
+</AnchorPane>

@@ -1,10 +1,14 @@
 package tn.esprit.powerHR.test;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import tn.esprit.powerHR.models.Paie;
 import tn.esprit.powerHR.models.Pointage;
+import tn.esprit.powerHR.services.ServiceEmploye;
 import tn.esprit.powerHR.services.ServicePaie;
 import tn.esprit.powerHR.services.ServicePointage;
 import tn.esprit.powerHR.utils.MyDataBase;
+import tn.esprit.powerHR.controllers.enums.Poste;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -40,34 +44,37 @@ public class Main {
 ////        srvPaie.update(p);
 ////        srvPaie.delete(p);
 //        System.out.println(srvPaie.getAll());
-        List<Pointage> pointageList = new ArrayList<>();
-        pointageList.add(new Pointage(11, Date.valueOf("2025-02-01"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(21, Date.valueOf("2025-02-01"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(31, Date.valueOf("2025-02-01"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(11, Date.valueOf("2025-02-02"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(21, Date.valueOf("2025-02-02"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(31, Date.valueOf("2025-02-02"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(11, Date.valueOf("2025-02-03"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(21, Date.valueOf("2025-02-03"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        pointageList.add(new Pointage(31, Date.valueOf("2025-02-03"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
-        List<Integer> emp = pointageList.stream()
-                .map(Pointage::getId)
-                .distinct()
-                .collect(Collectors.toList());
-        System.out.println(emp);
+//        ObservableList<Pointage> pointageList = FXCollections.observableArrayList();
+//        pointageList.add(new Pointage(1, Date.valueOf("2025-02-01"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(2, Date.valueOf("2025-02-01"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(3, Date.valueOf("2025-02-01"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(1, Date.valueOf("2025-02-02"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(2, Date.valueOf("2025-02-02"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(3, Date.valueOf("2025-02-02"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(1, Date.valueOf("2025-02-03"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(2, Date.valueOf("2025-02-03"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        pointageList.add(new Pointage(3, Date.valueOf("2025-02-03"), Time.valueOf("07:58:00"), Time.valueOf("17:10:00"), null, null));
+//        List<Integer> emp = pointageList.stream()
+//                .map(Pointage::getId)
+//                .distinct()
+//                .collect(Collectors.toList());
+//        System.out.println(emp);
+//
+//        ServicePaie spaie = new ServicePaie();
+//        ServiceEmploye se = new ServiceEmploye();
+//        for (int i : emp) {
+//            long nbjr = pointageList.stream()
+//                    .map(Pointage::getId)
+//                    .filter(e->e.equals(i))
+//                    .count();
+//            System.out.println(nbjr);
+//            String mois = pointageList.get(0).getDate().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+//            System.out.println(mois);
+//
+//            float Total =(float) (se.getById(i).getSalaire() / 30) * nbjr;
+//            System.out.println(Total);
+        long ret = (Time.valueOf("08:30:00").getTime() - Time.valueOf("08:00:00").getTime())/60000;
+        System.out.println(ret);
 
-        ServicePaie spaie = new ServicePaie();
-        for (int i : emp) {
-            long nbjr = pointageList.stream()
-                    .map(Pointage::getId)
-                    .filter(e->e.equals(i))
-                    .count();
-            System.out.println(nbjr);
-            String mois = pointageList.get(0).getDate().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
-            System.out.println(mois);
-//            long To
-
-
-        }
 }
 }
