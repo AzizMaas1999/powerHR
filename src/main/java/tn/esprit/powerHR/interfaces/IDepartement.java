@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.interfaces;
+package tn.esprit.powerHR.interfaces;
 
 import tn.esprit.powerHR.models.Departement;
 import java.util.List;

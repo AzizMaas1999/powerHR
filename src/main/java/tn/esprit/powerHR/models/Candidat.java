@@ -1,25 +1,24 @@
 package tn.esprit.powerHR.models;
 
-import java.sql.Blob;
-
 public class Candidat {
     private int id;
     private String nom;
     private String prenom;
     private String email;
     private String telephone;
-    private Blob cvPdf;
+    private String cvPdfUrl;
+    private String filePath;
     private Entreprise entreprise;
 
     public Candidat() {}
 
-    public Candidat(int id, String nom, String prenom, String email, String telephone, Blob cvPdf, Entreprise entreprise) {
+    public Candidat(int id, String nom, String prenom, String email, String telephone, String cvPdfUrl, Entreprise entreprise) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.telephone = telephone;
-        this.cvPdf = cvPdf;
+        this.cvPdfUrl = cvPdfUrl;
         this.entreprise = entreprise;
     }
 
@@ -63,12 +62,19 @@ public class Candidat {
         this.telephone = telephone;
     }
 
-    public Blob getCvPdf() {
-        return cvPdf;
+    public String getCvPdfUrl() {
+        return cvPdfUrl;
     }
 
-    public void setCvPdf(Blob cvPdf) {
-        this.cvPdf = cvPdf;
+    public void setCvPdfUrl(String cvPdfUrl) {
+        this.cvPdfUrl = cvPdfUrl;
+    }
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public Entreprise getEntreprise() {
@@ -87,7 +93,7 @@ public class Candidat {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
-                ", cvPdf=" + cvPdf +
+                ", cvPdfUrl='" + cvPdfUrl + '\'' +
                 ", entreprise=" + entreprise +
                 '}';
     }

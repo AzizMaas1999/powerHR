@@ -1,8 +1,8 @@
-package tn.esprit.powerHr.services;
+package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.models.Entreprise;
 import tn.esprit.powerHR.utils.MyDataBase;
-import tn.esprit.powerHr.interfaces.IEntreprise;
+import tn.esprit.powerHR.interfaces.IEntreprise;
 
 import java.sql.*;
 import java.util.ArrayList;

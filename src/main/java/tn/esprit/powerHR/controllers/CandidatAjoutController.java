@@ -9,14 +9,11 @@ import javafx.stage.FileChooser;
 import tn.esprit.powerHR.models.Candidat;
 import tn.esprit.powerHR.models.Entreprise;
 import tn.esprit.powerHR.services.ServiceCandidat;
+import tn.esprit.powerHR.services.EntrepriseService;
+import tn.esprit.powerHR.utils.MinIOUtils;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Blob;
 import java.util.List;
-import javax.sql.rowset.serial.SerialBlob;
 
 public class CandidatAjoutController {
 
@@ -31,18 +28,19 @@ public class CandidatAjoutController {
     @FXML
     private Button bt_upload;
     @FXML
-    private Button bt_ajouterCandidat;
+    private ComboBox<String> cb_entreprise;
     @FXML
-    private ListView<Candidat> lv_ajout;
+    private Button bt_ajouterCandidat;
 
-    private Blob cvPdfBlob;
     private String cvFileName;
+    private String cvPdfUrl; // Add this for storing the URL
 
     private ServiceCandidat sc = new ServiceCandidat();
+    private EntrepriseService se = new EntrepriseService();
 
     @FXML
     private void initialize() {
-        refreshList();
+        loadEntreprises();
 
         bt_upload.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -52,42 +50,42 @@ public class CandidatAjoutController {
 
             if (selectedFile != null) {
                 try {
-                    Path path = Paths.get(selectedFile.getAbsolutePath());
-                    byte[] pdfBytes = Files.readAllBytes(path);
-
-                    // Vérifier la taille du fichier avant de stocker (16MB max pour MEDIUMBLOB, 4GB max pour LONGBLOB)
-                    if (pdfBytes.length > 16000000) {
-                        showAlert(Alert.AlertType.ERROR, "Erreur", "Le fichier est trop volumineux (max 16MB).");
-                        return;
-                    }
-
-                    cvPdfBlob = new SerialBlob(pdfBytes);
                     cvFileName = selectedFile.getName();
-                    showAlert(Alert.AlertType.INFORMATION, "Succès", "CV sélectionné : " + cvFileName);
+                    System.out.println("Selected CV file: " + cvFileName);
+
+                    // Upload the CV to MinIO and get the URL
+                    String uploadedUrl = MinIOUtils.uploadCV("cv-bucket", selectedFile.getAbsolutePath(), cvFileName);
+
+                    if (uploadedUrl == null || uploadedUrl.isEmpty()) {
+                        showAlert(Alert.AlertType.ERROR, "Erreur", "Le fichier CV n'a pas été téléchargé correctement.");
+                    } else {
+                        cvPdfUrl = uploadedUrl;  // ✅ Ensure this is properly assigned
+                        System.out.println("CV uploaded successfully: " + cvPdfUrl); // Debugging
+                        showAlert(Alert.AlertType.INFORMATION, "Succès", "CV téléchargé avec succès !");
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de la lecture du fichier CV.");
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'upload du fichier CV.");
                 }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun fichier sélectionné.");
             }
         });
     }
 
-    @FXML
-    private void refreshList() {
-        try {
-            List<Candidat> candidats = sc.getAll();
-            ObservableList<Candidat> observableList = FXCollections.observableArrayList(candidats);
-            lv_ajout.setItems(observableList);
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des candidats : " + e.getMessage());
-        }
+        private void loadEntreprises() {
+        List<Entreprise> entreprises = se.getAll(); // Get all entreprises
+        ObservableList<String> entrepriseNames = FXCollections.observableArrayList(
+                entreprises.stream().map(Entreprise::getNom).toList()
+        );
+        cb_entreprise.setItems(entrepriseNames);
     }
 
     @FXML
     private void AjouterCandidat(ActionEvent event) {
         if (tf_nom.getText().isEmpty() || tf_prenom.getText().isEmpty() || tf_email.getText().isEmpty() ||
-                tf_Num.getText().isEmpty() || cvPdfBlob == null) {
+                tf_Num.getText().isEmpty() || cb_entreprise.getValue() == null ) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs et le CV sont obligatoires.");
             return;
         }
@@ -106,21 +104,39 @@ public class CandidatAjoutController {
         String prenom = tf_prenom.getText();
         String email = tf_email.getText();
         String telephone = tf_Num.getText();
+        String entrepriseName = cb_entreprise.getValue(); // Get the selected entreprise name
+
+        // Retrieve the actual Entreprise object from the database
+        List<Entreprise> entreprises = se.getAll();
+        Entreprise selectedEntreprise = entreprises.stream()
+                .filter(e -> e.getNom().equals(entrepriseName))
+                .findFirst()
+                .orElse(null);
+
+        if (selectedEntreprise == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "L'entreprise sélectionnée est invalide.");
+            return;
+        }
+
+        // Debugging line to check the CV URL before saving it
+        System.out.println("Final CV URL: " + cvPdfUrl);
+
+        if (cvPdfUrl == null || cvPdfUrl.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le chemin du fichier CV est vide.5555");
+            return;
+        }
 
         Candidat candidat = new Candidat();
         candidat.setNom(nom);
         candidat.setPrenom(prenom);
         candidat.setEmail(email);
         candidat.setTelephone(telephone);
-        candidat.setCvPdf(cvPdfBlob);
-
-        Entreprise entreprise = new Entreprise(1, "Entreprise XYZ", "Adresse", "Secteur");
-        candidat.setEntreprise(entreprise);
+        candidat.setCvPdfUrl(cvPdfUrl); // Set the CV URL
+        candidat.setEntreprise(selectedEntreprise); // Set the actual Entreprise object
 
         try {
             sc.add(candidat);
-            clearFields();
-            refreshList();
+            //clearFields();
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Candidat ajouté avec succès !");
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s'est produite : " + e.getMessage());
@@ -143,12 +159,13 @@ public class CandidatAjoutController {
         alert.showAndWait();
     }
 
-    private void clearFields() {
+    /*private void clearFields() {
         tf_nom.clear();
         tf_prenom.clear();
         tf_email.clear();
         tf_Num.clear();
-        cvPdfBlob = null;
-        cvFileName = null;
-    }
+        cb_entreprise.getSelectionModel().clearSelection();
+        cvFileName = null; // Clear the file name as well
+        cvPdfUrl = null; // Clear the URL as well
+    }*/
 }

@@ -18,7 +18,7 @@ public class ServiceFicheEmploye implements IService<FicheEmploye> {
 
     @Override
     public void add(FicheEmploye ficheEmploye) {
-        String query = "INSERT INTO fiche_employe ( cin, nom, prenom, email, adresse, city, zip, numTel, pdfFile, employe_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO fiche_employe ( cin, nom, prenom, email, adresse, city, zip, numTel, versionPdf, employe_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, ficheEmploye.getCin());
             preparedStatement.setString(2, ficheEmploye.getNom());
@@ -28,7 +28,7 @@ public class ServiceFicheEmploye implements IService<FicheEmploye> {
             preparedStatement.setString(6, ficheEmploye.getCity());
             preparedStatement.setString(7, ficheEmploye.getZip());
             preparedStatement.setString(8, ficheEmploye.getNumTel());
-            preparedStatement.setBlob(9, ficheEmploye.getPdfFile());
+            preparedStatement.setBlob(9, ficheEmploye.getversionPdf());
             preparedStatement.setInt(10,ficheEmploye.getEmploye().getId());
 
             preparedStatement.executeUpdate();
@@ -40,7 +40,7 @@ public class ServiceFicheEmploye implements IService<FicheEmploye> {
 
     @Override
     public void update(FicheEmploye ficheEmploye) {
-        String query = "UPDATE fiche_employe SET cin=?, nom=?, prenom=?, email=?, adresse=?, city=?, zip=?, numTel=?, pdfFile=? WHERE id=?";
+        String query = "UPDATE fiche_employe SET cin=?, nom=?, prenom=?, email=?, adresse=?, city=?, zip=?, numTel=?, versionPdf=? WHERE id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, ficheEmploye.getCin());
             preparedStatement.setString(2, ficheEmploye.getNom());
@@ -50,7 +50,7 @@ public class ServiceFicheEmploye implements IService<FicheEmploye> {
             preparedStatement.setString(6, ficheEmploye.getCity());
             preparedStatement.setString(7, ficheEmploye.getZip());
             preparedStatement.setString(8, ficheEmploye.getNumTel());
-            preparedStatement.setBlob(9,ficheEmploye.getPdfFile());
+            preparedStatement.setBlob(9,ficheEmploye.getversionPdf());
             preparedStatement.setInt(10, ficheEmploye.getId());
 
             preparedStatement.executeUpdate();
@@ -89,8 +89,8 @@ public class ServiceFicheEmploye implements IService<FicheEmploye> {
                 ficheEmploye.setCity(resultSet.getString("city"));
                 ficheEmploye.setZip(resultSet.getString("zip"));
                 ficheEmploye.setNumTel(resultSet.getString("numTel"));
-                Blob pdfFile = resultSet.getBlob("pdfFile");
-                ficheEmploye.setPdfFile(pdfFile);
+                Blob versionPdf = resultSet.getBlob("versionPdf");
+                ficheEmploye.setversionPdf(versionPdf);
                 Employe employe = new Employe(resultSet.getInt("employe_id"),"","",null,null,null,null,null,null,null,null,null);
                 ficheEmploye.setEmploye(employe);
 

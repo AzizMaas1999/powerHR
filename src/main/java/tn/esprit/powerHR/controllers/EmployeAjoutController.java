@@ -1,5 +1,6 @@
 package tn.esprit.powerHR.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,29 +9,14 @@ import javafx.scene.control.*;
 import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.Departement;
 import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.services.DepartementService;
 import tn.esprit.powerHR.services.ServiceEmploye;
-
 import java.util.List;
 
 public class EmployeAjoutController {
 
     @FXML
-    private Button bt_ajouteremploye;
-
-    @FXML
-    private Button bt_modiferemploye;
-
-    @FXML
-    private Button bt_submit;
-
-    @FXML
-    private Button bt_suppemploye;
-
-    @FXML
-    private ChoiceBox<Poste> cb_poste;
-
-    @FXML
-    private ListView<Employe> lv_Ajout;
+    private ComboBox<Poste> cb_poste;
 
     @FXML
     private TextField tf_CodeSociale;
@@ -46,36 +32,34 @@ public class EmployeAjoutController {
 
     @FXML
     private TextField tf_username;
+    @FXML
+    private ComboBox<String> cb_NomDepartement;
 
     ServiceEmploye se = new ServiceEmploye();
-
+    DepartementService sd = new DepartementService();
     @FXML
     private void initialize() {
-        cb_poste.getItems().addAll(Poste.values());
-        refreshList();
+        cb_poste.setItems(FXCollections.observableArrayList(Poste.values()));
+        loadDepartements();
     }
-
-    @FXML
-    private void refreshList() {
-        try {
-            List<Employe> list = se.getAll();
-            ObservableList<Employe> observableList = FXCollections.observableList(list);
-            lv_Ajout.setItems(observableList);
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des employés : " + e.getMessage());
-        }
+    private void loadDepartements() {
+        List<String> departements = sd.getAll().stream()
+                .map(Departement::getNom)
+                .toList();
+        ObservableList<String> departementList = FXCollections.observableArrayList(departements);
+        cb_NomDepartement.setItems(departementList);
     }
 
     @FXML
     void AjouterEmploye(ActionEvent event) {
         if (tf_username.getText().isEmpty() || tf_pwd.getText().isEmpty() || cb_poste.getValue() == null ||
-                tf_salaire.getText().isEmpty() || tf_rib.getText().isEmpty() || tf_CodeSociale.getText().isEmpty()) {
+                tf_salaire.getText().isEmpty() || tf_rib.getText().isEmpty() || tf_CodeSociale.getText().isEmpty() || cb_NomDepartement.getValue()==null){
             showAlert(Alert.AlertType.ERROR, "Erreur de saisie", "Tous les champs sont obligatoires.");
             return;
         }
 
         if (!isValidSalaire(tf_salaire.getText())) {
-            showAlert(Alert.AlertType.ERROR, "Erreur de saisie", "Le salaire doit être un nombre valide (ex: 1500.50).");
+            showAlert(Alert.AlertType.ERROR, "Erreur de saisie", "Le salaire doit être un nombre");
             return;
         }
 
@@ -91,11 +75,11 @@ public class EmployeAjoutController {
 
         String username = tf_username.getText();
         String password = tf_pwd.getText();
-        String poste = cb_poste.getValue().name();
+        Poste poste = cb_poste.getValue();
         double salaire = Double.parseDouble(tf_salaire.getText());
         String rib = tf_rib.getText();
         String codeSociale = tf_CodeSociale.getText();
-
+        String nomDepartement = cb_NomDepartement.getValue();
 
         Employe employe = new Employe();
         employe.setUsername(username);
@@ -104,13 +88,12 @@ public class EmployeAjoutController {
         employe.setSalaire(salaire);
         employe.setRib(rib);
         employe.setCodeSociale(codeSociale);
+        employe.setDepartement(nomDepartement);
 
-        Departement departement = new Departement(1,"math","ababba",1);
-        employe.setDepartement(departement);
         try {
             se.add(employe);
             clearFields();
-            refreshList();
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Employé ajouté avec succès !");
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s'est produite lors de l'ajout de l'employé : " + e.getMessage());
         }
@@ -147,6 +130,8 @@ public class EmployeAjoutController {
         tf_salaire.clear();
         tf_rib.clear();
         tf_CodeSociale.clear();
+        cb_NomDepartement.setValue(null);
         cb_poste.setValue(null);
+
     }
 }

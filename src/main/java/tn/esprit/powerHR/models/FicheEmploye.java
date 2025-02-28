@@ -12,13 +12,13 @@ public class FicheEmploye{
         private String city;
         private String zip;
         private String numTel;
-        private Blob pdfFile;
+        private Blob versionPdf;
         private Employe employe;
 
         public FicheEmploye() {
         }
 
-        public FicheEmploye(int id, String cin, String nom, String prenom, String email, String adresse, String city, String zip, String numTel, Blob pdfFile, Employe employe) {
+        public FicheEmploye(int id, String cin, String nom, String prenom, String email, String adresse, String city, String zip, String numTel, Blob versionPdf, Employe employe) {
                 this.id = id;
                 this.cin = cin;
                 this.nom = nom;
@@ -28,7 +28,7 @@ public class FicheEmploye{
                 this.city = city;
                 this.zip = zip;
                 this.numTel = numTel;
-                this.pdfFile = pdfFile;
+                this.versionPdf = versionPdf;
                 this.employe = employe;
         }
 
@@ -104,12 +104,12 @@ public class FicheEmploye{
                 this.numTel = numTel;
         }
 
-        public Blob getPdfFile() {
-                return pdfFile;
+        public Blob getversionPdf() {
+                return versionPdf;
         }
 
-        public void setPdfFile(Blob pdfFile) {
-                this.pdfFile = pdfFile;
+        public void setversionPdf(Blob versionPdf) {
+                this.versionPdf = versionPdf;
         }
 
         public Employe getEmploye() {
@@ -132,7 +132,7 @@ public class FicheEmploye{
                         ", city='" + city + '\'' +
                         ", zip='" + zip + '\'' +
                         ", numTel='" + numTel + '\'' +
-                        ", pdfFile=" + pdfFile +
+                        ", versionPdf=" + versionPdf +
                         ", employe=" + employe +
                         '}';
         }

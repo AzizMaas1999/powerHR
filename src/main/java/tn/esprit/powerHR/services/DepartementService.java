@@ -1,8 +1,8 @@
-package tn.esprit.powerHr.services;
+package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.models.Departement;
 import tn.esprit.powerHR.utils.MyDataBase;
-import tn.esprit.powerHr.interfaces.IDepartement;
+import tn.esprit.powerHR.interfaces.IDepartement;
 
 import java.util.stream.Collectors;
 import java.sql.*;
