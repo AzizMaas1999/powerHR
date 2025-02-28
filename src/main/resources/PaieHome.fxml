@@ -39,14 +39,23 @@
          </ImageView>
       </children>
    </AnchorPane>
-
-   <!-- Boutons d'action -->
-   <HBox alignment="CENTER" layoutX="141.0" layoutY="390.0" prefHeight="50.0" prefWidth="610.0" spacing="20">
+   <VBox layoutX="141.0" layoutY="379.0">
       <children>
-         <Button fx:id="btn_modifier_paie" onAction="#Mod" prefWidth="150.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifier Paie" />
-         <Button fx:id="btn_stat_paie" onAction="#Stat" prefWidth="150.0" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" text="Statistique du Paie" textOverrun="CLIP" />
+      
+         <!-- Boutons d'action -->
+         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="610.0" spacing="20">
+            <children>
+               <Button fx:id="btn_addPointage" onAction="#NavPointage" prefWidth="150.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Ajouter Pointage" />
+               <Button fx:id="btn_modifier_paie" onAction="#Mod" prefWidth="150.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifier Paie" />
+            </children>
+         </HBox>
+         <HBox alignment="CENTER">
+            <children>
+               <Button fx:id="btn_stat_paie" onAction="#Stat" prefWidth="150.0" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" text="Statistique du Paie" textOverrun="CLIP" />
+            </children>
+         </HBox>
       </children>
-   </HBox>
+   </VBox>
    <TextField fx:id="tf_search_paie" layoutX="246.0" layoutY="91.0" onKeyTyped="#search" prefWidth="400.0" promptText="Rechercher un employé..." />
 
 </AnchorPane>

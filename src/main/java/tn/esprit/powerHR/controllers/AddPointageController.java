@@ -3,8 +3,13 @@ package tn.esprit.powerHR.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -32,6 +37,9 @@ public class AddPointageController {
 
     @FXML
     private Button bt_upload;
+
+    @FXML
+    private ImageView bt_back;
 
     @FXML
     private AnchorPane mainPane;
@@ -89,40 +97,74 @@ public class AddPointageController {
 
     @FXML
     private void AjouterPointage() {
-        List<Integer> emp = pointageList.stream()
-                .map(e->e.getEmploye().getId())
-                .distinct()
-                .collect(Collectors.toList());
-        System.out.println(pointageList);
-        System.out.println(emp);
+        if (pointageList.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez importer un fichier CSV");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            List<Integer> emp = pointageList.stream()
+                    .map(e -> e.getEmploye().getId())
+                    .distinct()
+                    .collect(Collectors.toList());
+            System.out.println(pointageList);
+            System.out.println(emp);
 
-        ServicePaie spaie = new ServicePaie();
-        ServiceEmploye se = new ServiceEmploye();
-        for (int i : emp) {
-            long nbjr = pointageList.stream()
-                    .map(e->e.getEmploye().getId())
-                    .filter(e->e.equals(i))
-                    .count();
-            String mois = pointageList.get(0).getDate().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+            ServicePaie spaie = new ServicePaie();
+            ServiceEmploye se = new ServiceEmploye();
+            ServicePointage sp = new ServicePointage();
+            for (int i : emp) {
+                long nbjr = pointageList.stream()
+                        .map(e -> e.getEmploye().getId())
+                        .filter(e -> e.equals(i))
+                        .count();
+                String mois = pointageList.get(0).getDate().toLocalDate().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
 
-            String annee = String.valueOf(pointageList.get(0).getDate().toLocalDate().getYear());
+                String annee = String.valueOf(pointageList.get(0).getDate().toLocalDate().getYear());
 
-            float Total =(float) (se.getById(i).getSalaire() / 30) * nbjr;
+                float Total = (float) (se.getById(i).getSalaire() / 30) * nbjr;
 
-            Paie paie = new Paie(0, (int) nbjr, Total, mois, annee, null);
-            spaie.add(paie);
-            for (Pointage pointage : pointageList) {
-                if (pointage.getEmploye().getId() == i) {
-                    Paie p = spaie.getAll().get(spaie.getAll().size() - 1);
-                    pointage.setPaie(p);
+                Paie paie = new Paie(0, (int) nbjr, Total, mois, annee, null);
+                if (spaie.getAll().stream()
+                        .anyMatch(p -> p.getMois().equals(mois) && p.getAnnee().equals(annee))) {
+                    Alert alertE = new Alert(Alert.AlertType.ERROR);
+                    alertE.setTitle("Erreur");
+                    alertE.setHeaderText(null);
+                    alertE.setContentText("Pointage déjà ajouté");
+                    alertE.showAndWait();
+                    return;
+                }
+                spaie.add(paie);
+                for (Pointage pointage : pointageList) {
+                    if (pointage.getEmploye().getId() == i) {
+                        Paie p = spaie.getAll().get(spaie.getAll().size() - 1);
+                        pointage.setPaie(p);
+                    }
                 }
             }
-        }
 
-            ServicePointage spoin = new ServicePointage();
-        for (Pointage pointage : pointageList) {
-            spoin.add(pointage);
-        }
+            for (Pointage pointage : pointageList) {
+                sp.add(pointage);
+            }
+            alert.setTitle("Ajout de pointage");
+            alert.setHeaderText(null);
+            alert.setContentText("Ajout de pointage effectué avec succès");
+            alert.showAndWait();
 
+        }
+    }
+
+    @FXML
+    void Retour(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaieHome.fxml"));
+            Parent statView = loader.load();
+
+            mainPane.getChildren().setAll(statView);
+        } catch (IOException e) {
+            System.err.println("Error loading " + e.getMessage());
+        }
     }
 }

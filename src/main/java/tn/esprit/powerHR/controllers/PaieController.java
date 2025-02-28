@@ -25,13 +25,16 @@ import java.util.List;
 public class PaieController {
 
     @FXML
+    private Button btn_addPointage;
+
+    @FXML
     private Button btn_modifier_paie;
 
     @FXML
-    private AnchorPane mainPane;
+    private Button btn_stat_paie;
 
     @FXML
-    private Button btn_stat_paie;
+    private AnchorPane mainPane;
 
     @FXML
     private TextField tf_search_paie;
@@ -115,6 +118,18 @@ public class PaieController {
     @FXML
     void Mod(ActionEvent event) {
 
+    }
+
+    @FXML
+    void NavPointage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddPointage.fxml"));
+            Parent statView = loader.load();
+
+            mainPane.getChildren().setAll(statView);
+        } catch (IOException e) {
+            System.err.println("Error loading " + e.getMessage());
+        }
     }
 
     @FXML
