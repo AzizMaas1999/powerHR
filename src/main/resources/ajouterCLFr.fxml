@@ -8,96 +8,106 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="480.0" prefWidth="891.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.AjouterCLFr">
+<AnchorPane prefHeight="480.0" prefWidth="891.0" style="-fx-background-color: #f5f6fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.AjouterCLFr">
 
-    <!-- Bouton Ajouter -->
-    <Button fx:id="bt_submit2" layoutX="366.0" layoutY="414.0" mnemonicParsing="false" onAction="#AjouterCLFr" style="-fx-background-color: #56aeff;" text="Ajouter" textFill="WHITE">
-        <font>
-            <Font name="Arial Narrow" size="14.0" />
-        </font>
-    </Button>
-
-    <!-- Logo -->
+    <!-- Logo inchangé -->
     <AnchorPane prefHeight="17.0" prefWidth="892.0" style="-fx-background-color: #292e30;">
         <children>
-            <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
+            <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@images/Logo.png.png" />
                 </image>
+                <effect>
+                    <DropShadow color="#ffffff" radius="15" spread="0.1" />
+                </effect>
             </ImageView>
         </children>
     </AnchorPane>
 
-    <!-- Menu latéral -->
-    <AnchorPane layoutY="60.0" prefHeight="422.0" prefWidth="198.0" style="-fx-background-color: #56aeff;">
+    <!-- Menu latéral avec effets modernes -->
+    <AnchorPane layoutY="60.0" prefHeight="422.0" prefWidth="198.0" style="-fx-background-color: linear-gradient(to bottom, #56aeff, #489ef5); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 2, 2);">
         <children>
-            <Button fx:id="bt_ajouterCLFr" layoutX="4.0" layoutY="6.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Ajouter CLFr" textFill="WHITE">
-                <font>
-                    <Font name="Arial Narrow" size="14.0" />
-                </font>
+            <Button fx:id="bt_ajouterCLFr" layoutX="4.0" layoutY="6.0" onAction="#AjouterCLFr" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-border-color: rgba(41,46,48,0.3); -fx-border-radius: 8; -fx-cursor: hand;" text="Ajouter CLFr" textFill="WHITE">
+                <font><Font name="Segoe UI" size="14.0" /></font>
+                <effect><DropShadow color="#00000030" radius="3" /></effect>
             </Button>
-            <Button fx:id="bt_modiferCLFr" layoutX="4.0" layoutY="58.0" mnemonicParsing="false" onAction="#NavigateModifier" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Modifier CLFr" textFill="WHITE">
-                <font>
-                    <Font name="Arial Narrow" size="14.0" />
-                </font>
+
+            <Button fx:id="bt_modiferCLFr" layoutX="4.0" layoutY="58.0" onAction="#NavigateModifier" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-border-color: rgba(41,46,48,0.3); -fx-border-radius: 8; -fx-cursor: hand;" text="Modifier CLFr" textFill="WHITE">
+                <font><Font name="Segoe UI" size="14.0" /></font>
+                <effect><DropShadow color="#00000030" radius="3" /></effect>
             </Button>
-            <Button fx:id="bt_supprimerCLFr" layoutX="4.0" layoutY="110.0" mnemonicParsing="false" onAction="#Supp" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Supprimer CLFr" textFill="WHITE">
-                <font>
-                    <Font name="Arial Narrow" size="14.0" />
-                </font>
+
+            <Button fx:id="bt_supprimerCLFr" layoutX="4.0" layoutY="110.0" onAction="#Supp" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-border-color: rgba(41,46,48,0.3); -fx-border-radius: 8; -fx-cursor: hand;" text="Supprimer CLFr" textFill="WHITE">
+                <font><Font name="Segoe UI" size="14.0" /></font>
+                <effect><DropShadow color="#00000030" radius="3" /></effect>
             </Button>
         </children>
     </AnchorPane>
 
-    <!-- ListView -->
-    <ListView fx:id="lv_ShowCLFr" layoutX="569.0" layoutY="141.0" prefHeight="200.0" prefWidth="250.0">
-        <effect>
-            <DropShadow color="#888888" offsetX="5.0" offsetY="5.0" radius="15.0" />
-        </effect>
+    <!-- Barre de recherche améliorée -->
+    <HBox layoutX="485.0" layoutY="90.0" spacing="10" style="-fx-background-radius: 25; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 2, 2);">
+        <TextField fx:id="searchField" prefWidth="250.0" promptText="Rechercher..." style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 14; -fx-prompt-text-fill: #a0a0a0;" />
+        <ImageView fitHeight="20" fitWidth="20" style="-fx-opacity: 0.6;">
+            <image><Image url="@images/search-icon.png" /></image>
+        </ImageView>
+    </HBox>
+
+    <!-- Formulaire avec effets modernes -->
+    <VBox layoutX="228.0" layoutY="100.0" spacing="15">
+        <Text style="-fx-font-size: 18; -fx-fill: #2d3436; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, white, 2, 0, 0, 1);" text="Nouvelle Enregistrement" />
+
+        <TextField fx:id="nom" layoutX="228.0" layoutY="113.0" promptText="Nom" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-padding: 8 12; -fx-font-size: 14; -fx-effect: innershadow(gaussian, #00000008, 5, 0, 0, 2);" />
+
+        <TextField fx:id="matriculeFicale" layoutX="227.0" layoutY="184.0" promptText="Matricule Fiscale" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-padding: 8 12; -fx-font-size: 14; -fx-effect: innershadow(gaussian, #00000008, 5, 0, 0, 2);" />
+
+        <TextField fx:id="adresse" layoutX="228.0" layoutY="257.0" promptText="Adresse" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-padding: 8 12; -fx-font-size: 14; -fx-effect: innershadow(gaussian, #00000008, 5, 0, 0, 2);" />
+
+        <TextField fx:id="NumTel" layoutX="227.0" layoutY="313.0" promptText="Numéro de téléphone" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-padding: 8 12; -fx-font-size: 14; -fx-effect: innershadow(gaussian, #00000008, 5, 0, 0, 2);" />
+
+        <ChoiceBox fx:id="type2" layoutX="228.0" layoutY="380.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-padding: 6 12; -fx-font-size: 14;" />
+    </VBox>
+
+    <!-- Bouton Ajouter stylisé -->
+    <Button fx:id="bt_submit2" layoutX="366.0" layoutY="414.0" onAction="#AjouterCLFr" prefWidth="150.0" style="-fx-background-color: linear-gradient(to right, #56aeff, #489ef5); -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(86,174,255,0.3), 10, 0, 0, 3);" text="Ajouter">
+        <font><Font name="Segoe UI" size="14.0" /></font>
+    </Button>
+
+    <!-- ListView avec scrollbar personnalisée -->
+    <ListView fx:id="lv_ShowCLFr" layoutX="500.0" layoutY="150.0" prefHeight="200.0" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 15; -fx-background-radius: 15;">
+        <effect><DropShadow color="#888888" offsetX="5.0" offsetY="5.0" radius="15.0" /></effect>
         <style>
-            -fx-background-color: linear-gradient(to bottom, #ffffff, #f0f0f0);
-            -fx-border-color: #56aeff;
-            -fx-border-width: 2px;
-            -fx-border-radius: 15px;
-            -fx-padding: 10px;
+            -fx-scroll-bar-color: #56aeff;
+            -fx-scroll-bar-background: #f0f0f0;
+            -fx-selection-bar: #e3f2fd;
+            -fx-cell-hover-color: #f5faff;
         </style>
     </ListView>
 
-    <!-- Formulaire pour Ajouter CLFr -->
-    <TextField fx:id="nom" layoutX="228.0" layoutY="113.0" promptText="Nom" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-    <TextField fx:id="matriculeFicale" layoutX="227.0" layoutY="184.0" promptText="Matricule Fiscale" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-    <TextField fx:id="adresse" layoutX="228.0" layoutY="257.0" promptText="Adresse" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-    <TextField fx:id="NumTel" layoutX="227.0" layoutY="313.0" promptText="Numéro de téléphone" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-    <ChoiceBox fx:id="type2" layoutX="228.0" layoutY="380.0" prefWidth="150.0" />
+    <!-- Statistiques en cartes modernes -->
+    <VBox layoutX="569.0" layoutY="360.0" spacing="15">
+        <Text style="-fx-font-size: 16; -fx-fill: #2d3436; -fx-font-weight: bold;" text="Statistiques" />
+        <HBox spacing="15">
+            <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 2, 2);">
+                <Text style="-fx-fill: #7f8fa6; -fx-font-size: 14;" text="Total CLFr" />
+                <Text fx:id="totalCLFrText" style="-fx-fill: #56aeff; -fx-font-size: 24; -fx-font-weight: bold;" />
+            </VBox>
 
-    <!-- Libellés -->
-    <Text layoutX="238.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom">
-        <font>
-            <Font size="13.0" />
-        </font>
-    </Text>
-    <Text layoutX="228.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matricule Fiscale">
-        <font>
-            <Font size="13.0" />
-        </font>
-    </Text>
-    <Text layoutX="229.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse">
-        <font>
-            <Font size="13.0" />
-        </font>
-    </Text>
-    <Text layoutX="229.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numéro de téléphone">
-        <font>
-            <Font size="13.0" />
-        </font>
-    </Text>
-    <Text layoutX="227.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type :">
-        <font>
-            <Font size="13.0" />
-        </font>
-    </Text>
+            <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 2, 2);">
+                <Text style="-fx-fill: #7f8fa6; -fx-font-size: 14;" text="Clients" />
+                <Text fx:id="clientsCountText" style="-fx-fill: #4CAF50; -fx-font-size: 24; -fx-font-weight: bold;" />
+            </VBox>
+
+            <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 2, 2);">
+                <Text style="-fx-fill: #7f8fa6; -fx-font-size: 14;" text="Fournisseurs" />
+                <Text fx:id="fournisseursCountText" style="-fx-fill: #2196F3; -fx-font-size: 24; -fx-font-weight: bold;" />
+            </VBox>
+        </HBox>
+    </VBox>
+
 
 </AnchorPane>

@@ -13,8 +13,12 @@ import tn.esprit.powerHR.services.ServiceCLFr;
 import tn.esprit.powerHR.services.ServiceFeedback;
 import java.sql.Date;
 import java.util.List;
+import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import tn.esprit.powerHR.utils.EmojiUtils;
+import tn.esprit.powerHR.services.ServiceApi;
+
 
 public class AjouterFeedback {
 
@@ -40,10 +44,12 @@ public class AjouterFeedback {
     private Button bt_supppfeedback;
 
     @FXML
-    private ChoiceBox<String> type;
+    private Label lblSentiment; // Nouveau label pour afficher le type détecté
+
 
     private ServiceFeedback serviceFeedback = new ServiceFeedback();
 
+    private final ServiceApi serviceApi = new ServiceApi(); // Service pour l'analyse du sentiment
     private Feedback p;
     public void setListFeedback(Feedback p) {
         this.p = p;
@@ -54,11 +60,30 @@ public class AjouterFeedback {
     }
 
 
-    @FXML
+    /*@FXML
     public void initialize() {
-        type.getItems().addAll("Positif", "Négatif", "Constructif", "360°");
+        lv_ShowFeedback.setCellFactory(listView -> new FeedbackListCell());
         refreshList();
-    }
+
+        // Ajout d'un listener pour analyser le texte et convertir les emojis
+        Description.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                // ✅ Convertir les emojis AVANT l'analyse du sentiment
+                String convertedText = EmojiUtils.replaceEmoticons(newValue);
+
+                if (!convertedText.equals(newValue)) {
+                    Description.setText(convertedText); // Évite une boucle infinie
+                }
+
+                // ✅ Détection automatique du sentiment
+                String detectedSentiment = serviceApi.analyserSentiment(convertedText);
+                lblSentiment.setText("Sentiment détecté: " + detectedSentiment);
+            } else {
+                lblSentiment.setText("Sentiment: En attente...");
+            }
+        });
+    }*/
+
 
     private void refreshList() {
         try {
@@ -86,16 +111,21 @@ public class AjouterFeedback {
                 showAlert(Alert.AlertType.WARNING, "Description trop courte", "La description doit contenir au moins 10 caractères.");
                 return;
             }
+            // Détection automatique du sentiment
+            String detectedSentiment = serviceApi.analyserSentiment(descriptionText);
+            lblSentiment.setText("Sentiment détecté: " + detectedSentiment);
 
-            if (type.getValue() == null) {
+            /*if (type.getValue() == null) {
                 showAlert(Alert.AlertType.WARNING, "Type manquant", "Veuillez sélectionner un type de feedback.");
                 return;
-            }
+            }*/
 
             Feedback feedback = new Feedback();
             feedback.setDateCreation(Date.valueOf(Date_creation.getValue()));
             feedback.setDescription(descriptionText);
-            feedback.setType(type.getValue());
+            feedback.setType(detectedSentiment); // Affectation du type détecté
+
+            // feedback.setType(type.getValue());
 
             CLFr clfr = new CLFr();
             clfr.setId(1);
@@ -109,7 +139,8 @@ public class AjouterFeedback {
 
             Date_creation.setValue(null);
             Description.clear();
-            type.setValue(null);
+            lblSentiment.setText("Sentiment: En attente...");
+          //  type.setValue(null);
 
         } catch (Exception e) {
             System.out.println("Erreur lors de l'ajout : " + e.getMessage());
@@ -133,19 +164,47 @@ public class AjouterFeedback {
         }
     }
 
+    @FXML
+    public void initialize() {
+        lv_ShowFeedback.setCellFactory(listView -> new FeedbackListCell());
+        refreshList();
+
+        // Ajout d'un listener pour analyser le texte et convertir les emojis
+        Description.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                // ✅ Convertir les emojis AVANT l'analyse du sentiment
+                String convertedText = EmojiUtils.replaceEmoticons(newValue);
+
+                if (!convertedText.equals(newValue)) {
+                    Description.setText(convertedText); // Évite une boucle infinie
+                }
+
+                // ✅ Détection automatique du sentiment
+                String detectedSentiment = serviceApi.analyserSentiment(convertedText);
+                lblSentiment.setText("Sentiment détecté: " + detectedSentiment);
+            } else {
+                lblSentiment.setText("Sentiment: En attente...");
+            }
+        });
+    }
 
     @FXML
     void Supp(ActionEvent event) {
-        setListFeedback(lv_ShowFeedback.getSelectionModel().getSelectedItem());
-        ServiceFeedback ps = new ServiceFeedback();
-        try {
-            ps.delete(getListFeedback());
-            initialize();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        Feedback selectedFeedback = lv_ShowFeedback.getSelectionModel().getSelectedItem();
+        if (selectedFeedback == null) {
+            showAlert(Alert.AlertType.WARNING, "Suppression impossible", "Veuillez sélectionner un feedback à supprimer.");
+            return;
         }
 
+        try {
+            serviceFeedback.delete(selectedFeedback);
+            refreshList();
+            showAlert(Alert.AlertType.INFORMATION, "Suppression réussie", "Le feedback a été supprimé avec succès.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression : " + e.getMessage());
+        }
     }
+
 
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
@@ -154,4 +213,18 @@ public class AjouterFeedback {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    @FXML
+    private void analyserSentiment(ActionEvent event) {
+        String texte = Description.getText();
+
+        if (texte.isEmpty()) {
+            lblSentiment.setText("Sentiment: Veuillez entrer un texte.");
+            return;
+        }
+
+        String sentiment = serviceApi.analyserSentiment(texte);
+        lblSentiment.setText("Sentiment: " + sentiment);
+    }
+
 }
+

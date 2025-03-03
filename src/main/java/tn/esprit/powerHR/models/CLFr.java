@@ -104,5 +104,12 @@ public class CLFr {
     public String toString() {
         return nom + " | " + matriculeFiscale + " | " + adresse + " | " + numTel + " | " + type;
     }
+    public CLFr(String nom, String matriculeFiscale, String adresse, String numTel, String type) {
+        this.nom = nom;
+        this.matriculeFiscale = matriculeFiscale;
+        this.adresse = adresse;
+        this.numTel = numTel;
+        this.type = type;
+    }
 
 }

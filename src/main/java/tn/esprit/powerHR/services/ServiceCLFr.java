@@ -85,4 +85,16 @@ public class ServiceCLFr implements IService<CLFr> {
         }
         return clfrs;
     }
+    public int countByType(String type) throws SQLException {
+        String query = "SELECT COUNT(*) FROM clfr WHERE type = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, type);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
 }
+

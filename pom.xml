@@ -42,8 +42,25 @@
             <artifactId>protobuf-java</artifactId>
             <version>3.21.9</version>
         </dependency>
+        <dependency>
+            <groupId>com.textrazor</groupId>
+            <artifactId>textrazor</artifactId>
+            <version>1.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>emoji-java</artifactId>
+            <version>5.1.1</version>
+        </dependency>
+
+
     </dependencies>
     <repositories>
+        <repository>
+            <id>openjfx</id>
+            <url>https://maven.openjfx.io</url>
+
+        </repository>
         <repository>
             <id>openjfx</id>
             <url>https://maven.openjfx.io</url>
