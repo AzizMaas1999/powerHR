@@ -1,0 +1,128 @@
+PowerHR Project Folder Structure and Purpose
+==========================================
+
+Project Root: src/main/
+----------------------
+
+1. java/tn/esprit/powerHr/
+---------------------------
+
+controllers/
+- Purpose: Handles UI logic and user interactions
+- Contains:
+  * MainController.java        - Main window navigation
+  * EntrepriseController.java  - Enterprise management UI
+  * DepartementController.java - Department management UI
+- Responsibilities:
+  * Manages user interface logic
+  * Handles user input and events
+  * Updates views based on model changes
+  * Coordinates between UI and services
+
+entities/
+- Purpose: Data models/objects
+- Contains:
+  * Entreprise.java   - Enterprise entity class
+  * Departement.java  - Department entity class
+- Responsibilities:
+  * Contains data model classes
+  * Defines object structures
+  * Represents database tables
+  * Holds getters/setters for properties
+
+interfaces/
+- Purpose: Defines contracts for services
+- Contains:
+  * IService.java      - Generic service interface
+  * IEntreprise.java  - Enterprise operations contract
+  * IDepartement.java - Department operations contract
+- Responsibilities:
+  * Defines contracts for services
+  * Ensures consistent implementation
+  * Enables loose coupling
+  * Facilitates maintainability
+
+services/
+- Purpose: Business logic and database operations
+- Contains:
+  * EntrepriseService.java  - Enterprise CRUD operations
+  * DepartementService.java - Department CRUD operations
+- Responsibilities:
+  * Implements business logic
+  * Handles database operations
+  * Processes data
+  * Implements interface contracts
+
+utils/
+- Purpose: Utility classes
+- Contains:
+  * MyDataBase.java - Database connection manager
+- Responsibilities:
+  * Contains utility classes
+  * Manages database connections
+  * Provides helper functions
+  * Handles common operations
+
+Root Java Files:
+- Main.java    - Console application entry point
+- MainFX.java  - JavaFX application entry point
+
+2. resources/
+------------
+
+fxml/
+- Purpose: JavaFX UI layout files
+- Contains:
+  * MainView.fxml
+  * EntrepriseView.fxml
+  * DepartementView.fxml
+- Responsibilities:
+  * Stores UI layout files
+  * Defines view structures
+  * Contains FXML declarations
+  * Links to controllers
+
+styles/
+- Purpose: CSS styling files
+- Contains:
+  * main.css
+- Responsibilities:
+  * Contains CSS styling
+  * Defines visual appearance
+  * Manages themes
+  * Controls UI component looks
+
+Assets:
+- LOGO.jpeg - Application images and assets
+
+Architecture Principles
+---------------------
+1. MVC Pattern (Model-View-Controller)
+   - Models: entities/
+   - Views: resources/fxml/
+   - Controllers: controllers/
+
+2. Separation of Concerns
+   - UI logic in controllers
+   - Business logic in services
+   - Data models in entities
+   - Database operations in utils
+
+3. Modular Design
+   - Independent modules
+   - Clear responsibilities
+   - Easy maintenance
+   - Scalable structure
+
+4. Clean Architecture
+   - Clear dependencies
+   - Loose coupling
+   - High cohesion
+   - Easy testing
+
+Usage Notes
+----------
+1. Follow package naming conventions
+2. Maintain folder structure when adding new features
+3. Keep related files in appropriate folders
+4. Update documentation when adding new components 
