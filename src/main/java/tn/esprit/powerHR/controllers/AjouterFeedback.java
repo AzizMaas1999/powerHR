@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.models.Feedback;
@@ -128,15 +127,9 @@ public class AjouterFeedback {
             UpdateFeedback controller = loader.getController();
             controller.initData(selected, this);
 
-            // Créer une nouvelle fenêtre modale
-            Stage dialogStage = new Stage();
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-            dialogStage.setScene(new Scene(root));
-            dialogStage.setTitle("Modifier Feedback");
-            dialogStage.showAndWait();
-
-            refreshListView(); // Rafraîchir après fermetur
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Une erreur est survenue lors de la navigation.");
