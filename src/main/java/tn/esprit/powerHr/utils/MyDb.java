@@ -1,20 +1,42 @@
+
 package tn.esprit.powerHR.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
+<<<<<<< HEAD:src/main/java/tn/esprit/powerHr/utils/MyDataBase.java
+public class MyDataBase {
+
+    private Connection cnx;
+
+    private static MyDataBase instance;
+
+    private final String URL = "jdbc:mysql://localhost:3306/powerhr";
+=======
 public class MyDb {
     private static MyDb instance;
     private static Connection connection;
     
     private final String URL = "jdbc:mysql://127.0.0.1:3306/maha2";
+>>>>>>> maha3:src/main/java/tn/esprit/powerHr/utils/MyDb.java
     private final String USERNAME = "root";
     private final String PASSWORD = "";
 
     private MyDb() {
         try {
+<<<<<<< HEAD:src/main/java/tn/esprit/powerHr/utils/MyDataBase.java
+            cnx = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            System.out.println("Connecting !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public static MyDataBase getInstance() {
+        if(instance == null)
+            instance = new MyDataBase();
+=======
             // Establish connection
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("Connected to Database Successfully!");
@@ -64,10 +86,11 @@ public class MyDb {
         if(instance == null) {
             instance = new MyDb();
         }
+>>>>>>> maha3:src/main/java/tn/esprit/powerHr/utils/MyDb.java
         return instance;
     }
 
     public Connection getCnx() {
-        return connection;
+        return cnx;
     }
 }
