@@ -9,6 +9,7 @@ public class RepQuestionnaire {
     private Employe employe;
     private Questionnaire questionnaire;
 
+
     public RepQuestionnaire(int id,Date dateCreation,  String reponse, Employe employe ,Questionnaire questionnaire) {
         this.id = id;
         this.dateCreation = dateCreation;

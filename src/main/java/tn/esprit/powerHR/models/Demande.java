@@ -1,5 +1,7 @@
 package tn.esprit.powerHR.models;
 
+import javafx.collections.ObservableArray;
+
 import java.sql.Date;
 
 public class Demande {

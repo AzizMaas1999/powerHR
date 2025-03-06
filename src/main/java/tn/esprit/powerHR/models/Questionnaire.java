@@ -10,6 +10,8 @@ public class Questionnaire {
     private String objet;
     private String description;
     private List<RepQuestionnaire> reponses;
+    private Employe employe;
+
 
     public Questionnaire(int id, Date dateCreation, String objet, String description, List<RepQuestionnaire> reponses) {
         this.id = id;
@@ -60,6 +62,13 @@ public class Questionnaire {
     public void setReponses(List<RepQuestionnaire> reponses) {
         this.reponses = reponses;
     }
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
 
     @Override
     public String toString() {
@@ -69,6 +78,7 @@ public class Questionnaire {
                 ", objet='" + objet + '\'' +
                 ", description='" + description + '\'' +
                 ", reponses=" + reponses +
+                ", employe=" + employe +
                 '}';
     }
 }

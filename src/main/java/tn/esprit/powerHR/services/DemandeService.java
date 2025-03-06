@@ -19,24 +19,25 @@ public class DemandeService implements IService<Demande> {
 
     @Override
     public void add(Demande d) {
+        String req = "INSERT INTO demande (dateCreation, type, dateDebut, dateFin, salaire, cause, status, employe_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            String req = "INSERT INTO demande (dateCreation, type, dateDebut, dateFin, salaire, cause, status, employe_id) VALUES ('"
-                    + d.getDateCreation() + "', '"
-                    + d.getType() + "', '"
-                    + d.getDateDebut() + "', '"
-                    + d.getDateFin() + "', "
-                    + d.getSalaire() + ", '"
-                    + d.getCause() + "', '"
-                    + d.getStatus() + "', "
-                    + d.getEmploye().getId() + ")";
+            PreparedStatement pstm = cnx.prepareStatement(req);
+            pstm.setDate(1, d.getDateCreation());
+            pstm.setString(2, d.getType());
+            pstm.setDate(3, d.getDateDebut());
+            pstm.setDate(4, d.getDateFin());
+            pstm.setDouble(5, d.getSalaire());
+            pstm.setString(6, d.getCause());
+            pstm.setString(7, d.getStatus());
+            pstm.setInt(8, d.getEmploye().getId());
 
-            Statement st = cnx.createStatement();
-            st.executeUpdate(req);
+            pstm.executeUpdate();
             System.out.println("Demande de congé ajoutée avec succès !");
         } catch (SQLException ex) {
             System.out.println("Erreur lors de l'ajout : " + ex.getMessage());
         }
     }
+
 
 
     @Override
@@ -83,6 +84,7 @@ public class DemandeService implements IService<Demande> {
             String req = "SELECT * FROM demande";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
+            ServiceEmploye se = new ServiceEmploye();
 
             while (rs.next()) {
                 Demande d = new Demande();
@@ -94,11 +96,11 @@ public class DemandeService implements IService<Demande> {
                 d.setSalaire(rs.getFloat("salaire"));
                 d.setCause(rs.getString("cause"));
                 d.setStatus(rs.getString("status"));
-                Employe e = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null,null,null,null,null,null);
-                d.setEmploye(e);
+//                Employe e = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null,null,null,null,null,null);
+                d.setEmploye(se.getById(rs.getInt("employe_id")));
                 liste.add(d);
             }
-            System.out.println("Récupération des demandes de congé (type 'Conges') réussie !");
+            System.out.println("Récupération des demandes  réussie !");
         } catch (SQLException ex) {
             System.out.println("Erreur lors de la récupération : " + ex.getMessage());
         }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" prefHeight="760.0" prefWidth="1131.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.ListeRepQuestController">   <children>
+    <ListView fx:id="id_listeview" layoutX="340.0" layoutY="176.0" prefHeight="452.0" prefWidth="593.0" />
+    <Label layoutX="340.0" layoutY="143.0" prefHeight="33.0" prefWidth="593.0" style="-fx-font-weight: bold; -fx-background-color: lightgrey; -fx-padding: 7px;" text="            Date Création                  |                   Reponses                 |           Employe   ">
+        <font>
+            <Font size="13.0" />
+        </font></Label>
+    <AnchorPane layoutY="6.0" prefHeight="755.0" prefWidth="220.0" style="-fx-background-color: #3498DB;" />
+    <AnchorPane prefHeight="71.0" prefWidth="1131.0" style="-fx-background-color: #2C3E50;">
+         <children>
+            <TextField fx:id="tf_Re" layoutX="931.0" layoutY="23.0" onKeyPressed="#recherche" promptText="Recherche" />
+         </children></AnchorPane>
+    <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
+        <image>
+            <Image url="@images/Logo.png" />
+        </image>
+    </ImageView>
+    <ImageView fx:id="btt_back" accessibleRole="BUTTON" fitHeight="24.0" fitWidth="36.0" layoutX="8.0" layoutY="18.0" onMouseClicked="#Retour" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@images/backIcon.png" />
+        </image>
+    </ImageView>
+</children>
+</AnchorPane>

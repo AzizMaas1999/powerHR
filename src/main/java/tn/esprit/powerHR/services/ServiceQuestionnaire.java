@@ -1,6 +1,7 @@
 package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
+import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.Questionnaire;
 import tn.esprit.powerHR.utils.MyDataBase;
 
@@ -18,12 +19,14 @@ public class ServiceQuestionnaire implements IService<Questionnaire> {
 
     @Override
     public void add(Questionnaire questionnaire) {
-        String qry = "INSERT INTO questionnaire (dateCreation, objet, description) VALUES (?, ?, ?)";
+        String qry = "INSERT INTO questionnaire (dateCreation, objet, description,employe_id) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement pstm = cnx.prepareStatement(qry);
             pstm.setDate(1,questionnaire.getDateCreation());
             pstm.setString(2, questionnaire.getObjet());
             pstm.setString(3, questionnaire.getDescription());
+            pstm.setInt(4, questionnaire.getEmploye().getId());
+
 
             pstm.executeUpdate();
             System.out.println("Questionnaire ajouté avec succès !");
@@ -40,6 +43,7 @@ public class ServiceQuestionnaire implements IService<Questionnaire> {
         try {
             Statement stm = cnx.createStatement();
             ResultSet rs = stm.executeQuery(qry);
+            ServiceEmploye se = new ServiceEmploye();
 
             while (rs.next()) {
                 Questionnaire questionnaire = new Questionnaire();
@@ -48,6 +52,8 @@ public class ServiceQuestionnaire implements IService<Questionnaire> {
                 questionnaire.setObjet(rs.getString("objet"));
                 questionnaire.setDescription(rs.getString("description"));
 
+                Employe employe = se.getById(rs.getInt("employe_id"));
+                questionnaire.setEmploye(employe);
                 questionnaireList.add(questionnaire);
             }
         } catch (SQLException e) {

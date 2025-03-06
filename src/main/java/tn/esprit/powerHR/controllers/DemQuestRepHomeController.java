@@ -99,7 +99,7 @@ public class DemQuestRepHomeController {
     @FXML
     void RepNav(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/AjoutRepQ.fxml"));
+                getClass().getResource("/listequest.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);

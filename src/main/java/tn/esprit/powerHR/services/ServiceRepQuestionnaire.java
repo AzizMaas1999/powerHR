@@ -43,6 +43,7 @@ public class ServiceRepQuestionnaire implements IService<RepQuestionnaire> {
         try {
             Statement stm = cnx.createStatement();
             ResultSet rs = stm.executeQuery(qry);
+            ServiceEmploye se = new ServiceEmploye();
 
             while (rs.next()) {
                 RepQuestionnaire rep = new RepQuestionnaire();
@@ -50,7 +51,7 @@ public class ServiceRepQuestionnaire implements IService<RepQuestionnaire> {
                 rep.setDateCreation(rs.getDate("dateCreation"));
                 rep.setReponse(rs.getString("reponse"));
 
-                Employe employe = new Employe(rs.getInt("employe_id"),null,null,null,null,null,null,null,null,null,null,null);
+                Employe employe = se.getById(rs.getInt("employe_id"));
                 rep.setEmploye(employe);
 
                 Questionnaire questionnaire = new Questionnaire(rs.getInt("questionnaire_id"), null, null, null, null);

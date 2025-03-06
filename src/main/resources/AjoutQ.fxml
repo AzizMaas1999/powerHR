@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="480.0" prefWidth="891.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.AjoutQ">
-    <Button fx:id="bt_submit" layoutX="292.0" layoutY="310.0" mnemonicParsing="false" onAction="#AjouterQuestionnaire" style="-fx-background-color: #56aeff;" text="Ajouter" textFill="WHITE">
-        <font>
-            <Font name="Arial Narrow" size="14.0" />
-        </font></Button>
-    <AnchorPane prefHeight="17.0" prefWidth="892.0" style="-fx-background-color: #292e30;">
+<AnchorPane fx:id="mainePane" prefHeight="845.0" prefWidth="1310.0" style="-fx-background-color: linear-gradient(to right, #ECE9E6, #FFFFFF);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.AjoutQ">
+
+    <!-- Header -->
+    <AnchorPane layoutY="-1.0" prefHeight="71.0" prefWidth="1310.0" style="-fx-background-color: #2C3E50;">
+      <children>
+         <TextField fx:id="tf_rech" layoutX="1079.0" layoutY="17.0" onAction="#rechercheQues" prefHeight="31.0" prefWidth="149.0" promptText="Recherche" />
+      </children></AnchorPane>
+
+    <!-- Sidebar -->
+    <AnchorPane layoutY="70.0" prefHeight="814.0" prefWidth="220.0" style="-fx-background-color: #3498DB;">
         <children>
-            <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
-                <image>
-                    <Image url="@images/Logo.png" />
-                </image>
-            </ImageView>
-        </children></AnchorPane>
-    <AnchorPane layoutY="60.0" prefHeight="422.0" prefWidth="198.0" style="-fx-background-color: #56aeff;">
-        <children>
-            <Button fx:id="bt_ajouterQuestionnaire" layoutX="4.0" layoutY="6.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Ajouter Questionnaire" textFill="WHITE">
-                <font>
-                    <Font name="Arial Narrow" size="14.0" />
-                </font>
-            </Button>
-            <Button fx:id="bt_modiferquestionnaire" layoutX="4.0" layoutY="58.0" mnemonicParsing="false" onAction="#NavigateModif" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Modifier Questionnaire" textFill="WHITE">
-                <font>
-                    <Font name="Arial Narrow" size="14.0" />
-                </font>
-            </Button>
-            <Button fx:id="bt_supppquestionnaire" layoutX="4.0" layoutY="110.0" mnemonicParsing="false" onAction="#Supp" prefHeight="39.0" prefWidth="189.0" style="-fx-background-color: #56aeff; -fx-border-color: #292e30; -fx-border-radius: 5;" text="Supprimer Questionnaire" textFill="WHITE">
-                <font>
-                    <Font name="Arial Narrow" size="14.0" />
-                </font>
-            </Button>
+            <Button fx:id="bt_ajouterQuestionnaire" layoutX="15.0" layoutY="141.0" onAction="#AjouterQuestionnaire" prefHeight="46.0" prefWidth="190.0" text="➕ Ajouter Questionnaire" />
+            <Button fx:id="bt_modiferquestionnaire" layoutX="15.0" layoutY="237.0" onAction="#NavigateModif" prefHeight="46.0" prefWidth="190.0" text="✏ Modifier Questionnaire" />
+            <Button fx:id="bt_supppquestionnaire" layoutX="15.0" layoutY="333.0" onAction="#Supp" prefHeight="46.0" prefWidth="190.0" text="❌ Supprimer Questionnaire" />
         </children>
     </AnchorPane>
-    <DatePicker fx:id="dc_date" layoutX="245.0" layoutY="130.0" prefHeight="33.0" prefWidth="150.0" promptText="Date Creation" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-    <ListView fx:id="lv_ajoutQ" layoutX="529.0" layoutY="122.0" prefHeight="228.0" prefWidth="281.0" />
-    <TextField fx:id="tf_desc" layoutX="244.0" layoutY="236.0" prefHeight="61.0" prefWidth="151.0" promptText="Description" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
-   <TextField fx:id="tf_Objet" layoutX="244.0" layoutY="175.0" prefHeight="49.0" prefWidth="151.0" promptText="Objet" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
+
+    <!-- Form Content -->
+    <AnchorPane layoutX="235.0" layoutY="88.0" prefHeight="784.0" prefWidth="1047.0">
+        <children>
+            <Label layoutX="162.0" layoutY="135.0" text="📂 Objet" />
+            <Label layoutX="167.0" layoutY="14.0" text="💬 Description" />
+            <Label layoutX="184.0" layoutY="412.0" text="📋 Liste des Questions" />
+            <TextField fx:id="tf_Objet" layoutX="158.0" layoutY="31.0" prefHeight="95.0" prefWidth="617.0" />
+            <TextField fx:id="tf_desc" layoutX="158.0" layoutY="152.0" prefHeight="109.0" prefWidth="617.0" />
+
+            <!-- Liste des Questions -->
+            <ListView fx:id="lv_ajoutQ" layoutX="181.0" layoutY="466.0" prefHeight="304.0" prefWidth="617.0" />
+            <Label layoutX="181.0" layoutY="435.0" prefHeight="31.0" prefWidth="617.0" style="-fx-font-weight: bold; -fx-background-color: lightgrey; -fx-padding: 7px;" text="   Date Création                  |                Objet                   |                Description        |             Employe     " />
+
+            <!-- Bouton Ajouter -->
+            <Button fx:id="bt_submit" layoutX="394.0" layoutY="372.0" onAction="#AjouterQuestionnaire" prefHeight="40.0" prefWidth="162.0" text="✅ Ajouter" />
+         <ComboBox fx:id="cb_emp" layoutX="350.0" layoutY="290.0" prefHeight="40.0" prefWidth="275.0" />
+        </children>
+    </AnchorPane>
+
+    <!-- Logo -->
+    <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
+        <image>
+            <Image url="@images/Logo.png" />
+        </image>
+    </ImageView>
+    <ImageView fx:id="bt_back" accessibleRole="BUTTON" fitHeight="24.0" fitWidth="36.0" layoutX="8.0" layoutY="18.0" onMouseClicked="#Retour" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@images/backIcon.png" />
+        </image>
+    </ImageView>
+
 </AnchorPane>

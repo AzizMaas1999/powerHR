@@ -1,23 +1,32 @@
 package tn.esprit.powerHR.controllers;
+import javafx.collections.ObservableArray;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.Demande;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.services.DemandeService;
+import tn.esprit.powerHR.services.ServiceEmploye;
 
+import javax.swing.text.html.ImageView;
+import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AjoutController {
 
@@ -33,16 +42,12 @@ public class AjoutController {
     @FXML
     private Button bt_suppdemande;
 
-    @FXML
-    private ComboBox<String> cb_status;
-
 
     @FXML
     private ComboBox<String> cb_type;
 
-
     @FXML
-    private DatePicker dc_date;
+    private TextField re_id;
 
     @FXML
     private DatePicker dd_date;
@@ -52,120 +57,196 @@ public class AjoutController {
 
     @FXML
     private ListView<Demande> lv_demande;
-
+    private  DemandeService ds = new DemandeService();
+    private ServiceEmploye empService = new ServiceEmploye();
     @FXML
     private TextField tf_cause;
 
     @FXML
     private TextField tf_salaire;
 
+
+    @FXML
+    private AnchorPane mainPane;
+
+    @FXML
+    private Button bt_api;
+
+
     private Demande p;
 
     public void setListDemande(Demande p) {
         this.p = p;
-        System.out.println("Received Id: " + p); // Debugging
+        System.out.println("Received Id: " + p);
     }
 
     public Demande getListDemande() {
         return p;
     }
-
-
     @FXML
     public void initialize() {
+        loadDemandes();
+        cb_type.setItems(FXCollections.observableArrayList("Augmentation Salaire", "Conges"));
 
-        ObservableList<String> modes = FXCollections.observableArrayList("Augmentation Salaire",
-                "Conges"
-        );
-        cb_type.setItems(modes);
+        // Ajouter un écouteur pour détecter le changement de type
+        cb_type.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if ("Conges".equals(newValue)) {
+                bt_api.setVisible(true);
+            } else {
+                bt_api.setVisible(false);
+            }
+        });
 
-        ObservableList<String> mode = FXCollections.observableArrayList("Valider",
-                "En Attente", "Refuser"
-        );
-        cb_status.setItems(mode);
+        // Cacher le bouton API par défaut
+        bt_api.setVisible(false);
+    }
 
-        DemandeService ds = new DemandeService();
+    void loadDemandes() {
         try {
-            List<Demande> list = ds.getAll();
-            ObservableList<Demande> observableList = FXCollections.observableList(list);
+            DemandeService ds = new DemandeService();
+            List<Demande> demandes = ds.getAll();
+
+            List<Demande> demandesFiltrees = new ArrayList<>();
+            for (Demande d : demandes) {
+                if (d.getEmploye().getId() == 2) {
+                    demandesFiltrees.add(d);
+                }
+            }
+
+            // Mettre à jour la ListView avec la liste filtrée
+            ObservableList<Demande> observableList = FXCollections.observableArrayList(demandesFiltrees);
             lv_demande.setItems(observableList);
+
+            // Définition de l'affichage personnalisé pour chaque demande
+            lv_demande.setCellFactory(param -> new ListCell<Demande>() {
+                @Override
+                protected void updateItem(Demande item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        HBox hbox = new HBox();
+                        hbox.setSpacing(10);
+
+                        Text dateCreation = new Text(item.getDateCreation().toString());
+                        Text dateDebut = new Text(item.getDateDebut() != null ? item.getDateDebut().toString() : "N/A");
+                        Text dateFin = new Text(item.getDateFin() != null ? item.getDateFin().toString() : "N/A");
+                        Text salaire = new Text(String.valueOf(item.getSalaire()));
+                        Text status = new Text(item.getStatus());
+                        Text type = new Text(item.getType());
+                        Text cause = new Text(item.getCause());
+                        Text employe = new Text(empService.getById(item.getEmploye().getId()).getUsername());
+
+                        dateCreation.setWrappingWidth(130);
+                        dateDebut.setWrappingWidth(120);
+                        dateFin.setWrappingWidth(130);
+                        salaire.setWrappingWidth(100);
+                        status.setWrappingWidth(100);
+                        type.setWrappingWidth(130);
+                        cause.setWrappingWidth(120);
+                        employe.setWrappingWidth(120);
+
+                        hbox.getChildren().addAll(dateCreation, dateDebut, dateFin, salaire, status, type, cause, employe);
+                        setGraphic(hbox);
+                    }
+                }
+            });
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur chargement des demandes : " + e.getMessage());
         }
     }
 
+
+
     @FXML
     void AjouterDemande(ActionEvent event) {
-
-        if (dc_date.getValue() == null || dd_date.getValue() == null || df_date.getValue() == null) {
-            System.out.println("Erreur : Toutes les dates doivent être renseignées !");
-            return;
-        }
-
-        if (cb_type.getValue().isEmpty()) {
-            System.out.println("Erreur : Le type de demande doit être sélectionné !");
-            return;
-        }
-
-        if (tf_salaire.getText().isEmpty()) {
-            System.out.println("Erreur : Le champ salaire ne peut pas être vide !");
-            return;
-        }
-
-        try {
-            Float.parseFloat(tf_salaire.getText());
-        } catch (NumberFormatException e) {
-            System.out.println("Erreur : Veuillez entrer un nombre valide pour le salaire !");
-            return;
-        }
-
-        if (tf_cause.getText().isEmpty()) {
-            System.out.println("Erreur : Le champ cause ne peut pas être vide !");
-            return;
-        }
-
-        if (cb_status.getValue().isEmpty()) {
-            System.out.println("Erreur : Le statut de la demande doit être sélectionné !");
-            return;
-        }
-
-
         DemandeService ds = new DemandeService();
         Demande d = new Demande();
-        d.setDateCreation(Date.valueOf(dc_date.getValue()));
-        d.setType(cb_type.getValue());
-        d.setDateDebut(Date.valueOf(dd_date.getValue()));
-        d.setDateFin(Date.valueOf(df_date.getValue()));
-        d.setSalaire(Float.parseFloat(tf_salaire.getText()));
-        d.setCause(tf_cause.getText());
-        d.setStatus(cb_status.getValue());
 
-        Employe employe = new Employe(2, "fdkbgkndfg", "fdkbgkndfg", "chargesRH", 445.2, "123456789125", "fdkbgkndfg");
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        d.setDateCreation(Date.valueOf(LocalDate.now()));
+
+        d.setType(cb_type.getValue());
+        LocalDate today = LocalDate.now();
+        if (dd_date.getValue() != null) {
+            if (dd_date.getValue().isBefore(today)) {
+
+
+                alert.setTitle("Date invalide");
+                alert.setHeaderText("Erreur de sélection de date");
+                alert.setContentText("Impossible de choisir une date antérieure à aujourd'hui !");
+                alert.showAndWait();
+                return;
+            }
+            d.setDateDebut(Date.valueOf(dd_date.getValue()));
+
+        } else {
+            d.setDateDebut(null);}
+
+        if (df_date.getValue() != null) {
+            d.setDateFin(Date.valueOf(df_date.getValue()));
+        } else {
+
+            d.setDateFin(null);
+        }
+        String cause = tf_cause.getText().trim();
+        if (cause.length() < 15) {
+            alert.setContentText( "La cause doit contenir au moins 15 caractères !");
+            alert.showAndWait();
+
+            return;
+        }
+        d.setCause(cause);
+
+        d.setStatus("En Attente");
+
+
+        String salaireText = tf_salaire.getText();
+        float salaire = 0.0f;
+        if (!salaireText.isEmpty()) {
+            salaire = Float.parseFloat(salaireText);
+        }
+        d.setSalaire(salaire);
+
+
+        Employe employe = new Employe(2, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
         d.setEmploye(employe);
 
         try {
             ds.add(d);
             initialize();
+            dd_date.setValue(null);
+            df_date.setValue(null);
+
+
+            Alert alerts = new Alert(Alert.AlertType.INFORMATION);
+            alerts.setTitle("Demande ajoutée");
+            alerts.setHeaderText(null);
+            alerts.setContentText("Votre demande a été ajoutée avec succès !");
+            alerts.showAndWait();
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur lors de l'ajout de la demande : " + e.getMessage());
         }
     }
 
+
     @FXML
     void NavigateModif(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/ModifD.fxml"));
         try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Modifier Demande");
-            Stage.setScene(scene);
-            Stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+            // Load the addEmploye.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifD.fxml"));
+            Parent addEmployeView = loader.load();
 
+            // Replace the current content of the mainPane with the addEmployeView
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 
@@ -178,6 +259,55 @@ public class AjoutController {
             initialize();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    void searchDemande(KeyEvent event) {
+
+        try {
+            List<Demande> list = ds.getAll();
+            ObservableList<Demande> observableList = FXCollections.observableArrayList(list);
+            ObservableList<Demande> observableList1 = FXCollections.observableArrayList();
+
+            for (Demande d : observableList) {
+                if (d.getType().contains(re_id.getText())) {
+                    observableList1.add(d);
+                }
+            }
+            lv_demande.setItems(observableList1);
+
+        } catch (Exception e) {
+            System.out.println("Erreur chargement des demandes : " + e.getMessage());
+        }
+    }
+
+    public void Retour(MouseEvent mouseEvent) {
+        try {
+            // Load the addEmploye.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemQuestRepHome.fxml"));
+            Parent addEmployeView = loader.load();
+
+            // Replace the current content of the mainPane with the addEmployeView
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void BTAPI(MouseEvent event) {
+        try {
+            // Load the addEmploye.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tr.fxml"));
+            Parent addEmployeView = loader.load();
+
+            // Replace the current content of the mainPane with the addEmployeView
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

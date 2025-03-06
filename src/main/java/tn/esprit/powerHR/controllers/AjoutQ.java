@@ -7,19 +7,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.Demande;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.Questionnaire;
-import tn.esprit.powerHR.services.DemandeService;
+import tn.esprit.powerHR.services.ServiceEmploye;
 import tn.esprit.powerHR.services.ServiceQuestionnaire;
 
+import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+
 
 public class AjoutQ {
 
@@ -45,46 +51,79 @@ public class AjoutQ {
     private TextField tf_Objet;
 
     @FXML
+    private AnchorPane mainePane;
+
+    @FXML
+    private ComboBox<Employe> cb_emp;
+
+    @FXML
+    private TextField tf_rech;
+
+    @FXML
     private TextField tf_desc;
 
-    private Questionnaire q;
-
-    public void setListquestionnaire(Questionnaire q) {
-        this.q = q;
-        System.out.println("Received Id: " + q);
-    }
-
-    public Questionnaire getListquestionnaire() {
-        return q;
-    }
+    private ServiceQuestionnaire sq = new ServiceQuestionnaire();
+    private ObservableList<Questionnaire> listQuestionnaires;
+    private Questionnaire selectedQuestionnaire;
 
     public void initialize() {
-        ServiceQuestionnaire sq = new ServiceQuestionnaire();
+        loadQuestionnaires();
+        ServiceEmploye se = new ServiceEmploye();
+        List<Employe> employes = se.getAll().stream().toList();
+        cb_emp.setItems(FXCollections.observableArrayList(employes));
+    }
+
+    void loadQuestionnaires() {
         try {
-            List<Questionnaire> list = sq.getAll();
-            ObservableList<Questionnaire> observableList = FXCollections.observableList(list);
-            lv_ajoutQ.setItems(observableList);
-        } catch (Exception e ) {
+            List<Questionnaire> questionnaires = sq.getAll();
+            listQuestionnaires = FXCollections.observableArrayList(questionnaires);
+            lv_ajoutQ.setItems(listQuestionnaires);
+
+            lv_ajoutQ.setCellFactory(param -> new ListCell<Questionnaire>() {
+                @Override
+                protected void updateItem(Questionnaire questionnaire, boolean empty) {
+                    super.updateItem(questionnaire, empty);
+
+                    if (empty || questionnaire == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        HBox hbox = new HBox();
+                        hbox.setSpacing(15); // Augmenter l'espace entre les éléments
+
+                        Text objet = new Text(questionnaire.getObjet());
+                        Text description = new Text(questionnaire.getDescription());
+                        Text dateCreation = new Text(questionnaire.getDateCreation().toString());
+                        Text employe = new Text(questionnaire.getEmploye().getUsername());
+
+                        // Augmenter la largeur pour éviter les coupures
+                        objet.setWrappingWidth(130);
+                        description.setWrappingWidth(160);
+                        dateCreation.setWrappingWidth(170);
+
+                        hbox.getChildren().addAll(dateCreation,objet, description,employe);
+                        setGraphic(hbox);
+                    }
+                }
+            });
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }}
+        }
+    }
 
     @FXML
     void AjouterQuestionnaire(ActionEvent event) {
 
-        if (dc_date.getValue() == null || tf_Objet.getText().isEmpty() || tf_desc.getText().isEmpty()) {
-            System.out.println("Veuillez remplir tous les champs !");
-            return;
-        }
-
-        ServiceQuestionnaire sq = new ServiceQuestionnaire();
         Questionnaire q = new Questionnaire();
-        q.setDateCreation(Date.valueOf(dc_date.getValue()));
+        q.setDateCreation(Date.valueOf(LocalDate.now()));
         q.setObjet(tf_Objet.getText());
         q.setDescription(tf_desc.getText());
+        q.setEmploye(cb_emp.getSelectionModel().getSelectedItem());
 
         try {
             sq.add(q);
-            initialize();
+            loadQuestionnaires();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -92,29 +131,64 @@ public class AjoutQ {
 
     @FXML
     void NavigateModif(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/ModifQ.fxml"));
         try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Modifier Questionnaire");
-            Stage.setScene(scene);
-            Stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }}
-        @FXML
-        void Supp(ActionEvent event){
-            setListquestionnaire(lv_ajoutQ.getSelectionModel().getSelectedItem());
-            ServiceQuestionnaire ps = new ServiceQuestionnaire();
-            try {
-                ps.delete(getListquestionnaire());
-                initialize();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            // Load the addEmploye.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifQ.fxml"));
+            Parent addEmployeView = loader.load();
+
+            // Replace the current content of the mainPane with the addEmployeView
+            mainePane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    @FXML
+    void Supp(ActionEvent event) {
+        selectedQuestionnaire = lv_ajoutQ.getSelectionModel().getSelectedItem();
+        if (selectedQuestionnaire == null) {
+            System.out.println("Veuillez sélectionner un questionnaire !");
+            return;
+        }
+
+        try {
+            sq.delete(selectedQuestionnaire);
+            loadQuestionnaires();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void Retour(MouseEvent mouseEvent) {
+        try {
+            // Load the addEmploye.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemQuestRepHome.fxml"));
+            Parent addEmployeView = loader.load();
+
+            // Replace the current content of the mainPane with the addEmployeView
+            mainePane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void rechercheQues(ActionEvent event) {
+        try {
+            List<Questionnaire> list = sq.getAll();
+            ObservableList<Questionnaire> observableList = FXCollections.observableArrayList(list);
+            ObservableList<Questionnaire> observableList1 = FXCollections.observableArrayList();
+
+            for (Questionnaire q : observableList) {
+                if (q.getEmploye().getUsername().contains(tf_rech.getText())) {
+                    observableList1.add(q);
+                }
+            }
+            lv_ajoutQ.setItems(observableList1);
+
+        } catch (Exception e) {
+            System.out.println("Erreur chargement des demandes : " + e.getMessage());
+        }
+
+    }
 }
-
-

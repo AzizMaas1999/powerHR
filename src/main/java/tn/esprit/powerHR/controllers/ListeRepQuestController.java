@@ -2,12 +2,14 @@ package tn.esprit.powerHR.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -15,38 +17,30 @@ import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.Questionnaire;
 import tn.esprit.powerHR.models.RepQuestionnaire;
+import tn.esprit.powerHR.services.ServiceEmploye;
+import tn.esprit.powerHR.services.ServiceQuestionnaire;
+import javafx.scene.input.MouseEvent;
 import tn.esprit.powerHR.services.ServiceRepQuestionnaire;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
-public class AjoutRepQ {
+public class ListeRepQuestController {
 
     @FXML
-    private Button bt_submit;
-
-    @FXML
-    private Label lb_date;
-
-    @FXML
-    private Label lb_desc;
-
-    @FXML
-    private Label lb_obj;
+    private ListView<RepQuestionnaire> id_listeview;
 
     @FXML
     private AnchorPane mainPane;
- @FXML
-    private ListView<RepQuestionnaire> id_listeview;
-
 
     @FXML
-    private TextField tf_Reponse;
+    private TextField tf_Re;
 
     private ServiceRepQuestionnaire sq = new ServiceRepQuestionnaire();
     private ObservableList<RepQuestionnaire> listRepQuestionnaires;
+       private ServiceEmploye empService = new ServiceEmploye();
+
 
 
     public void initialize() {
@@ -55,11 +49,9 @@ public class AjoutRepQ {
 
     void loadRepQuestionnaires() {
         try {
-            Employe employe = new Employe(3, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
 
-            List<RepQuestionnaire> RepQuest = sq.getAll().stream()
-                    .filter(e->e.getEmploye().getId() == employe.getId())
-                    .toList();
+            List<RepQuestionnaire> RepQuest = sq.getAll();
+
             listRepQuestionnaires = FXCollections.observableArrayList(RepQuest);
             id_listeview.setItems(listRepQuestionnaires);
 
@@ -77,12 +69,13 @@ public class AjoutRepQ {
 
                         Text reponse= new Text(repQuestionnaire.getReponse());
                         Text dateCreation = new Text(repQuestionnaire.getDateCreation().toString());
+                       Text employe = new Text(empService.getById(repQuestionnaire.getEmploye().getId()).getUsername());
 
                         reponse.setWrappingWidth(190);
 
-                        dateCreation.setWrappingWidth(300);
+                        dateCreation.setWrappingWidth(200);
 
-                        hbox.getChildren().addAll(dateCreation,reponse);
+                        hbox.getChildren().addAll(dateCreation,reponse,employe);
                         setGraphic(hbox);
 
                     }
@@ -91,34 +84,6 @@ public class AjoutRepQ {
         } catch (Exception e) {
             System.out.println("Erreur lors du chargement des questionnaires : " + e.getMessage());
         }
-    }
-
-    public void setLabel(Date date, String obj, String desc) {
-        lb_date.setText(String.valueOf(date));
-        lb_desc.setText(desc);
-        lb_obj.setText(obj);
-    }
-
-    @FXML
-    void AjouterReponse(ActionEvent event) {
-        ServiceRepQuestionnaire sq = new ServiceRepQuestionnaire();
-        RepQuestionnaire rq = new RepQuestionnaire();
-
-        rq.setDateCreation(Date.valueOf(LocalDate.now()));
-        rq.setReponse(tf_Reponse.getText());
-        Questionnaire questionnaire = new Questionnaire(1,null,null,null,null);
-        rq.setQuestionnaire(questionnaire);
-        Employe employe = new Employe(3, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null,null,null,null,null);
-
-        rq.setEmploye(employe);
-
-        try {
-            sq.add(rq);
-            initialize();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
     }
     public void Retour(MouseEvent mouseEvent) {
         try {
@@ -134,4 +99,24 @@ public class AjoutRepQ {
         }
     }
 
+
+     @FXML
+    void recherche(KeyEvent event) {
+
+        try {
+            List<RepQuestionnaire> list = sq.getAll();
+            ObservableList<RepQuestionnaire> observableList = FXCollections.observableArrayList(list);
+            ObservableList<RepQuestionnaire> observableList1 = FXCollections.observableArrayList();
+
+            for (RepQuestionnaire R : observableList) {
+                if (R.getEmploye().getUsername().contains(tf_Re.getText())) {
+                    observableList1.add(R);
+                }
+            }
+            id_listeview.setItems(observableList1);
+
+        } catch (Exception e) {
+            System.out.println("Erreur chargement des demandes : " + e.getMessage());
+        }
+    }
 }

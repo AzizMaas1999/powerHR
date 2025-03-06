@@ -1,12 +1,21 @@
 package tn.esprit.powerHR.test;
 
 import tn.esprit.powerHR.models.Employe;
+//import tn.esprit.powerHR.services.ApiService;
+import tn.esprit.powerHR.services.HolidayAPI;
 import tn.esprit.powerHR.utils.MyDataBase;
 import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.services.ServiceCLFr;
-import tn.esprit.powerHR.services.ServiceFeedback;
 
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.*;
+
+
 
 public class Main {
     public static void main(String[] args) {
@@ -55,5 +64,9 @@ public class Main {
 ////        serviceFeedback.delete(feedbackToUpdate);
 ////        System.out.println("Après suppression du feedback :");
 ////        serviceFeedback.getAll().forEach(System.out::println);
-    }
-    }
+
+//        Date dDebut = Date.valueOf("2025-01-22");
+//        Date dFin = Date.valueOf("2025-01-25");
+//        ApiService as = new ApiService();
+//        System.out.println(as.Response(dDebut,dFin));
+    }}
