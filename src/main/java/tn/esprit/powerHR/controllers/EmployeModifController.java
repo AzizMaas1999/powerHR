@@ -111,7 +111,7 @@ public class EmployeModifController {
     @FXML
     void NavAjout(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/Modif.fxml"));
+                getClass().getResource("/DemRepQuest/Modif.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);

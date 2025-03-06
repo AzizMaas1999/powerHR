@@ -64,7 +64,7 @@ public class EmployeFicheCandidatHomeController {
     @FXML
     void NavCandidat(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/AjoutCandidat.fxml"));
+                getClass().getResource("/DemRepQuest/AjoutCandidat.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -98,7 +98,7 @@ public class EmployeFicheCandidatHomeController {
     @FXML
     void NavFiche(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/AjoutFiche.fxml"));
+                getClass().getResource("/DemRepQuest/AjoutFiche.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);

@@ -1,6 +1,8 @@
 package tn.esprit.powerHR.models;
 
 import tn.esprit.powerHR.controllers.enums.Poste;
+import tn.esprit.powerHR.models.DemRepQuest.Demande;
+import tn.esprit.powerHR.models.DemRepQuest.RepQuestionnaire;
 
 import java.util.ArrayList;
 import java.util.List;
