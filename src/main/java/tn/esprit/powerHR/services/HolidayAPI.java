@@ -31,7 +31,7 @@ public class HolidayAPI {
 
             JsonNode holidays = new ObjectMapper().readTree(connection.getInputStream());
             holidays.forEach(holiday -> {
-                // Ajout des jours fériés à la liste
+
                 holidaysList.add(new Holiday(holiday.path("name").asText(), holiday.path("date").asText()));
             });
 
@@ -39,6 +39,6 @@ public class HolidayAPI {
             System.out.println("Erreur : " + e.getMessage());
         }
 
-        return holidaysList; // Retourner la liste des jours fériés
+        return holidaysList;
     }
 }

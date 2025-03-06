@@ -1,12 +1,13 @@
 package tn.esprit.powerHR.controllers;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import tn.esprit.powerHR.services.HolidayAPI;
 import tn.esprit.powerHR.models.Holiday;
+import javafx.collections.FXCollections;
+
 public class HolidayController {
 
     @FXML
@@ -18,27 +19,17 @@ public class HolidayController {
     @FXML
     private TableColumn<Holiday, String> dateColumn;
 
-
-    private ObservableList<Holiday> holidaysList = FXCollections.observableArrayList();
-
     public void initialize() {
-        // Initialisation des colonnes
+        // Associer les colonnes aux attributs de l'objet Holiday
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        // Charger les jours fériés au démarrage
+        // Charger et afficher les jours fériés
         loadHolidays();
     }
 
-
     private void loadHolidays() {
-
-
-        HolidayAPI holidayAPI = new HolidayAPI();
-        holidayAPI.getHolidays().forEach(holiday -> {
-            holidaysList.add(new Holiday(holiday.getName(), holiday.getDate()));
-        });
-
-        holidaysTable.setItems(holidaysList); // Afficher les données dans la TableView
+        // Récupérer les jours fériés depuis l'API et les ajouter à la TableView
+        holidaysTable.setItems(FXCollections.observableArrayList(new HolidayAPI().getHolidays()));
     }
 }

@@ -114,29 +114,61 @@ public class AjoutQ {
 
     @FXML
     void AjouterQuestionnaire(ActionEvent event) {
-
         Questionnaire q = new Questionnaire();
         q.setDateCreation(Date.valueOf(LocalDate.now()));
         q.setObjet(tf_Objet.getText());
         q.setDescription(tf_desc.getText());
         q.setEmploye(cb_emp.getSelectionModel().getSelectedItem());
 
+        if (q.getObjet().length() < 15) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur Objet");
+            alert.setHeaderText("L'objet est trop court");
+            alert.setContentText("L'objet doit contenir au moins 15 caractères.");
+            alert.showAndWait();
+            return; // Sortir de la méthode si l'objet est trop court
+        }
+
+        if (q.getDescription().length() < 15) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur Description");
+            alert.setHeaderText("La description est trop courte");
+            alert.setContentText("La description doit contenir au moins 15 caractères.");
+            alert.showAndWait();
+            return;
+        }
+
         try {
             sq.add(q);
             loadQuestionnaires();
+
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText("Le questionnaire a été ajouté avec succès.");
+            alert.showAndWait();
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors de l'ajout du questionnaire");
+            alert.setContentText("Une erreur est survenue lors de l'ajout : " + e.getMessage());
+            alert.showAndWait();
         }
-    }
+
+
+}
 
     @FXML
     void NavigateModif(ActionEvent event) {
         try {
-            // Load the addEmploye.fxml file
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifQ.fxml"));
             Parent addEmployeView = loader.load();
 
-            // Replace the current content of the mainPane with the addEmployeView
+
             mainePane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
@@ -147,6 +179,7 @@ public class AjoutQ {
     @FXML
     void Supp(ActionEvent event) {
         selectedQuestionnaire = lv_ajoutQ.getSelectionModel().getSelectedItem();
+
         if (selectedQuestionnaire == null) {
             System.out.println("Veuillez sélectionner un questionnaire !");
             return;
@@ -155,17 +188,24 @@ public class AjoutQ {
         try {
             sq.delete(selectedQuestionnaire);
             loadQuestionnaires();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText("Le questionnaire a été supprimé avec succès.");
+            alert.showAndWait();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur lors de la suppression : " + e.getMessage());
         }
     }
+
     public void Retour(MouseEvent mouseEvent) {
         try {
-            // Load the addEmploye.fxml file
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemQuestRepHome.fxml"));
             Parent addEmployeView = loader.load();
 
-            // Replace the current content of the mainPane with the addEmployeView
+
             mainePane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());

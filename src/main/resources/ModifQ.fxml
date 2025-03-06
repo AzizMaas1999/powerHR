@@ -33,9 +33,9 @@
     <!-- Form Content -->
     <AnchorPane layoutX="235.0" layoutY="88.0" prefHeight="784.0" prefWidth="1047.0">
         <children>
-            <Label layoutX="158.0" layoutY="182.0" text="📂 Objet" />
-            <Label layoutX="158.0" layoutY="57.0" text="💬 Description" />
-            <Label layoutX="40.0" layoutY="371.0" text="📋 Liste des Questions" />
+            <Label layoutX="158.0" layoutY="60.0" text="📂 Objet" />
+            <Label layoutX="158.0" layoutY="178.0" text="💬 Description" />
+            <Label layoutX="137.0" layoutY="371.0" text="📋 Liste des Questions" />
             <TextField fx:id="tf_Objet" layoutX="158.0" layoutY="77.0" prefHeight="101.0" prefWidth="617.0" />
             <TextField fx:id="tf_desc" layoutX="158.0" layoutY="199.0" prefHeight="109.0" prefWidth="617.0" />
 

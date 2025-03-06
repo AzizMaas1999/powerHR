@@ -104,29 +104,42 @@ public class AjoutRepQ {
         ServiceRepQuestionnaire sq = new ServiceRepQuestionnaire();
         RepQuestionnaire rq = new RepQuestionnaire();
 
-        rq.setDateCreation(Date.valueOf(LocalDate.now()));
-        rq.setReponse(tf_Reponse.getText());
-        Questionnaire questionnaire = new Questionnaire(1,null,null,null,null);
-        rq.setQuestionnaire(questionnaire);
-        Employe employe = new Employe(3, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null,null,null,null,null);
+        String reponse = tf_Reponse.getText().trim();
 
+        if (reponse.length() < 10) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("La réponse doit contenir au moins 10 caractères !");
+            alert.showAndWait();
+            return;
+        }
+
+        rq.setDateCreation(Date.valueOf(LocalDate.now()));
+        rq.setReponse(reponse);
+        Questionnaire questionnaire = new Questionnaire(1, null, null, null, null);
+        rq.setQuestionnaire(questionnaire);
+        Employe employe = new Employe(3, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
         rq.setEmploye(employe);
 
         try {
             sq.add(rq);
             initialize();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText("La réponse a été ajoutée avec succès.");
+            alert.showAndWait();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
+
     public void Retour(MouseEvent mouseEvent) {
         try {
-            // Load the addEmploye.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemQuestRepHome.fxml"));
             Parent addEmployeView = loader.load();
 
-            // Replace the current content of the mainPane with the addEmployeView
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());

@@ -18,7 +18,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/chartD.fxml"));
+                getClass().getResource("/DemQuestRepHome.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);

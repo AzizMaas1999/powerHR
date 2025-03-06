@@ -5,6 +5,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -26,6 +27,9 @@ public class ChartCongesController {
     @FXML
     private BarChart<String, Number> chart_conges;
 
+    @FXML
+    private AnchorPane mainPane;
+
 
     private DemandeService ds = new DemandeService();
 
@@ -42,7 +46,7 @@ public class ChartCongesController {
         for (Demande d : demandes) {
             if ("Conges".equals(d.getType()) && d.getDateDebut() != null) {
                 LocalDate dateDebut = d.getDateDebut().toLocalDate();
-                int moisIndex = dateDebut.getMonthValue() - 1; // Mois de 0 à 11
+                int moisIndex = dateDebut.getMonthValue() - 1;
                 congesParMois[moisIndex]++;
             }
         }
@@ -60,14 +64,18 @@ public class ChartCongesController {
     }
 
     @FXML
-    void retour(ActionEvent event) {
+
+    void Retour(MouseEvent event) {
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjoutD.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) chart_conges.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemQuestRepHome.fxml"));
+            Parent chart = loader.load();
+
+
+            mainPane.getChildren().setAll(chart);
         } catch (IOException e) {
-            System.err.println("Erreur de chargement : " + e.getMessage());
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
         }
-    }
-}
+}}
