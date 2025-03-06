@@ -1,18 +1,19 @@
 package tn.esprit.powerHR.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Feedback {
     private int id;
-    private Date dateCreation; // Utilisation du type Date pour correspondre à 'date'
+    private Timestamp dateCreation;
+    // Utilisation de Timestamp pour la date et l'heure
     private String type;
     private String description;
-    private CLFr clfr ;
+    private CLFr clfr;
 
     // Constructeurs
     public Feedback() {}
 
-    public Feedback(int id, Date dateCreation, String type, String description, CLFr clfr) {
+    public Feedback(int id, Timestamp dateCreation, String type, String description, CLFr clfr) {
         this.id = id;
         this.dateCreation = dateCreation;
         this.type = type;
@@ -28,11 +29,11 @@ public class Feedback {
         this.id = id;
     }
 
-    public Date getDateCreation() {
+    public Timestamp getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(Date dateCreation) {
+    public void setDateCreation(Timestamp dateCreation) {
         this.dateCreation = dateCreation;
     }
 
@@ -64,5 +65,4 @@ public class Feedback {
     public String toString() {
         return type + " | " + description + " | " + dateCreation;
     }
-
 }

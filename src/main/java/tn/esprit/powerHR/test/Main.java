@@ -2,6 +2,7 @@ package tn.esprit.powerHR.test;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -12,10 +13,11 @@ import tn.esprit.powerHR.services.ServiceCLFr;
 import tn.esprit.powerHR.models.Feedback;
 import tn.esprit.powerHR.services.ServiceFeedback;
 
+import java.io.IOException;
 import java.sql.*;
 
-public class Main {
-    public static void main(String[] args) {
+//public class Main {
+  //  public static void main(String[] args) {
 //        // Initialisation de la connexion à la base de données
 //        MyDataBase.getInstance();
 //
@@ -77,5 +79,18 @@ public class Main {
 //        public static void main(String[] args) {
 //            launch(args);
 //        }
+
+public class Main extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("ChatBot.fxml"));
+        Scene scene = new Scene(root, 600, 400);
+
+        // Appliquer le CSS
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+        stage.setTitle("Chatbot Assistant");
+        stage.setScene(scene);
+        stage.show();
     }
 }

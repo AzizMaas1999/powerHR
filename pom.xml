@@ -22,6 +22,35 @@
             <version>8.0.33</version>
         </dependency>
         <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>4.5.0</version>
+        </dependency>
+        <!-- Gestion des logs avec SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+
+        <!-- JavaFX -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17.0.2</version>
+        </dependency>
+        <!-- Manipulation des JSON (optionnel si Jackson déjà présent) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.2</version>
@@ -36,11 +65,26 @@
             <artifactId>javafx-graphics</artifactId>
             <version>17.0.2</version>
         </dependency>
-
+        <!-- OkHttp -->
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.21.9</version>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version>
+        </dependency>
+        <!-- Gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+
+
+
+        <!-- Dépendance pour manipuler les JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.3</version>
         </dependency>
         <dependency>
             <groupId>com.textrazor</groupId>
@@ -61,10 +105,22 @@
             <url>https://maven.openjfx.io</url>
 
         </repository>
+
         <repository>
             <id>openjfx</id>
             <url>https://maven.openjfx.io</url>
         </repository>
+            <repository>
+                <id>central</id>
+                <url>https://repo1.maven.org/maven2/</url>
+            </repository>
+
+            <repository>
+                <id>central</id>
+                <url>https://repo1.maven.org/maven2/</url>
+            </repository>
+
+
     </repositories>
 
     <!-- Plugin Maven pour JavaFX -->

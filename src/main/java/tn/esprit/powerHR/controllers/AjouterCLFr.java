@@ -9,11 +9,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.services.ServiceCLFr;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
@@ -53,6 +56,11 @@ public class AjouterCLFr {
     @FXML private Text totalCLFrText;
     @FXML private Text clientsCountText;
     @FXML private Text fournisseursCountText;
+
+    @FXML
+    private TextField photoPathField;
+    @FXML
+    private Button btnChoisirPhoto;
 
 
 
@@ -97,46 +105,31 @@ public class AjouterCLFr {
         // Remplissage de la ChoiceBox (unique ajout)
         type2.getItems().setAll("Client", "Fournisseur");
 
+        // Appliquer la cellule personnalisée à la ListView
+        lv_ShowCLFr.setCellFactory(param -> new CLFrListCell());
+
+        // Charger les données dans la ListView
+        loadClientFournisseurData();
 
         // Chargement initial de la ListView et des statistiques
         loadCLFrList();
         updateStats();
-        // Configuration de la cell factory pour personnaliser l'affichage des lignes
-        lv_ShowCLFr.setCellFactory(listView -> new ListCell<CLFr>() {
-            @Override
-            protected void updateItem(CLFr item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    VBox vbox = new VBox(5); // Espacement entre les éléments
-
-                    Label nomLabel = new Label("Nom: " + item.getNom());
-                    Label matriculeLabel = new Label("Matricule Fiscale: " + item.getMatriculeFiscale());
-                    Label adresseLabel = new Label("Adresse: " + item.getAdresse());
-                    Label numTelLabel = new Label("Téléphone: " + item.getNumTel());
-                    Label typeLabel = new Label("Type: " + item.getType());
-
-                    // Appliquer du style pour améliorer la lisibilité
-                    nomLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-                    matriculeLabel.setStyle("-fx-font-size: 13px;");
-                    adresseLabel.setStyle("-fx-font-size: 13px;");
-                    numTelLabel.setStyle("-fx-font-size: 13px;");
-                    typeLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: blue;");
-
-                    vbox.getChildren().addAll(nomLabel, matriculeLabel, adresseLabel, numTelLabel, typeLabel);
-                    vbox.setStyle("-fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1; -fx-background-color: #f9f9f9;");
-
-                    setGraphic(vbox);
-                }
-            }
-        });
-
 
         // Ajout d'un écouteur pour la recherche en temps réel
         searchField.textProperty().addListener((observable, oldValue, newValue) -> filterCLFrList());
     }
+    // Méthode pour charger les données dans la ListView
+    private void loadClientFournisseurData() {
+        // Utiliser un service pour récupérer les données des clients/fournisseurs
+        ServiceCLFr service = new ServiceCLFr(); // Assure-toi du bon nom du service
+        ObservableList<CLFr> clientsFournisseurs = FXCollections.observableArrayList(service.getAll()); // Remplacer `add()` par `getAll()`
+
+        // Ajouter les données à la ListView
+        lv_ShowCLFr.setItems(clientsFournisseurs); // Utilisation correcte de la liste
+    }
+
+
+
 
 
     @FXML
@@ -166,7 +159,11 @@ public class AjouterCLFr {
             clfr.setMatriculeFiscale(matriculeFicale.getText());
             clfr.setAdresse(adresse.getText());
             clfr.setNumTel(NumTel.getText());
-            clfr.setType(type2.getValue()); // "Client" ou "Fournisseur"
+            clfr.setType(type2.getValue());// "Client" ou "Fournisseur"
+            // Ajout du chemin de la photo (non en blob)
+            if (!photoPathField.getText().trim().isEmpty()) {
+                clfr.setPhotoPath(photoPathField.getText().trim());
+            }
 
             // Simulation d'un objet Employe (à remplacer par une récupération réelle si nécessaire)
             Employe employe = new Employe(1, "fdkbgkndfg", "fdkbgkndfg", "chargesRH", 445.2, "123456789125", "fdkbgkndfg");
@@ -203,20 +200,42 @@ public class AjouterCLFr {
         }
 
     }
-
     @FXML
     void NavigateModifier(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/modifierCLFr.fxml"));
+        CLFr selected = lv_ShowCLFr.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Veuillez sélectionner un élément !");
+            alert.show();
+            return;
+        }
+
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierCLFr.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Modifier ClFr");
-            Stage.setScene(scene);
-            Stage.show();
+
+            ModifierCLFr controller = loader.getController();
+            controller.initData(selected, this); // Passer une référence de AjouterCLFr
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Erreur: " + e.getMessage());
+        }
+    }
+
+
+    // Méthode pour rafraîchir la ListView
+    public void refreshListView() {
+        ServiceCLFr service = new ServiceCLFr();
+        try {
+            List<CLFr> list = service.getAll();
+            lv_ShowCLFr.setItems(FXCollections.observableArrayList(list));
+        } catch (Exception e) {
+            System.out.println("Erreur rafraîchissement: " + e.getMessage());
         }
     }
 
@@ -246,10 +265,9 @@ public class AjouterCLFr {
     private void updateStats() {
         ServiceCLFr serviceCLFr = new ServiceCLFr();
         try {
-            int total = serviceCLFr.getAll().size();
             int clients = serviceCLFr.countByType("Client");
             int fournisseurs = serviceCLFr.countByType("Fournisseur");
-
+            int total = clients + fournisseurs; // total calculé comme somme des deux types
             totalCLFrText.setText(String.valueOf(total));
             clientsCountText.setText(String.valueOf(clients));
             fournisseursCountText.setText(String.valueOf(fournisseurs));
@@ -257,6 +275,7 @@ public class AjouterCLFr {
             System.out.println("Erreur stats: " + e.getMessage());
         }
     }
+
     private void refreshAll() {
         loadCLFrList();
         updateStats();
@@ -299,5 +318,49 @@ public class AjouterCLFr {
             System.out.println("Erreur lors de la recherche: " + e.getMessage());
         }
     }
+    @FXML
+    private void choisirPhoto(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        // Filtrer pour les fichiers image
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Fichiers Image", "*.png", "*.jpg", "*.jpeg", "*.gif");
+        fileChooser.getExtensionFilters().add(imageFilter);
+
+        // Récupérer la fenêtre actuelle à partir d'un nœud de la scène (ici bt_ajouterCLFr)
+        Stage stage = (Stage) bt_ajouterCLFr.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            // Affiche le chemin absolu dans le TextField
+            photoPathField.setText(file.getAbsolutePath());
+        }
+    }
+    @FXML
+    private void openChatBot(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatBot.fxml"));
+            Parent root = loader.load();
+
+            // Optionnel : envoyer un contexte spécifique au ChatBot (par exemple, Clients/Fournisseurs)
+            ChatBotController controller = loader.getController();
+            controller.setContext("Vous êtes dans le module Clients/Fournisseurs. "
+                    + "Vous pouvez me demander comment ajouter, modifier ou supprimer un client/fournisseur, "
+                    + "des conseils sur la recherche et le filtrage, ou encore l'interprétation des statistiques affichées.");
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Assistance Clients/Fournisseurs");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Vous pouvez aussi afficher une alerte en cas d'erreur
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Impossible d'ouvrir l'assistance");
+            alert.setContentText("Une erreur est survenue lors de l'ouverture du ChatBot.");
+            alert.showAndWait();
+        }
+    }
+
+
 }
 

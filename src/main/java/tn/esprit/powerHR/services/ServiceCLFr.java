@@ -18,7 +18,8 @@ public class ServiceCLFr implements IService<CLFr> {
 
     @Override
     public void add(CLFr clfr) {
-        String query = "INSERT INTO CLFr (nom, matricule_fiscale, adresse, numtel, type, employe_id) VALUES (?, ?, ?, ?, ?, ?)";
+        // On ajoute la colonne photoPath dans la requête INSERT
+        String query = "INSERT INTO CLFr (nom, matricule_fiscale, adresse, numtel, type, employe_id, photoPath) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, clfr.getNom());
             preparedStatement.setString(2, clfr.getMatriculeFiscale());
@@ -26,6 +27,7 @@ public class ServiceCLFr implements IService<CLFr> {
             preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
             preparedStatement.setInt(6, clfr.getEmploye().getId());
+            preparedStatement.setString(7, clfr.getPhotoPath());  // Ajout du chemin de la photo
             preparedStatement.executeUpdate();
             System.out.println("CLFr ajouté avec succès !");
         } catch (SQLException e) {
@@ -35,14 +37,16 @@ public class ServiceCLFr implements IService<CLFr> {
 
     @Override
     public void update(CLFr clfr) {
-        String query = "UPDATE CLFr SET nom = ?, matricule_fiscale = ?, adresse = ?, numtel = ?, type = ? WHERE id = ?";
+        // On met à jour également le champ photoPath
+        String query = "UPDATE CLFr SET nom = ?, matricule_fiscale = ?, adresse = ?, numtel = ?, type = ?, photoPath = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, clfr.getNom());
             preparedStatement.setString(2, clfr.getMatriculeFiscale());
             preparedStatement.setString(3, clfr.getAdresse());
             preparedStatement.setString(4, clfr.getNumTel());
             preparedStatement.setString(5, clfr.getType());
-            preparedStatement.setInt(6, clfr.getId());
+            preparedStatement.setString(6, clfr.getPhotoPath()); // Mise à jour du chemin de la photo
+            preparedStatement.setInt(7, clfr.getId());
             preparedStatement.executeUpdate();
             System.out.println("CLFr modifié avec succès !");
         } catch (SQLException e) {
@@ -76,8 +80,13 @@ public class ServiceCLFr implements IService<CLFr> {
                 clfr.setAdresse(resultSet.getString("adresse"));
                 clfr.setNumTel(resultSet.getString("numtel"));
                 clfr.setType(resultSet.getString("type"));
-                Employe e = new Employe(resultSet.getInt("employe_id"),"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
+                // Récupération du chemin de la photo
+                clfr.setPhotoPath(resultSet.getString("photoPath"));
+
+                // Simulation d'un Employe (à adapter selon votre logique)
+                Employe e = new Employe(resultSet.getInt("employe_id"), "fdkbgkndfg", "fdkbgkndfg", "chargesRH", 445.2, "123456789125", "fdkbgkndfg");
                 clfr.setEmploye(e);
+
                 clfrs.add(clfr);
             }
         } catch (SQLException e) {
@@ -85,6 +94,7 @@ public class ServiceCLFr implements IService<CLFr> {
         }
         return clfrs;
     }
+
     public int countByType(String type) throws SQLException {
         String query = "SELECT COUNT(*) FROM clfr WHERE type = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -97,4 +107,3 @@ public class ServiceCLFr implements IService<CLFr> {
         return 0;
     }
 }
-

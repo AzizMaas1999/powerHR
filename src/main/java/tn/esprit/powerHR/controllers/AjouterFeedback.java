@@ -2,108 +2,59 @@ package tn.esprit.powerHR.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.models.Feedback;
-import tn.esprit.powerHR.models.CLFr;
-import tn.esprit.powerHR.services.ServiceCLFr;
 import tn.esprit.powerHR.services.ServiceFeedback;
-import java.sql.Date;
-import java.util.List;
-import javafx.scene.control.Label;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import tn.esprit.powerHR.utils.EmojiUtils;
-import tn.esprit.powerHR.services.ServiceApi;
 
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class AjouterFeedback {
 
     @FXML
+    private ListView<Feedback> lv_ShowFeedback;
+    @FXML
     private DatePicker Date_creation;
-
     @FXML
     private TextField Description;
-
     @FXML
-    private Button bt_ajouterfeedback;
-
+    private Button bt_ajouterfeedback, bt_modiferfeedback, bt_submit, bt_supppfeedback;
     @FXML
-    private Button bt_modiferfeedback;
+    private Label lblSentiment;
 
-    @FXML
-    private Button bt_submit;
+    private Stage stage;
+    private Scene scene;
 
-    @FXML
-    private ListView<Feedback> lv_ShowFeedback;
+    private final ServiceFeedback serviceFeedback = new ServiceFeedback();
 
-    @FXML
-    private Button bt_supppfeedback;
-
-    @FXML
-    private Label lblSentiment; // Nouveau label pour afficher le type détecté
-
-
-    private ServiceFeedback serviceFeedback = new ServiceFeedback();
-
-    private final ServiceApi serviceApi = new ServiceApi(); // Service pour l'analyse du sentiment
-    private Feedback p;
-    public void setListFeedback(Feedback p) {
-        this.p = p;
-        System.out.println("Received Id: " + p); // Debugging
-    }
-    public Feedback getListFeedback() {
-        return p;
-    }
-
-
-    /*@FXML
-    public void initialize() {
-        lv_ShowFeedback.setCellFactory(listView -> new FeedbackListCell());
-        refreshList();
-
-        // Ajout d'un listener pour analyser le texte et convertir les emojis
-        Description.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
-                // ✅ Convertir les emojis AVANT l'analyse du sentiment
-                String convertedText = EmojiUtils.replaceEmoticons(newValue);
-
-                if (!convertedText.equals(newValue)) {
-                    Description.setText(convertedText); // Évite une boucle infinie
-                }
-
-                // ✅ Détection automatique du sentiment
-                String detectedSentiment = serviceApi.analyserSentiment(convertedText);
-                lblSentiment.setText("Sentiment détecté: " + detectedSentiment);
-            } else {
-                lblSentiment.setText("Sentiment: En attente...");
-            }
-        });
-    }*/
-
-
-    private void refreshList() {
+    public void refreshListView() {
         try {
-            List<Feedback> list = serviceFeedback.getAll();
-            ObservableList<Feedback> observableList = FXCollections.observableList(list);
+            List<Feedback> feedbacks = serviceFeedback.getAll();
+            ObservableList<Feedback> observableList = FXCollections.observableArrayList(feedbacks);
             lv_ShowFeedback.setItems(observableList);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la récupération des feedbacks : " + e.getMessage());
+            System.out.println("Erreur rafraîchissement: " + e.getMessage());
         }
     }
 
     @FXML
     void AjouterFeedBack(ActionEvent event) {
         try {
-            if (Date_creation.getValue() == null || Date_creation.getValue().isAfter(java.time.LocalDate.now())) {
-                showAlert(Alert.AlertType.WARNING, "Date invalide", "Veuillez entrer une date valide (dans le passé ou aujourd'hui).");
-                return;
-            }
-
+            LocalDateTime now = LocalDateTime.now();
+            Timestamp timestamp = Timestamp.valueOf(now);
             String descriptionText = Description.getText().trim();
+
             if (descriptionText.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Description manquante", "La description ne peut pas être vide.");
                 return;
@@ -111,79 +62,73 @@ public class AjouterFeedback {
                 showAlert(Alert.AlertType.WARNING, "Description trop courte", "La description doit contenir au moins 10 caractères.");
                 return;
             }
-            // Détection automatique du sentiment
-            String detectedSentiment = serviceApi.analyserSentiment(descriptionText);
-            lblSentiment.setText("Sentiment détecté: " + detectedSentiment);
 
-            /*if (type.getValue() == null) {
-                showAlert(Alert.AlertType.WARNING, "Type manquant", "Veuillez sélectionner un type de feedback.");
-                return;
-            }*/
+            // Aucune analyse de sentiment n'est effectuée ici.
+            // On peut par exemple définir un type par défaut.
+            lblSentiment.setText("Sentiment : En attente... " + getEmoji("Neutre"));
 
             Feedback feedback = new Feedback();
-            feedback.setDateCreation(Date.valueOf(Date_creation.getValue()));
+            feedback.setDateCreation(timestamp);
             feedback.setDescription(descriptionText);
-            feedback.setType(detectedSentiment); // Affectation du type détecté
-
-            // feedback.setType(type.getValue());
-
-            CLFr clfr = new CLFr();
-            clfr.setId(1);
-            feedback.setClfr(clfr);
+            feedback.setType("Non analysé");
 
             serviceFeedback.add(feedback);
-            System.out.println("Feedback ajouté avec succès !");
-
-            refreshList();
+            refreshListView();
             showAlert(Alert.AlertType.INFORMATION, "Ajout réussi", "Le feedback a été ajouté avec succès.");
 
-            Date_creation.setValue(null);
             Description.clear();
-            lblSentiment.setText("Sentiment: En attente...");
-          //  type.setValue(null);
-
+            lblSentiment.setText("Sentiment : En attente...");
         } catch (Exception e) {
-            System.out.println("Erreur lors de l'ajout : " + e.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'ajout du feedback.");
+            lblSentiment.setText("Erreur d'ajout ❌");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout du feedback : " + e.getMessage());
         }
     }
 
+    private String getEmoji(String sentiment) {
+        return switch(sentiment) {
+            case "Positif" -> " 😊";
+            case "Négatif" -> " 😠";
+            case "Neutre" -> " 😐";
+            default -> "";
+        };
+    }
+
     @FXML
-    void NavigateModif(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/modifierFeedback.fxml"));
+    private void navigateModifier(ActionEvent event) {
+        Feedback selected = lv_ShowFeedback.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.WARNING, "Aucune sélection", "Veuillez sélectionner un feedback à modifier.");
+            return;
+        }
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierFeedback.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Modifier Feedback");
-            Stage.setScene(scene);
-            Stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+
+            UpdateFeedback controller = loader.getController();
+            controller.initData(selected, this);
+
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Une erreur est survenue lors de la navigation.");
         }
     }
 
     @FXML
     public void initialize() {
-        lv_ShowFeedback.setCellFactory(listView -> new FeedbackListCell());
-        refreshList();
+        Date_creation.setValue(LocalDate.now());
+        lv_ShowFeedback.setCellFactory(param -> new FeedbackListCell());
+        refreshListView();
 
-        // Ajout d'un listener pour analyser le texte et convertir les emojis
+        // Conversion des émoticônes en emojis lors de la saisie dans le champ Description.
         Description.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
-                // ✅ Convertir les emojis AVANT l'analyse du sentiment
                 String convertedText = EmojiUtils.replaceEmoticons(newValue);
-
                 if (!convertedText.equals(newValue)) {
-                    Description.setText(convertedText); // Évite une boucle infinie
+                    Description.setText(convertedText);
                 }
-
-                // ✅ Détection automatique du sentiment
-                String detectedSentiment = serviceApi.analyserSentiment(convertedText);
-                lblSentiment.setText("Sentiment détecté: " + detectedSentiment);
-            } else {
-                lblSentiment.setText("Sentiment: En attente...");
             }
         });
     }
@@ -195,16 +140,20 @@ public class AjouterFeedback {
             showAlert(Alert.AlertType.WARNING, "Suppression impossible", "Veuillez sélectionner un feedback à supprimer.");
             return;
         }
-
-        try {
-            serviceFeedback.delete(selectedFeedback);
-            refreshList();
-            showAlert(Alert.AlertType.INFORMATION, "Suppression réussie", "Le feedback a été supprimé avec succès.");
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression : " + e.getMessage());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation de suppression");
+        alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce feedback ?");
+        alert.setContentText("Cette action est irréversible.");
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            try {
+                serviceFeedback.delete(selectedFeedback);
+                refreshListView();
+                showAlert(Alert.AlertType.INFORMATION, "Suppression réussie", "Le feedback a été supprimé avec succès.");
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression : " + e.getMessage());
+            }
         }
     }
-
 
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
@@ -213,18 +162,4 @@ public class AjouterFeedback {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    @FXML
-    private void analyserSentiment(ActionEvent event) {
-        String texte = Description.getText();
-
-        if (texte.isEmpty()) {
-            lblSentiment.setText("Sentiment: Veuillez entrer un texte.");
-            return;
-        }
-
-        String sentiment = serviceApi.analyserSentiment(texte);
-        lblSentiment.setText("Sentiment: " + sentiment);
-    }
-
 }
-

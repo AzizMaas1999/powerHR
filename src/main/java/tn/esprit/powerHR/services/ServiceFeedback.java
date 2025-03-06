@@ -20,14 +20,15 @@ public class ServiceFeedback implements IService<Feedback> {
     public void add(Feedback feedback) {
         String qry = "INSERT INTO feedback (dateCreation, type, description, clfr_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
-            pstm.setDate(1, feedback.getDateCreation());
+            // Utilisation de setTimestamp pour enregistrer la date et l'heure
+            pstm.setTimestamp(1, feedback.getDateCreation());
             pstm.setString(2, feedback.getType());
             pstm.setString(3, feedback.getDescription());
             pstm.setInt(4, feedback.getClfr().getId());
             pstm.executeUpdate();
-            System.out.println("feedback ajoutée avec succès.");
+            System.out.println("Feedback ajouté avec succès.");
         } catch (SQLException e) {
-            System.err.println("Erreur lors de l'ajout de la feedback : " + e.getMessage());
+            System.err.println("Erreur lors de l'ajout du feedback : " + e.getMessage());
         }
     }
 
@@ -35,14 +36,17 @@ public class ServiceFeedback implements IService<Feedback> {
     public List<Feedback> getAll() {
         List<Feedback> feedbacks = new ArrayList<>();
         String qry = "SELECT * FROM feedback";
-        try (Statement stm = cnx.createStatement(); ResultSet rs = stm.executeQuery(qry)) {
+        try (Statement stm = cnx.createStatement();
+             ResultSet rs = stm.executeQuery(qry)) {
             while (rs.next()) {
                 Feedback feedback = new Feedback();
                 feedback.setId(rs.getInt("id"));
-                feedback.setDateCreation(rs.getDate("dateCreation"));
+                // Récupération de la date sous forme de Timestamp
+                feedback.setDateCreation(rs.getTimestamp("dateCreation"));
                 feedback.setType(rs.getString("type"));
                 feedback.setDescription(rs.getString("description"));
-                CLFr c = new CLFr(rs.getInt("clfr_id"),null,null,null,null,null,null,null,null);
+                // Création d'un objet CLFr (vous pourrez l'ajuster selon votre logique)
+                CLFr c = new CLFr(rs.getInt("clfr_id"), null, null, null, null, null, null, null, null);
                 feedback.setClfr(c);
                 feedbacks.add(feedback);
             }
@@ -56,14 +60,14 @@ public class ServiceFeedback implements IService<Feedback> {
     public void update(Feedback feedback) {
         String qry = "UPDATE feedback SET dateCreation = ?, type = ?, description = ? WHERE id = ?";
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
-            pstm.setDate(1, feedback.getDateCreation());
+            pstm.setTimestamp(1, feedback.getDateCreation());
             pstm.setString(2, feedback.getType());
             pstm.setString(3, feedback.getDescription());
             pstm.setInt(4, feedback.getId());
             pstm.executeUpdate();
-            System.out.println("feedback mise à jour avec succès.");
+            System.out.println("Feedback mis à jour avec succès.");
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour de la feedback : " + e.getMessage());
+            System.err.println("Erreur lors de la mise à jour du feedback : " + e.getMessage());
         }
     }
 
@@ -73,9 +77,9 @@ public class ServiceFeedback implements IService<Feedback> {
         try (PreparedStatement pstm = cnx.prepareStatement(qry)) {
             pstm.setInt(1, feedback.getId());
             pstm.executeUpdate();
-            System.out.println("feedback supprimée avec succès.");
+            System.out.println("Feedback supprimé avec succès.");
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la suppression de la feedback : " + e.getMessage());
+            System.err.println("Erreur lors de la suppression du feedback : " + e.getMessage());
         }
     }
 }

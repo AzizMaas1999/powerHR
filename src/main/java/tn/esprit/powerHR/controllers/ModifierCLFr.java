@@ -1,22 +1,14 @@
 package tn.esprit.powerHR.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.services.ServiceCLFr;
-
-import java.util.List;
 
 public class ModifierCLFr {
 
@@ -27,21 +19,6 @@ public class ModifierCLFr {
     private TextField adresse;
 
     @FXML
-    private Button bt_ajouterCLFr;
-
-    @FXML
-    private Button bt_modiferCLFr;
-
-    @FXML
-    private Button bt_submit2;
-
-    @FXML
-    private Button bt_supprimerCLFr;
-
-    @FXML
-    private ListView<CLFr> lv_ShowCLFr;
-
-    @FXML
     private TextField matriculeFicale;
 
     @FXML
@@ -49,73 +26,73 @@ public class ModifierCLFr {
 
     @FXML
     private ChoiceBox<String> type2;
-
-    private CLFr p;
-    public void setListCLFr(CLFr p) {
-        this.p = p;
-        System.out.println("Received Id: " + p); // Debugging
-    }
-    public CLFr getListCLFr() {
-        return p;
-    }
-
     @FXML
-    public void initialize() {
-        ServiceCLFr ps = new ServiceCLFr();
-        try {
-            List<CLFr> list = ps.getAll();
-            ObservableList<CLFr> observableList = FXCollections.observableList(list);
-            lv_ShowCLFr.setItems(observableList);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    private TextField photoPathField;
+    private CLFr selectedCLFr;
+    private AjouterCLFr parentController;
+    // Method for the "Ajouter" button
+    public void NavigateAjouter(ActionEvent event) {
+        // Add your code to handle the "Ajouter" action
     }
 
-    @FXML
-    void ChooseLine(MouseEvent event) {
-        CLFr p = lv_ShowCLFr.getSelectionModel().getSelectedItem();
-        nom.setText(p.getNom());
-        matriculeFicale.setText(p.getMatriculeFiscale());
-        adresse.setText(p.getAdresse());
-        NumTel.setText(p.getNumTel());
-        type2.setValue(p.getType());
-        setListCLFr(p);
-
+    // Method for the "Supprimer" button
+    public void Supp(ActionEvent event) {
+        // Add your code to handle the "Supprimer" action
     }
 
+    // Method for the "Choisir Photo" button
+    public void choisirPhoto(ActionEvent event) {
+        // Add your code to handle the "Choisir Photo" action
+    }
 
+    // Method for the "Modifier" button
+
+
+
+
+    // Initialise les données et le parent
+    public void initData(CLFr clfr, AjouterCLFr parent) {
+        this.selectedCLFr = clfr;
+        this.parentController = parent;
+
+        // Remplir les champs
+        nom.setText(clfr.getNom());
+        matriculeFicale.setText(clfr.getMatriculeFiscale());
+        adresse.setText(clfr.getAdresse());
+        NumTel.setText(clfr.getNumTel());
+        type2.setValue(clfr.getType());
+        photoPathField.setText(clfr.getPhotoPath());
+    }
     @FXML
     void ModifierCLFr(ActionEvent event) {
-        ServiceCLFr ps = new ServiceCLFr();
-        CLFr clfr = getListCLFr();
-        clfr.setNom(nom.getText());
-        clfr.setMatriculeFiscale(matriculeFicale.getText());
-        clfr.setAdresse(adresse.getText());
-        clfr.setNumTel(NumTel.getText());
-        clfr.setType(type2.getValue());
         try {
-            ps.update(p);
-            initialize();
+            // Mettre à jour l'objet
+            selectedCLFr.setNom(nom.getText());
+            selectedCLFr.setMatriculeFiscale(matriculeFicale.getText());
+            selectedCLFr.setAdresse(adresse.getText());
+            selectedCLFr.setNumTel(NumTel.getText());
+            selectedCLFr.setType(type2.getValue());
+            selectedCLFr.setPhotoPath(photoPathField.getText());
+
+            // Appeler le service de mise à jour
+            ServiceCLFr service = new ServiceCLFr();
+            service.update(selectedCLFr);
+
+            // Rafraîchir la ListView dans AjouterCLFr
+            parentController.refreshListView();
+
+            // Fermer la fenêtre
+            ((Stage) nom.getScene().getWindow()).close();
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur modification: " + e.getMessage());
         }
     }
 
     @FXML
-    void NavigateAjouter(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/ajouterCLFr.fxml"));
-        try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Modifier ClFr");
-            Stage.setScene(scene);
-            Stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
+    void Annuler(ActionEvent event) {
+        ((Stage) nom.getScene().getWindow()).close();
     }
-
 }
+
+
