@@ -9,7 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.models.Feedback;
 import tn.esprit.powerHR.services.ServiceFeedback;
 import tn.esprit.powerHR.utils.EmojiUtils;
@@ -37,6 +39,8 @@ public class AjouterFeedback {
     private Scene scene;
 
     private final ServiceFeedback serviceFeedback = new ServiceFeedback();
+   @FXML
+   private ComboBox<String> feedbackTypeComboBox;
 
     public void refreshListView() {
         try {
@@ -51,10 +55,14 @@ public class AjouterFeedback {
     @FXML
     void AjouterFeedBack(ActionEvent event) {
         try {
-            LocalDateTime now = LocalDateTime.now();
-            Timestamp timestamp = Timestamp.valueOf(now);
-            String descriptionText = Description.getText().trim();
+            // Validation de la date
+            if (Date_creation.getValue() == null || Date_creation.getValue().isAfter(LocalDate.now())) {
+                showAlert(Alert.AlertType.WARNING, "Date invalide", "Veuillez sélectionner une date valide (passée ou aujourd'hui).");
+                return;
+            }
 
+            // Validation de la description
+            String descriptionText = Description.getText().trim();
             if (descriptionText.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Description manquante", "La description ne peut pas être vide.");
                 return;
@@ -63,24 +71,37 @@ public class AjouterFeedback {
                 return;
             }
 
-            // Aucune analyse de sentiment n'est effectuée ici.
-            // On peut par exemple définir un type par défaut.
-            lblSentiment.setText("Sentiment : En attente... " + getEmoji("Neutre"));
+            // Validation du type
+            if (feedbackTypeComboBox.getValue() == null) {
+                showAlert(Alert.AlertType.WARNING, "Type manquant", "Veuillez sélectionner un type.");
+                return;
+            }
 
+            // Création du feedback
             Feedback feedback = new Feedback();
-            feedback.setDateCreation(timestamp);
+            feedback.setDateCreation(Timestamp.valueOf(Date_creation.getValue().atStartOfDay())); // Conversion LocalDate -> Timestamp
             feedback.setDescription(descriptionText);
-            feedback.setType("Non analysé");
+            feedback.setType(feedbackTypeComboBox.getValue());
 
+            // Simulation d'un CLFr (À REMPLACER par votre logique métier)
+            CLFr clfr = new CLFr();
+            clfr.setId(1); // ID temporaire - À récupérer depuis la session/utilisateur connecté
+            feedback.setClfr(clfr);
+
+            // Ajout en base
             serviceFeedback.add(feedback);
-            refreshListView();
-            showAlert(Alert.AlertType.INFORMATION, "Ajout réussi", "Le feedback a été ajouté avec succès.");
+            refreshListView(); // Rafraîchir la liste
 
+            // Réinitialisation du formulaire
+            Date_creation.setValue(null);
             Description.clear();
-            lblSentiment.setText("Sentiment : En attente...");
+            feedbackTypeComboBox.setValue(null);
+
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Feedback ajouté avec succès !");
+
         } catch (Exception e) {
-            lblSentiment.setText("Erreur d'ajout ❌");
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout du feedback : " + e.getMessage());
+            System.err.println("Erreur d'ajout : " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout : " + e.getMessage());
         }
     }
 
@@ -107,9 +128,15 @@ public class AjouterFeedback {
             UpdateFeedback controller = loader.getController();
             controller.initData(selected, this);
 
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
+            // Créer une nouvelle fenêtre modale
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            dialogStage.setScene(new Scene(root));
+            dialogStage.setTitle("Modifier Feedback");
+            dialogStage.showAndWait();
+
+            refreshListView(); // Rafraîchir après fermetur
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Une erreur est survenue lors de la navigation.");
@@ -122,7 +149,15 @@ public class AjouterFeedback {
         lv_ShowFeedback.setCellFactory(param -> new FeedbackListCell());
         refreshListView();
 
-        // Conversion des émoticônes en emojis lors de la saisie dans le champ Description.
+        // Initialiser les types de feedback
+        feedbackTypeComboBox.setItems(FXCollections.observableArrayList(
+                "Non analysé",
+                "Positif",
+                "Négatif",
+                "Neutre"
+        ));
+
+        // Conversion des émoticônes en emojis
         Description.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
                 String convertedText = EmojiUtils.replaceEmoticons(newValue);

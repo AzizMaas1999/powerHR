@@ -76,9 +76,6 @@
                 <effect><DropShadow color="#00000030" radius="3" /></effect>
             </Button>
         </children>
-        <Button fx:id="btnChatBot" layoutX="20.0" layoutY="20.0"
-                text="Besoin d'aide ?" onAction="#openChatBot"
-                style="-fx-background-color: #56aeff; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
 
     </AnchorPane>
 
@@ -88,6 +85,7 @@
           <!-- Formulaire avec effets modernes -->
     <VBox layoutX="208.0" layoutY="105.0" prefHeight="483.0" prefWidth="250.0" spacing="30">
         <Text style="-fx-font-size: 18; -fx-fill: #2d3436; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, white, 2, 0, 0, 1);" />
+        <Button fx:id="btnChatBot" onAction="#openChatBot" style="-fx-background-color: #56aeff; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Besoin d'aide ?" />
 
               <TextField fx:id="nom" prefHeight="38.0" prefWidth="206.0" promptText="Nom" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-padding: 8 12; -fx-font-size: 14; -fx-effect: innershadow(gaussian, #00000008, 5, 0, 0, 2);" />
 
@@ -133,6 +131,6 @@
          <Font name="Segoe UI" size="14.0" />
       </font>
     </Button>
-     <Text layoutX="459.0" layoutY="488.0" style="-fx-font-size: 16; -fx-fill: #2d3436; -fx-font-weight: bold;" text="Statistiques" />
+     <Text layoutX="469.0" layoutY="474.0" style="-fx-font-size: 16; -fx-fill: #2d3436; -fx-font-weight: bold;" text="Statistiques" />
 
 </AnchorPane>
