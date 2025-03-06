@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import org.json.JSONObject;
-import tn.esprit.powerHr.services.EntrepriseDep.EmailService;
+import tn.esprit.powerHr.services.EmailService;
 
 public class YourController {
 

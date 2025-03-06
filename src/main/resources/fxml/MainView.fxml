@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="425.0" prefWidth="333.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHr.controllers.MainController">
+<VBox prefHeight="425.0" prefWidth="333.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHr.controllers.EntrepriseDep.MainController">
 
     <!-- Header -->
     <AnchorPane maxHeight="102.0" minHeight="80" prefHeight="102.0" prefWidth="333.0" styleClass="header">

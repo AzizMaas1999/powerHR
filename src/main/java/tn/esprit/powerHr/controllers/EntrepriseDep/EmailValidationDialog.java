@@ -59,7 +59,7 @@ public class EmailValidationDialog extends Dialog<Void> {
         
         DialogPane dialogPane = getDialogPane();
         dialogPane.setContent(content);
-        dialogPane.getStylesheets().add(getClass().getResource("/EntrepriseDep/styles/dialog.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/dialog.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
     }
 } 

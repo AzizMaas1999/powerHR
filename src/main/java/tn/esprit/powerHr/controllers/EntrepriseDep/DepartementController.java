@@ -8,10 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
-import tn.esprit.powerHr.models.EntrepriseDep.Departement;
-import tn.esprit.powerHr.models.EntrepriseDep.Entreprise;
-import tn.esprit.powerHr.services.EntrepriseDep.DepartementService;
-import tn.esprit.powerHr.services.EntrepriseDep.EntrepriseService;
+import tn.esprit.powerHr.models.Departement;
+import tn.esprit.powerHr.models.Entreprise;
+import tn.esprit.powerHr.services.DepartementService;
+import tn.esprit.powerHr.services.EntrepriseService;
 import javafx.util.StringConverter;
 
 import java.net.URL;
