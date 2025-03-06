@@ -19,6 +19,15 @@ public class Entreprise {
         this.phoneVerified = false;
     }
 
+    public Entreprise (int id, String nom, String secteur, String matriculeFiscale, String phoneNumber, boolean phoneVerified) {
+        this.id = id;
+        this.nom = nom;
+        this.secteur = secteur;
+        this.matriculeFiscale = matriculeFiscale;
+        this.phoneNumber = phoneNumber;
+        this.phoneVerified = phoneVerified;
+    }
+
     // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

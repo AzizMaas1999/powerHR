@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.services.ClfrFeedback.ServiceCLFr;
@@ -164,7 +165,7 @@ public class AjouterCLFr {
             }
 
             // Simulation d'un objet Employe (à remplacer par une récupération réelle si nécessaire)
-            Employe employe = new Employe(1, "fdkbgkndfg", "fdkbgkndfg", "chargesRH", 445.2, "123456789125", "fdkbgkndfg");
+            Employe employe = new Employe(1, "fdkbgkndfg", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
             clfr.setEmploye(employe);
 
             // Ajout du CLFr via le service

@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import tn.esprit.powerHR.models.Candidat;
-import tn.esprit.powerHR.models.Entreprise;
+import tn.esprit.powerHR.models.EntrepriseDep.*;
 import tn.esprit.powerHR.services.ServiceCandidat;
 
 import java.io.File;
@@ -114,7 +114,7 @@ public class CandidatAjoutController {
         candidat.setTelephone(telephone);
         candidat.setCvPdf(cvPdfBlob);
 
-        Entreprise entreprise = new Entreprise(1, "Entreprise XYZ", "Adresse", "Secteur");
+        Entreprise entreprise = new Entreprise(1, "Entreprise XYZ", "Adresse", "Secteur", null, false);
         candidat.setEntreprise(entreprise);
 
         try {

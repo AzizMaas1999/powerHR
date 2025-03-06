@@ -8,7 +8,7 @@ public class MyDataBase {
     private static MyDataBase instance;
     private static Connection connection;
 
-    private final String URL = "jdbc:mysql://127.0.0.1:3306/maha2";
+    private final String URL = "jdbc:mysql://127.0.0.1:3306/powerhr";
     private final String USERNAME = "root";
     private final String PASSWORD = "";
 

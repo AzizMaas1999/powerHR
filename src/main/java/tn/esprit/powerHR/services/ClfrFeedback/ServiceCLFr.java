@@ -1,5 +1,6 @@
 package tn.esprit.powerHR.services.ClfrFeedback;
 
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.models.Employe;
@@ -84,7 +85,7 @@ public class ServiceCLFr implements IService<CLFr> {
                 clfr.setPhotoPath(resultSet.getString("photoPath"));
 
                 // Simulation d'un Employe (à adapter selon votre logique)
-                Employe e = new Employe(resultSet.getInt("employe_id"), "fdkbgkndfg", "fdkbgkndfg", "chargesRH", 445.2, "123456789125", "fdkbgkndfg");
+                Employe e = new Employe(resultSet.getInt("employe_id"), "fdkbgkndfg", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
                 clfr.setEmploye(e);
 
                 clfrs.add(clfr);

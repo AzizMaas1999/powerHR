@@ -3,7 +3,7 @@ package tn.esprit.powerHR.services;
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.Candidat;
 import tn.esprit.powerHR.models.Employe;
-import tn.esprit.powerHR.models.Entreprise;
+import tn.esprit.powerHR.models.EntrepriseDep.*;
 import tn.esprit.powerHR.models.Paie;
 import tn.esprit.powerHR.utils.MyDataBase;
 
@@ -79,7 +79,7 @@ public class ServiceCandidat implements IService<Candidat> {
                 candidat.setTelephone(resultSet.getString("telephone"));
                 Blob cvBlob = resultSet.getBlob("cvPdf");
                 candidat.setCvPdf(cvBlob);
-                Entreprise entreprise = new Entreprise((resultSet.getInt("entreprise_id")),"",null,null);
+                Entreprise entreprise = new Entreprise((resultSet.getInt("entreprise_id")),null,null,null,null,true);
                 candidat.setEntreprise(entreprise);
 
                 candidats.add(candidat);

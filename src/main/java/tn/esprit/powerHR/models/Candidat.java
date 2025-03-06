@@ -1,5 +1,7 @@
 package tn.esprit.powerHR.models;
 
+import tn.esprit.powerHR.models.EntrepriseDep.Entreprise;
+
 import java.sql.Blob;
 
 public class Candidat {

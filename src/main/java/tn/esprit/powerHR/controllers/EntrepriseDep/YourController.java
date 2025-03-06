@@ -1,10 +1,10 @@
-package tn.esprit.powerHr.controllers.EntrepriseDep;
+package tn.esprit.powerHR.controllers.EntrepriseDep;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import org.json.JSONObject;
-import tn.esprit.powerHr.services.EmailService;
+import tn.esprit.powerHR.services.EntrepriseDep.*;
 
 public class YourController {
 
