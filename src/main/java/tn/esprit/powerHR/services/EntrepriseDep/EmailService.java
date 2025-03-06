@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.services.EntrepriseDep;
+package tn.esprit.powerHR.services.EntrepriseDep;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;

@@ -15,7 +15,7 @@
     <!-- Header -->
     <AnchorPane maxHeight="102.0" minHeight="80" prefHeight="102.0" prefWidth="333.0" styleClass="header">
         <ImageView fitHeight="170.0" fitWidth="300.0" layoutX="58.0" layoutY="-55.0" preserveRatio="true" AnchorPane.leftAnchor="58.0" AnchorPane.topAnchor="-55.0">
-            <Image url="@../../LOGO.jpeg" />
+            <Image url="@../../images/LOGO.jpeg" />
         </ImageView>
     </AnchorPane>
 

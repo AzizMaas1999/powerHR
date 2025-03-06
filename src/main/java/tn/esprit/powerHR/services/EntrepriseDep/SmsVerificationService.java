@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.services.EntrepriseDep;
+package tn.esprit.powerHR.services.EntrepriseDep;
 
 import com.twilio.Twilio;
 import com.twilio.rest.verify.v2.service.Verification;

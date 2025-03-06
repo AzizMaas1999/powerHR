@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.models.EntrepriseDep;
+package tn.esprit.powerHR.models.EntrepriseDep;
 
 public class Country {
     private final String name;

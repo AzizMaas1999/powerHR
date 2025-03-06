@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.controllers.EntrepriseDep;
+package tn.esprit.powerHR.controllers.EntrepriseDep;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,10 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
-import tn.esprit.powerHr.models.Departement;
-import tn.esprit.powerHr.models.Entreprise;
-import tn.esprit.powerHr.services.DepartementService;
-import tn.esprit.powerHr.services.EntrepriseService;
+import tn.esprit.powerHR.models.EntrepriseDep.*;
+import tn.esprit.powerHR.services.EntrepriseDep.*;
+import tn.esprit.powerHR.services.EntrepriseDep.EntrepriseService;
 import javafx.util.StringConverter;
 
 import java.net.URL;

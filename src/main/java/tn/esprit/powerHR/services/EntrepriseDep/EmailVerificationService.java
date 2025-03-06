@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.services.EntrepriseDep;
+package tn.esprit.powerHR.services.EntrepriseDep;
 
 import org.json.JSONObject;
 

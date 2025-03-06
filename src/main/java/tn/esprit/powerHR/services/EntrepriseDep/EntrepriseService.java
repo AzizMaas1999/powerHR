@@ -1,8 +1,8 @@
-package tn.esprit.powerHr.services.EntrepriseDep;
+package tn.esprit.powerHR.services.EntrepriseDep;
 
-import tn.esprit.powerHr.models.EntrepriseDep.Entreprise;
-import tn.esprit.powerHr.interfaces.EntrepriseDep.IEntreprise;
-import tn.esprit.powerHr.utils.MyDb;
+import tn.esprit.powerHR.utils.MyDataBase;
+import tn.esprit.powerHR.models.EntrepriseDep.Entreprise;
+import tn.esprit.powerHR.interfaces.EntrepriseDep.IEntreprise;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -17,7 +17,7 @@ public class EntrepriseService implements IEntreprise {
     private final Connection connection;
 
     public EntrepriseService() {
-        connection = MyDb.getInstance().getConnection();
+        connection = MyDataBase.getInstance().getCnx();
     }
 
     @Override
