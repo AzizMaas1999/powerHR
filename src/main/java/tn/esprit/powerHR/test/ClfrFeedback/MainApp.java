@@ -1,17 +1,16 @@
-package tn.esprit.powerHR.test;
+package tn.esprit.powerHR.test.ClfrFeedback;
 
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/hompage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClfrFeedback/hompage.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setTitle("Ajouter CLFr");

@@ -1,7 +1,7 @@
-package tn.esprit.powerHR.services;
+package tn.esprit.powerHR.services.ClfrFeedback;
 
 import tn.esprit.powerHR.interfaces.IService;
-import tn.esprit.powerHR.models.CLFr;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.utils.MyDataBase;
 

@@ -1,7 +1,7 @@
 package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
-import tn.esprit.powerHR.models.CLFr;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.models.Facture;
 import tn.esprit.powerHR.utils.MyDataBase;
 import java.sql.*;

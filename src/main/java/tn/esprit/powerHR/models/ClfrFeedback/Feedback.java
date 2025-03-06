@@ -1,4 +1,4 @@
-package tn.esprit.powerHR.models;
+package tn.esprit.powerHR.models.ClfrFeedback;
 
 import java.sql.Timestamp;
 

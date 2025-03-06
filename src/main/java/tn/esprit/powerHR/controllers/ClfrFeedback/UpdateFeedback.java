@@ -1,13 +1,13 @@
-package tn.esprit.powerHR.controllers;
+package tn.esprit.powerHR.controllers.ClfrFeedback;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.models.Feedback;
-import tn.esprit.powerHR.services.ServiceFeedback;
-import tn.esprit.powerHR.utils.EmojiUtils;
+import tn.esprit.powerHR.models.ClfrFeedback.Feedback;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceFeedback;
+import tn.esprit.powerHR.utils.ClfrFeedback.EmojiUtils;
 import javafx.event.ActionEvent;
 import java.time.LocalDate;
 

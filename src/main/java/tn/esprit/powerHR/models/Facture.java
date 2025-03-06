@@ -1,5 +1,7 @@
 package tn.esprit.powerHR.models;
 
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
+
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;

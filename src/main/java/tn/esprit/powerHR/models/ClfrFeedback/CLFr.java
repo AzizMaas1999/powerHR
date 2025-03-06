@@ -1,4 +1,7 @@
-package tn.esprit.powerHR.models;
+package tn.esprit.powerHR.models.ClfrFeedback;
+
+import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.Facture;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package tn.esprit.powerHR.controllers;
+package tn.esprit.powerHR.controllers.ClfrFeedback;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,13 +7,11 @@ import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.models.CLFr;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.models.Employe;
-import tn.esprit.powerHR.services.ServiceCLFr;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceCLFr;
 
 import java.io.File;
 import java.io.IOException;
@@ -212,7 +210,7 @@ public class AjouterCLFr {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierCLFr.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClfrFeedback/modifierCLFr.fxml"));
             Parent root = loader.load();
 
             ModifierCLFr controller = loader.getController();
@@ -337,7 +335,7 @@ public class AjouterCLFr {
     @FXML
     private void openChatBot(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatBot.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClfrFeedback/ChatBot.fxml"));
             Parent root = loader.load();
 
             // Optionnel : envoyer un contexte spécifique au ChatBot (par exemple, Clients/Fournisseurs)

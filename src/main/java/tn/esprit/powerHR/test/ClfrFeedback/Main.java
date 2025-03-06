@@ -1,20 +1,12 @@
-package tn.esprit.powerHR.test;
+package tn.esprit.powerHR.test.ClfrFeedback;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.models.Employe;
-import tn.esprit.powerHR.utils.MyDataBase;
-import tn.esprit.powerHR.models.CLFr;
-import tn.esprit.powerHR.services.ServiceCLFr;
-import tn.esprit.powerHR.models.Feedback;
-import tn.esprit.powerHR.services.ServiceFeedback;
 
 import java.io.IOException;
-import java.sql.*;
 
 //public class Main {
   //  public static void main(String[] args) {

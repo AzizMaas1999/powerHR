@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.powerHR.controllers.ClfrFeedback.ChatBotController"
+      spacing="10"
+      style="-fx-padding: 10; -fx-background-color: #E3F2FD; -fx-border-color: #0D47A1; -fx-border-width: 2px; -fx-border-radius: 5px;">
+    <Label fx:id="contextLabel" text="Contexte ici..." />
+
+    <!-- Zone de chat -->
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS"
+                style="-fx-background: #BBDEFB; -fx-border-color: #0D47A1; -fx-border-width: 1px;">
+        <content>
+            <VBox fx:id="chatVBox" spacing="10"
+                  style="-fx-padding: 15; -fx-background-color: white; -fx-border-radius: 5px; -fx-border-color: #0D47A1;"/>
+        </content>
+    </ScrollPane>
+
+    <!-- Zone de saisie -->
+    <HBox spacing="5">
+        <TextField fx:id="inputField" HBox.hgrow="ALWAYS" promptText="Tapez votre message..."
+                   style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: #0D47A1; -fx-border-radius: 3px;"/>
+        <Button text="Envoyer" onAction="#handleSend" style="-fx-background-color: #0D47A1; -fx-text-fill: white; -fx-border-radius: 3px;"/>
+    </HBox>
+</VBox>

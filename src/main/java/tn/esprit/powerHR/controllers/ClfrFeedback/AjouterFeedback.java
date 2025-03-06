@@ -1,4 +1,4 @@
-package tn.esprit.powerHR.controllers;
+package tn.esprit.powerHR.controllers.ClfrFeedback;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,15 +10,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.models.CLFr;
-import tn.esprit.powerHR.models.Feedback;
-import tn.esprit.powerHR.services.ServiceFeedback;
-import tn.esprit.powerHR.utils.EmojiUtils;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
+import tn.esprit.powerHR.models.ClfrFeedback.Feedback;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceFeedback;
+import tn.esprit.powerHR.utils.ClfrFeedback.EmojiUtils;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class AjouterFeedback {
@@ -121,7 +120,7 @@ public class AjouterFeedback {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierFeedback.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClfrFeedback/modifierFeedback.fxml"));
             Parent root = loader.load();
 
             UpdateFeedback controller = loader.getController();

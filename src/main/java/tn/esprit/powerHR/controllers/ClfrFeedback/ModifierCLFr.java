@@ -1,14 +1,12 @@
-package tn.esprit.powerHR.controllers;
+package tn.esprit.powerHR.controllers.ClfrFeedback;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.models.CLFr;
-import tn.esprit.powerHR.services.ServiceCLFr;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceCLFr;
 
 public class ModifierCLFr {
 

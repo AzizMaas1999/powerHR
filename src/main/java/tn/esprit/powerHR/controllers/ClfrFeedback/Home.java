@@ -1,4 +1,4 @@
-package tn.esprit.powerHR.controllers;
+package tn.esprit.powerHR.controllers.ClfrFeedback;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,10 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.models.CLFr;
-import tn.esprit.powerHR.models.Feedback;
-import tn.esprit.powerHR.services.ServiceCLFr;
-import tn.esprit.powerHR.services.ServiceFeedback;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
+import tn.esprit.powerHR.models.ClfrFeedback.Feedback;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceCLFr;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceFeedback;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class Home {
     @FXML
     void NavigateClfr(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/ajouterCLFr.fxml"));
+                getClass().getResource("/ClfrFeedback/ajouterCLFr.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -69,7 +69,7 @@ public class Home {
     @FXML
     void NavigateFeedback(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/ajouterFeedback.fxml"));
+                getClass().getResource("/ClfrFeedback/ajouterFeedback.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);

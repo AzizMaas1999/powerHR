@@ -131,7 +131,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>tn.esprit.powerHR.test.MainApp</mainClass> <!-- Remplacez par votre chemin d'accès à la classe principale -->
+                    <mainClass>tn.esprit.powerHR.test.ClfrFeedback.MainApp</mainClass> <!-- Remplacez par votre chemin d'accès à la classe principale -->
                 </configuration>
             </plugin>
         </plugins>
