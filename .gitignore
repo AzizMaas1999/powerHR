@@ -35,7 +35,11 @@ build/
 .vscode/
 
 ### Mac OS ###
+<<<<<<< HEAD
 .DS_Store
 
 ### Credentials ###
 src/main/resources/credentials.json
+=======
+.DS_Store
+>>>>>>> 40cdd29d5ece6f8f64ca2cae8d1de2676ee6af34
