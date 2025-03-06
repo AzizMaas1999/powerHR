@@ -16,6 +16,16 @@
         <javafx.version>21.0.2</javafx.version>
     </properties>
     
+<<<<<<< HEAD
+=======
+    <repositories>
+        <repository>
+            <id>twilio</id>
+            <url>https://repository.sonatype.org/content/groups/public</url>
+        </repository>
+    </repositories>
+
+>>>>>>> temp_branch
     <dependencies>
         <!-- MySQL Connector -->
         <dependency>
@@ -66,11 +76,51 @@
             <version>1.4.9</version>
         </dependency>
 
+<<<<<<< HEAD
         <!-- Mailtrap -->
         <dependency>
             <groupId>io.mailtrap</groupId>
             <artifactId>mailtrap-java</artifactId>
             <version>1.0.0</version>
+=======
+        <!-- Twilio -->
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>9.14.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Apache HTTP Client -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.14</version>
+        </dependency>
+
+        <!-- Apache POI for Excel -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+        
+        <!-- Apache Commons IO -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.15.1</version>
+>>>>>>> temp_branch
         </dependency>
     </dependencies>
 
@@ -90,7 +140,11 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
+<<<<<<< HEAD
                     <mainClass>tn.esprit.powerHr.MainFX</mainClass>
+=======
+                    <mainClass>tn.esprit.powerHr.test.MainFX</mainClass>
+>>>>>>> temp_branch
                     <options>
                         <option>--add-modules</option>
                         <option>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</option>

@@ -1,8 +1,8 @@
-package tn.esprit.powerHr.services;
+package tn.esprit.powerHr.services.EntrepriseDep;
 
-import tn.esprit.powerHr.models.Departement;
-import tn.esprit.powerHr.interfaces.IDepartement;
-import tn.esprit.powerHr.utils.MyDataBase;
+import tn.esprit.powerHr.models.EntrepriseDep.Departement;
+import tn.esprit.powerHr.interfaces.EntrepriseDep.IDepartement;
+import tn.esprit.powerHr.utils.MyDb;
 
 import java.sql.*;
 import java.util.*;
@@ -14,7 +14,7 @@ public class DepartementService implements IDepartement {
     private Connection connection;
 
     public DepartementService() {
-        connection = MyDataBase.getInstance().getConnection();
+        connection = MyDb.getInstance().getConnection();
     }
 
     @Override

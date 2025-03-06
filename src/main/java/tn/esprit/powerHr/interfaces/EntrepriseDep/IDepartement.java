@@ -1,6 +1,6 @@
-package tn.esprit.powerHr.interfaces;
+package tn.esprit.powerHr.interfaces.EntrepriseDep;
 
-import tn.esprit.powerHr.models.Departement;
+import tn.esprit.powerHr.models.EntrepriseDep.Departement;
 import java.util.List;
 
 public interface IDepartement {

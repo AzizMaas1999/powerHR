@@ -1,10 +1,10 @@
-package tn.esprit.powerHr;
+package tn.esprit.powerHr.test;
 
-import tn.esprit.powerHr.models.Departement;
-import tn.esprit.powerHr.models.Entreprise;
-import tn.esprit.powerHr.services.DepartementService;
-import tn.esprit.powerHr.services.EntrepriseService;
-import tn.esprit.powerHr.utils.MyDataBase;
+import tn.esprit.powerHr.models.EntrepriseDep.Departement;
+import tn.esprit.powerHr.models.EntrepriseDep.Entreprise;
+import tn.esprit.powerHr.services.EntrepriseDep.DepartementService;
+import tn.esprit.powerHr.services.EntrepriseDep.EntrepriseService;
+import tn.esprit.powerHr.utils.MyDb;
 
 import java.util.Scanner;
 
@@ -42,7 +42,7 @@ public class Main {
             }
         } finally {
             scanner.close();
-            MyDataBase.closeConnection();
+            MyDb.closeConnection();
         }
     }
 
@@ -124,10 +124,10 @@ public class Main {
             String secteur = scanner.nextLine();
             System.out.print("Enter fiscal registration: ");
             String matricule = scanner.nextLine();
-            System.out.print("Enter email: ");
-            String email = scanner.nextLine();
+            System.out.print("Enter phone number: ");
+            String phoneNumber = scanner.nextLine();
 
-            Entreprise entreprise = new Entreprise(nom, secteur, matricule, email);
+            Entreprise entreprise = new Entreprise(nom, secteur, matricule, phoneNumber);
             entrepriseService.add(entreprise);
             System.out.println("Entreprise added successfully!");
         } catch (Exception e) {
@@ -138,17 +138,17 @@ public class Main {
     private static void showAllEntreprises() {
         System.out.println("\n=== All Entreprises ===");
         System.out.println("----------------------------------------");
-        System.out.printf("%-5s | %-20s | %-15s | %-20s | %-30s%n", 
-            "ID", "Name", "Sector", "Fiscal ID", "Email");
+        System.out.printf("%-5s | %-20s | %-15s | %-20s | %-15s%n", 
+            "ID", "Name", "Sector", "Fiscal ID", "Phone");
         System.out.println("----------------------------------------");
         
         for (Entreprise e : entrepriseService.getAll()) {
-            System.out.printf("%-5d | %-20s | %-15s | %-20s | %-30s%n",
+            System.out.printf("%-5d | %-20s | %-15s | %-20s | %-15s%n",
                 e.getId(),
                 truncateString(e.getNom(), 20),
                 truncateString(e.getSecteur(), 15),
                 truncateString(e.getMatriculeFiscale(), 20),
-                truncateString(e.getEmail(), 30)
+                truncateString(e.getPhoneNumber(), 15)
             );
         }
         System.out.println("----------------------------------------");
@@ -178,13 +178,13 @@ public class Main {
         String secteur = scanner.nextLine();
         System.out.print("Enter new fiscal registration (current: " + entreprise.getMatriculeFiscale() + "): ");
         String matricule = scanner.nextLine();
-        System.out.print("Enter new email (current: " + entreprise.getEmail() + "): ");
-        String email = scanner.nextLine();
+        System.out.print("Enter new phone number (current: " + entreprise.getPhoneNumber() + "): ");
+        String phoneNumber = scanner.nextLine();
 
         entreprise.setNom(nom);
         entreprise.setSecteur(secteur);
         entreprise.setMatriculeFiscale(matricule);
-        entreprise.setEmail(email);
+        entreprise.setPhoneNumber(phoneNumber);
 
         entrepriseService.update(entreprise);
         System.out.println("Entreprise updated successfully!");

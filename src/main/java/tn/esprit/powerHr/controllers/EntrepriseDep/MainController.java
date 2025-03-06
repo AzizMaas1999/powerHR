@@ -1,4 +1,4 @@
-package tn.esprit.powerHr.controllers;
+package tn.esprit.powerHr.controllers.EntrepriseDep;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

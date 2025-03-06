@@ -1,8 +1,8 @@
-package tn.esprit.powerHr.services;
+package tn.esprit.powerHr.services.EntrepriseDep;
 
-import tn.esprit.powerHr.models.Entreprise;
-import tn.esprit.powerHr.interfaces.IEntreprise;
-import tn.esprit.powerHr.utils.MyDataBase;
+import tn.esprit.powerHr.models.EntrepriseDep.Entreprise;
+import tn.esprit.powerHr.interfaces.EntrepriseDep.IEntreprise;
+import tn.esprit.powerHr.utils.MyDb;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -17,7 +17,7 @@ public class EntrepriseService implements IEntreprise {
     private final Connection connection;
 
     public EntrepriseService() {
-        connection = MyDataBase.getInstance().getConnection();
+        connection = MyDb.getInstance().getConnection();
     }
 
     @Override
@@ -32,22 +32,14 @@ public class EntrepriseService implements IEntreprise {
         if (entreprise.getMatriculeFiscale() == null || entreprise.getMatriculeFiscale().trim().isEmpty()) {
             throw new IllegalArgumentException("Matricule fiscale is required");
         }
-
-        // Email can be null or empty
-        String email = entreprise.getEmail();
-        if (email != null) {
-            email = email.trim();
-            if (email.isEmpty()) {
-                email = null;
-            }
-        }
         
-        String query = "INSERT INTO entreprise (nom, secteur, matricule_fiscale, email) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO entreprise (nom, secteur, matricule_fiscale, phone_number, phone_verified) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, entreprise.getNom().trim());
             pst.setString(2, entreprise.getSecteur().trim());
             pst.setString(3, entreprise.getMatriculeFiscale().trim());
-            pst.setString(4, email);
+            pst.setString(4, entreprise.getPhoneNumber());
+            pst.setBoolean(5, entreprise.isPhoneVerified());
             
             pst.executeUpdate();
         }
@@ -56,19 +48,20 @@ public class EntrepriseService implements IEntreprise {
     @Override
     public void update(Entreprise entreprise) {
         try {
-            String query = "UPDATE entreprise SET nom=?, secteur=?, matricule_fiscale=?, email=? WHERE id=?";
+            String query = "UPDATE entreprise SET nom=?, secteur=?, matricule_fiscale=?, phone_number=?, phone_verified=? WHERE id=?";
             try (PreparedStatement pst = connection.prepareStatement(query)) {
                 pst.setString(1, entreprise.getNom());
                 pst.setString(2, entreprise.getSecteur());
                 pst.setString(3, entreprise.getMatriculeFiscale());
-                pst.setString(4, entreprise.getEmail());
-                pst.setInt(5, entreprise.getId());
+                pst.setString(4, entreprise.getPhoneNumber());
+                pst.setBoolean(5, entreprise.isPhoneVerified());
+                pst.setInt(6, entreprise.getId());
                 pst.executeUpdate();
             }
 
             showAlert(Alert.AlertType.INFORMATION, "Success", 
                 "Company " + entreprise.getNom() + " has been updated successfully.");
-} catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println("SQL Error: " + e.getMessage());
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", 
@@ -123,7 +116,8 @@ public class EntrepriseService implements IEntreprise {
         entreprise.setNom(rs.getString("nom"));
         entreprise.setSecteur(rs.getString("secteur"));
         entreprise.setMatriculeFiscale(rs.getString("matricule_fiscale"));
-        entreprise.setEmail(rs.getString("email"));
+        entreprise.setPhoneNumber(rs.getString("phone_number"));
+        entreprise.setPhoneVerified(rs.getBoolean("phone_verified"));
         return entreprise;
     }
 

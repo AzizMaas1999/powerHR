@@ -1,4 +1,4 @@
-package tn.esprit.powerHr;
+package tn.esprit.powerHr.test;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/EntrepriseDep/fxml/MainView.fxml"));
         
         Scene scene = new Scene(root, 1000, 600);  // Set a default window size
         stage.setTitle("Power HR Management");
