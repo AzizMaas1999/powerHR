@@ -56,7 +56,7 @@
    <VBox layoutX="220.0" layoutY="116.0" prefWidth="650.0" />
    <Button fx:id="bt_supppaiement" layoutX="724.0" layoutY="400.0" onAction="#Supp" style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Supprimer Paiement" />
    <Button fx:id="bt_modiferpaiement" layoutX="576.0" layoutY="400.0" onAction="#NavModif" style="-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Modifier Paiement" />
-   <Button fx:id="bt_effectuerPaiement" layoutX="440.0" layoutY="400.0" onAction="#effectuerPaiement" style="-fx-background-color: #292e30; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="effectuerPaiement" />
+   <Button fx:id="bt_effectuerPaiement" layoutX="440.0" layoutY="400.0" onAction="#effectuerPaiement" style="-fx-background-color: #292e30; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Payer En Ligne" />
    <TableView fx:id="tv_paiement" layoutX="468.0" layoutY="124.0" prefHeight="258.0" prefWidth="417.0">
       <columns>
          <TableColumn fx:id="col_reference" prefWidth="77.5999755859375" text="Référence" />
