@@ -19,12 +19,12 @@ public class MainController {
 
     @FXML
     public void showEntreprises() {
-        loadView("/fxml/EntrepriseView.fxml");
+        loadView("/EntrepriseDep/fxml/EntrepriseView.fxml");
     }
 
     @FXML
     public void showDepartements() {
-        loadView("/fxml/DepartementView.fxml");
+        loadView("/EntrepriseDep/fxml/DepartementView.fxml");
     }
 
     private void loadView(String fxmlPath) {

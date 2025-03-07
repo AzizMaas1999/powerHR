@@ -141,7 +141,7 @@ public class LogInController {
                             return;
                         } else if (employe.getPoste().equals(Poste.Admin)) {
                             try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("EntrepriseDep/fxml/EntrepriseView.fxml"));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/EntrepriseDep/fxml/MainView.fxml"));
                                 Parent statView = loader.load();
 
                                 mainPane.getChildren().setAll(statView);
