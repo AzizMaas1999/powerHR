@@ -70,6 +70,16 @@ public class AjoutController {
 
     private Demande p;
 
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     public void setListDemande(Demande p) {
         this.p = p;
         System.out.println("Received Id: " + p);
@@ -103,7 +113,7 @@ public class AjoutController {
 
             List<Demande> demandesFiltrees = new ArrayList<>();
             for (Demande d : demandes) {
-                if (d.getEmploye().getId() == 2) {
+                if (d.getEmploye().getId() == getLoggedInUser().getId()) {
                     demandesFiltrees.add(d);
                 }
             }

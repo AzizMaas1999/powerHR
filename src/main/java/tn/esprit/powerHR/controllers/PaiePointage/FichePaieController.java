@@ -14,10 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import tn.esprit.powerHR.controllers.User.OuvrierHomeController;
 import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.PaiePointage.Paie;
 import tn.esprit.powerHR.models.User.Employe;
@@ -56,6 +59,9 @@ public class FichePaieController {
     private Text tx_re;
 
     @FXML
+    private ImageView bt_back;
+
+    @FXML
     private Text tx_sb;
 
     @FXML
@@ -63,6 +69,17 @@ public class FichePaieController {
 
     @FXML
     private Text st_sb;
+
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+        initialize();
+    }
 
     ObservableList<Paie> observableList = FXCollections.observableArrayList();
 
@@ -72,7 +89,7 @@ public class FichePaieController {
             ServicePaie sp = new ServicePaie();
             ServicePointage spointage = new ServicePointage();
             List<Integer> listIdPointage = spointage.getAll().stream()
-                    .filter(p -> p.getEmploye().getId() == 1) //supposons aziz d'id 1 est connecté
+                    .filter(p -> p.getEmploye().getId() == getLoggedInUser().getId()) //supposons aziz d'id 1 est connecté
                     .map(e->e.getPaie().getId())
                     .distinct()
                     .toList();
@@ -122,6 +139,7 @@ public class FichePaieController {
                                 PointageEmpController controller = loader.getController();
                                 System.out.println("ID1: " + paie.getId());
                                 controller.setLv_pointage(paie.getId());
+                                controller.setLoggedInUser(getLoggedInUser());
 
                                 mainPane.getChildren().setAll(statView);
                             } catch (IOException e) {
@@ -142,8 +160,9 @@ public class FichePaieController {
     @FXML
     void download(ActionEvent event) {
 // Supposons que l'employé connecté est Aziz Hamlaoui
-        Employe emp = new Employe(1, "Aziz Hamlaoui", "Aziz", Poste.Directeur, 5000.00, null, null, null, null, null, null, null);        String downloadsPath = System.getProperty("user.home") + "/Downloads/";
-        String dest = downloadsPath + "Fiche De Paie de " + emp.getUsername() + ".pdf";
+//        Employe emp = new Employe(1, "Aziz Hamlaoui", "Aziz", Poste.Directeur, 5000.00, null, null, null, null, null, null, null);
+        String downloadsPath = System.getProperty("user.home") + "/Downloads/";
+        String dest = downloadsPath + "Fiche De Paie de " + getLoggedInUser().getUsername() + ".pdf";
 
         try {
             // Create PDF document
@@ -158,10 +177,10 @@ public class FichePaieController {
                     .setBold();
             document.add(title);
 
-            Paragraph p = new Paragraph("Nom: " + emp.getUsername()).setBold();
-            Paragraph p1 = new Paragraph("Id Employé: " + emp.getId()).setFontSize(10);
-            Paragraph p2 = new Paragraph("Poste: " + emp.getPoste()).setFontSize(10);
-            Paragraph p3 = new Paragraph("Salaire: " + emp.getSalaire()).setFontSize(10);
+            Paragraph p = new Paragraph("Nom: " + getLoggedInUser().getUsername()).setBold();
+            Paragraph p1 = new Paragraph("Id Employé: " + getLoggedInUser().getId()).setFontSize(10);
+            Paragraph p2 = new Paragraph("Poste: " + getLoggedInUser().getPoste()).setFontSize(10);
+            Paragraph p3 = new Paragraph("Salaire: " + getLoggedInUser().getSalaire()).setFontSize(10);
             Paragraph p4 = new Paragraph("");
 
 //            // Employee Info Box
@@ -251,6 +270,21 @@ public class FichePaieController {
         st_cnss.setText("Retenue CNSS");
         tx_re.setText(list.get(0));
         tx_sb.setText(list.get(1));
+    }
+
+    @FXML
+    void Retour(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/OuvrierHome.fxml"));
+            Parent statView = loader.load();
+
+            OuvrierHomeController controller = loader.getController();
+            controller.setLoggedInUser(getLoggedInUser());
+
+            mainPane.getChildren().setAll(statView);
+        } catch (IOException e) {
+            System.err.println("Error loading " + e.getMessage());
+        }
     }
 
 }

@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="480.0" prefWidth="892.0" style="-fx-background-color: #ececec;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.LogInController">
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="480.0" prefWidth="892.0" style="-fx-background-color: #ececec;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.User.LogInController">
 
     <AnchorPane layoutY="-1.0" prefHeight="480.0" prefWidth="360.0" style="-fx-background-color: #292e30;">
         <children>
             <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="351.0" fitWidth="352.0" layoutX="5.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="65.39999999999998" AnchorPane.topAnchor="66.0">
                 <image>
-                    <Image url="@images/Logo.png" />
+                    <Image url="@../images/Logo.png" />
                 </image>
             </ImageView>
         </children>

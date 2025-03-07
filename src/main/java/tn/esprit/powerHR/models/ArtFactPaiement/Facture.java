@@ -1,6 +1,7 @@
 package tn.esprit.powerHR.models.ArtFactPaiement;
 
-import tn.esprit.powerHR.models.CLFr;
+
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 
 import java.sql.Date;
 import java.util.ArrayList;

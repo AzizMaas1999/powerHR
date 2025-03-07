@@ -91,7 +91,7 @@ public class CandidatAjoutController {
         backIcon.setOnMouseClicked(event -> {
             try {
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/MangeCandidat.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
                 Parent previousPage = loader.load();
 
                 Stage stage = (Stage) MainPane.getScene().getWindow();
