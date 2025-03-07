@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import tn.esprit.powerHR.models.ArtFactPaiement.Article;
 import tn.esprit.powerHR.models.ArtFactPaiement.Facture;
 import tn.esprit.powerHR.models.ArtFactPaiement.Paiement;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.services.ArtFactPaiement.ServiceArticle;
 import tn.esprit.powerHR.services.ArtFactPaiement.ServiceFacture;
 

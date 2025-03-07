@@ -108,7 +108,6 @@ public class AjoutController {
                 }
             }
 
-            // Mettre à jour la ListView avec la liste filtrée
             ObservableList<Demande> observableList = FXCollections.observableArrayList(demandesFiltrees);
             lv_demande.setItems(observableList);
 
@@ -266,7 +265,7 @@ public class AjoutController {
             ObservableList<Demande> observableList1 = FXCollections.observableArrayList();
 
             for (Demande d : observableList) {
-                if (d.getType().contains(re_id.getText())) {
+                if (d.getType().contains(re_id.getText().toLowerCase())) {
                     observableList1.add(d);
                 }
             }

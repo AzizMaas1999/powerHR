@@ -1,8 +1,8 @@
 package tn.esprit.powerHR.services.ArtFactPaiement;
 
 import tn.esprit.powerHR.interfaces.IService;
-import tn.esprit.powerHR.models.CLFr;
 import tn.esprit.powerHR.models.ArtFactPaiement.Facture;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.utils.MyDataBase;
 import java.sql.*;
 import java.util.ArrayList;
