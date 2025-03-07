@@ -97,7 +97,6 @@ public class AjoutController {
         loadDemandes();
         cb_type.setItems(FXCollections.observableArrayList("Augmentation Salaire", "Conges"));
 
-        // Ajouter un écouteur pour détecter le changement de type
         cb_type.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if ("Conges".equals(newValue)) {
                 bt_api.setVisible(true);
@@ -106,7 +105,6 @@ public class AjoutController {
             }
         });
 
-        // Cacher le bouton API par défaut
         bt_api.setVisible(false);
     }
 
@@ -126,7 +124,6 @@ public class AjoutController {
             observableList = FXCollections.observableArrayList(demandesFiltrees);
             lv_demande.setItems(observableList);
 
-            // Définition de l'affichage personnalisé pour chaque demande
             lv_demande.setCellFactory(param -> new ListCell<Demande>() {
                 @Override
                 protected void updateItem(Demande item, boolean empty) {
@@ -245,14 +242,12 @@ public class AjoutController {
     @FXML
     void NavigateModif(ActionEvent event) {
         try {
-            // Load the addEmploye.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/ModifD.fxml"));
             Parent addEmployeView = loader.load();
 
             ModifController mc = loader.getController();
             mc.setLoggedInUser(getLoggedInUser());
 
-            // Replace the current content of the mainPane with the addEmployeView
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
@@ -311,14 +306,12 @@ public class AjoutController {
     @FXML
     void BTAPI(MouseEvent event) {
         try {
-            // Load the addEmploye.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/tr.fxml"));
             Parent addEmployeView = loader.load();
 
             HolidayController hc = loader.getController();
             hc.setLoggedInUser(getLoggedInUser());
 
-            // Replace the current content of the mainPane with the addEmployeView
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());

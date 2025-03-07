@@ -97,14 +97,13 @@ public class AjoutQ {
                         setGraphic(null);
                     } else {
                         HBox hbox = new HBox();
-                        hbox.setSpacing(15); // Augmenter l'espace entre les éléments
+                        hbox.setSpacing(15);
 
                         Text objet = new Text(questionnaire.getObjet());
                         Text description = new Text(questionnaire.getDescription());
                         Text dateCreation = new Text(questionnaire.getDateCreation().toString());
                         Text employe = new Text(questionnaire.getEmploye().getUsername());
 
-                        // Augmenter la largeur pour éviter les coupures
                         objet.setWrappingWidth(130);
                         description.setWrappingWidth(160);
                         dateCreation.setWrappingWidth(170);
@@ -134,7 +133,7 @@ public class AjoutQ {
             alert.setHeaderText("L'objet est trop court");
             alert.setContentText("L'objet doit contenir au moins 15 caractères.");
             alert.showAndWait();
-            return; // Sortir de la méthode si l'objet est trop court
+            return;
         }
 
         if (q.getDescription().length() < 15) {
