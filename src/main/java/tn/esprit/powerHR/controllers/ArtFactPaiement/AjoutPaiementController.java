@@ -112,7 +112,7 @@ public class AjoutPaiementController {
     }
 
     @FXML
-    void rechercherFacture() {
+    void rechercherFactures() {
         String keyword = tf_recherche1.getText().toLowerCase().trim();
         List<Facture> filteredList = factures.stream()
                 .filter(f -> f.getNum().toLowerCase().contains(keyword))
@@ -137,7 +137,7 @@ public class AjoutPaiementController {
 
         // Écouteur pour filtrer à chaque modification du champ de recherche
         tf_recherche.textProperty().addListener((observable, oldValue, newValue) -> rechercherPaiement());
-
+        tf_recherche1.textProperty().addListener((observable, oldValue, newValue) -> rechercherFactures());
         // Ajouter les modes de paiement
         cb_mode.setItems(FXCollections.observableArrayList("chèque", "espèce", "virement", "traite"));
 
@@ -272,116 +272,122 @@ public class AjoutPaiementController {
     }
 
 
-    @FXML
-    public void effectuerPaiement() {
-        String montantStr = tf_montant.getText().trim();
 
-        if (montantStr.isEmpty()) {
-            afficherAlerte("Erreur", "Veuillez entrer un montant !");
-            return;
-        }
 
-        try {
-            float montant = Float.parseFloat(montantStr);
-            if (montant <= 0) {
-                afficherAlerte("Erreur", "Le montant doit être positif !");
+        public void effectuerPaiement() {
+            String montantStr = tf_montant.getText().trim();
+
+            if (montantStr.isEmpty()) {
+                afficherAlerte("Erreur", "Veuillez entrer un montant !");
                 return;
             }
 
-            // Clé API Stripe
-            Stripe.apiKey = "sk_test_51Qz88XLp4Kjx6gr23O7wtIFaoP3BBRenSyXexAdhGLyHnif5lnEcHxlunX3CvAxv5GktelCZ708X32ImQipQGkt700xzJpIQ48";
-
-            long montantCents = (long) (montant * 100);
-            System.out.println("Montant en centimes : " + montantCents);
-
-            // Création de la session Stripe Checkout
-            SessionCreateParams params = SessionCreateParams.builder()
-                    .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl("http://localhost:8080/succes")  // URL de succès
-                    .setCancelUrl("http://localhost:54751/cancel")   // URL d'annulation
-
-                    .addLineItem(SessionCreateParams.LineItem.builder()
-                            .setQuantity(1L)
-                            .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
-                                    .setCurrency("eur")
-                                    .setUnitAmount(montantCents)
-                                    .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                            .setName("Paiement Facture")
-                                            .build())
-                                    .build())
-                            .build())
-                    .build();
-
-            Session session = Session.create(params);
-            System.out.println("Lien de paiement : " + session.getUrl());
-
-            // Ouvrir Stripe Checkout dans le navigateur
-            Desktop.getDesktop().browse(new URI(session.getUrl()));
-
-            // Mettre à jour le label pour indiquer que l'utilisateur doit finaliser le paiement
-            lblMessage.setText("Veuillez finaliser votre paiement dans la fenêtre ouverte...");
-
-            // Vérifier le paiement après quelques secondes
-            new Thread(() -> {
-                try {
-                    Thread.sleep(10000); // Attendre 10 secondes
-                    Platform.runLater(() -> verifierStatutPaiement(session.getId()));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            try {
+                float montant = Float.parseFloat(montantStr);
+                if (montant <= 0) {
+                    afficherAlerte("Erreur", "Le montant doit être positif !");
+                    return;
                 }
-            }).start();
 
-        } catch (NumberFormatException e) {
-            afficherAlerte("Erreur", "Montant invalide, entrez un nombre !");
-        } catch (StripeException e) {
-            afficherAlerte("Erreur Stripe", "Erreur : " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException | URISyntaxException e) {
-            afficherAlerte("Erreur Système", "Problème : " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+                //  Remplacez votre clé API ici (évitez de l'exposer en dur dans le code)
+                Stripe.apiKey = "sk_test_51Qz88XLp4Kjx6gr23O7wtIFaoP3BBRenSyXexAdhGLyHnif5lnEcHxlunX3CvAxv5GktelCZ708X32ImQipQGkt700xzJpIQ48";
 
+                long montantCents = (long) (montant * 100);
+                System.out.println("Montant en centimes : " + montantCents);
 
+                //  URL de redirection après paiement
+                String successUrl = "http://localhost:8080/succes";
+                String cancelUrl = "http://localhost:8080/cancel";
 
-    public void verifierStatutPaiement(String sessionId) {
-        try {
-            // Récupérer la session Stripe
-            Session session = Session.retrieve(sessionId);
+                //  Création de la session Stripe Checkout
+                SessionCreateParams params = SessionCreateParams.builder()
+                        .setMode(SessionCreateParams.Mode.PAYMENT)
+                        .setSuccessUrl(successUrl)
+                        .setCancelUrl(cancelUrl)
+                        .addLineItem(
+                                SessionCreateParams.LineItem.builder()
+                                        .setQuantity(1L)
+                                        .setPriceData(
+                                                SessionCreateParams.LineItem.PriceData.builder()
+                                                        .setCurrency("eur")
+                                                        .setUnitAmount(montantCents)
+                                                        .setProductData(
+                                                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                                        .setName("Paiement Facture")
+                                                                        .build()
+                                                        )
+                                                        .build()
+                                        )
+                                        .build()
+                        )
+                        .build();
 
-            if ("complete".equals(session.getStatus())) {
-                Platform.runLater(() -> {
-                    lblMessage.setText("Paiement confirmé !");
+                Session session = Session.create(params);
+                System.out.println("🔗 Lien de paiement Stripe : " + session.getUrl());
 
-                    // Ajouter le paiement dans la base de données
-                    Paiement nouveauPaiement = new Paiement();
-                    nouveauPaiement.setReference("REF-" + System.currentTimeMillis()); // Référence unique
-                    nouveauPaiement.setDate(new Date(System.currentTimeMillis())); // Date actuelle
-                    nouveauPaiement.setMontant(Float.parseFloat(tf_montant.getText()));
-                    nouveauPaiement.setMode("En ligne"); // Mode de paiement Stripe
+                //  Ouvrir la page de paiement dans le navigateur
+                Desktop.getDesktop().browse(new URI(session.getUrl()));
 
-                    ps.add(nouveauPaiement); // Ajouter en base
-                    paiements.add(nouveauPaiement); // Ajouter dans la TableView
+                lblMessage.setText("Veuillez finaliser votre paiement dans la fenêtre ouverte...");
 
-                    refreshTable(); // Rafraîchir la liste
-                });
-            } else {
-                Platform.runLater(() -> lblMessage.setText("Paiement non confirmé !"));
+                //  Vérifier le paiement après 30 secondes pour éviter un faux négatif
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(30000); // Augmenté à 30 secondes
+                        Platform.runLater(() -> verifierStatutPaiement(session.getId()));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+
+            } catch (NumberFormatException e) {
+                afficherAlerte("Erreur", "Montant invalide, entrez un nombre !");
+            } catch (StripeException e) {
+                afficherAlerte("Erreur Stripe", "Erreur : " + e.getMessage());
+                e.printStackTrace();
+            } catch (IOException | URISyntaxException e) {
+                afficherAlerte("Erreur Système", "Problème : " + e.getMessage());
+                e.printStackTrace();
             }
-        } catch (StripeException e) {
-            afficherAlerte("Erreur Stripe", "Erreur de vérification du paiement !");
-            e.printStackTrace();
+        }
+
+        public void verifierStatutPaiement(String sessionId) {
+            try {
+                //  Récupération de la session Stripe
+                Session session = Session.retrieve(sessionId);
+
+                System.out.println("⚡ Statut du paiement Stripe : " + session.getStatus());
+
+                if ("complete".equals(session.getStatus())) {
+                    Platform.runLater(() -> {
+                        lblMessage.setText("✅ Paiement confirmé !");
+
+                        // 📝 Sauvegarde dans la base de données
+                        Paiement nouveauPaiement = new Paiement();
+                        nouveauPaiement.setReference("REF-" + System.currentTimeMillis()); // Référence unique
+                        nouveauPaiement.setDate(new Date(System.currentTimeMillis())); // Date actuelle
+                        nouveauPaiement.setMontant(Float.parseFloat(tf_montant.getText()));
+                        nouveauPaiement.setMode("En ligne"); // Mode de paiement Stripe
+
+                        ps.add(nouveauPaiement); // Ajout en base
+                        paiements.add(nouveauPaiement); // Ajout dans la TableView
+
+                        refreshTable(); // Rafraîchir l'affichage
+                    });
+                } else {
+                    Platform.runLater(() -> lblMessage.setText("❌ Paiement non confirmé ! Statut : " + session.getStatus()));
+                }
+            } catch (StripeException e) {
+                afficherAlerte("Erreur Stripe", "Erreur de vérification du paiement !");
+                e.printStackTrace();
+            }
+        }
+
+        // 📢 Méthode pour afficher une alerte (à adapter avec votre système d'alertes)
+        private void afficherAlerte(String titre, String message) {
+            System.out.println("⚠️ " + titre + " : " + message);
+            lblMessage.setText(message);
         }
     }
 
 
-
-    private void afficherAlerte(String titre, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titre);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-}

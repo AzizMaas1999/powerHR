@@ -50,7 +50,7 @@
                     <DatePicker fx:id="dp_date" promptText="Sélectionner une date" style="-fx-border-color: #CCCCCC; -fx-border-radius: 7; -fx-padding: 5;" />
                     <TextField fx:id="tf_montant" promptText="Montant" style="-fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 7; -fx-padding: 5;" />
                     <ComboBox fx:id="cb_mode" promptText="Mode de paiement" style="-fx-border-color: #CCCCCC; -fx-border-radius: 7; -fx-padding: 5;" />
-                    <Button fx:id="bt_submit" onAction="#Modifer" style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Modifier Paiement" />
+                <Button fx:id="bt_modiferpaiement" onAction="#Modifer" style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Modifier Paiement" />
                 </children>
             </VBox>
         </children>
@@ -61,7 +61,5 @@
 
     <!-- Boutons supplémentaires -->
     <Button fx:id="bt_supppaiement" layoutX="698.0" layoutY="415.0" onAction="#Supp" style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Supprimer Paiement" />
-    <Button fx:id="bt_modiferpaiement" layoutX="558.0" layoutY="415.0" style="-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Modifier Paiement" />
-    <Button fx:id="bt_ajouterpaiement" layoutX="424.0" layoutY="415.0" style="-fx-background-color: #292e30; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Ajouter Paiement" />
 
 </AnchorPane>
