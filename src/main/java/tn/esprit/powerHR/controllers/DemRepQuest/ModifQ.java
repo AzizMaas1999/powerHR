@@ -83,7 +83,7 @@ public class ModifQ {
                         Text objet = new Text(questionnaire.getObjet());
                         Text description = new Text(questionnaire.getDescription());
 
-                        objet.setWrappingWidth(150);
+                        objet.setWrappingWidth(180);
                         description.setWrappingWidth(260);
                         dateCreation.setWrappingWidth(180);
 

@@ -76,7 +76,8 @@ public class AjoutQ {
     public void initialize() {
         loadQuestionnaires();
         ServiceEmploye se = new ServiceEmploye();
-        List<Employe> employes = se.getAll().stream().toList();
+        List<Employe> employes = se.getAll().stream()
+                .toList();
         cb_emp.setItems(FXCollections.observableArrayList(employes));
     }
 
@@ -233,7 +234,7 @@ public class AjoutQ {
             ObservableList<Questionnaire> observableList1 = FXCollections.observableArrayList();
 
             for (Questionnaire q : observableList) {
-                if (q.getEmploye().getUsername().contains(tf_rech.getText())) {
+                if (q.getEmploye().getUsername().toLowerCase().contains(tf_rech.getText())) {
                     observableList1.add(q);
                 }
             }

@@ -38,7 +38,10 @@ public class AjoutRepQ {
 
     @FXML
     private AnchorPane mainPane;
+    @FXML
+    void NavigateAjoutR(ActionEvent event) {
 
+    }
     @FXML
     private ListView<RepQuestionnaire> id_listeview;
 
@@ -148,4 +151,46 @@ public class AjoutRepQ {
         }
     }
 
+
+    @FXML
+    void supp(ActionEvent event) {
+        RepQuestionnaire selectedRep = id_listeview.getSelectionModel().getSelectedItem();
+
+        if (selectedRep == null) {
+            System.out.println("Veuillez sélectionner une réponse !");
+            return;
+        }
+
+        try {
+            ServiceRepQuestionnaire srq = new ServiceRepQuestionnaire();
+            srq.delete(selectedRep);
+            loadRepQuestionnaires(); // Recharger la liste après suppression
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText("La réponse a été supprimée avec succès.");
+            alert.showAndWait();
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la suppression de la réponse : " + e.getMessage());
+        }
+    }
+    @FXML
+    void navigateM(ActionEvent event) {
+        try {
+            // Load the addEmploye.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/ModifRepQ.fxml"));
+            Parent addEmployeView = loader.load();
+
+            // Replace the current content of the mainPane with the addEmployeView
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
 }
+
+

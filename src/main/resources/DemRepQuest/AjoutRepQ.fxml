@@ -27,7 +27,12 @@
                 </image>
             </ImageView>
         </children></AnchorPane>
-    <AnchorPane layoutY="60.0" prefHeight="701.0" prefWidth="163.0" style="-fx-background-color: #56aeff;" />
+    <AnchorPane layoutY="60.0" prefHeight="701.0" prefWidth="200.0" style="-fx-background-color: #56aeff;">
+      <children>
+         <Button fx:id="bt_ajouterdemande" layoutX="4.0" layoutY="85.0" onAction="#NavigateAjoutR" prefHeight="46.0" prefWidth="190.0" text="➕ Ajouter Reponse" />
+         <Button fx:id="bt_modiferdemande" layoutX="4.0" layoutY="198.0" onAction="#navigateM" prefHeight="46.0" prefWidth="190.0" text="✏ Modifier Demande" />
+         <Button fx:id="bt_suppdemande" layoutX="4.0" layoutY="294.0" onAction="#supp" prefHeight="46.0" prefWidth="190.0" text="❌ Supprimer Demande" />
+      </children></AnchorPane>
     <TextField fx:id="tf_Reponse" layoutX="653.0" layoutY="209.0" prefHeight="81.0" prefWidth="381.0" promptText="Reponse" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
    <Label fx:id="lb_obj" layoutX="653.0" layoutY="98.0" prefHeight="73.0" prefWidth="381.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" text="objet" />
    <Label fx:id="lb_desc" layoutX="239.0" layoutY="209.0" prefHeight="81.0" prefWidth="370.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" text="Description" />

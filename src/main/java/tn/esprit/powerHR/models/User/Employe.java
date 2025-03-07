@@ -141,19 +141,6 @@ public class Employe {
 
     @Override
     public String toString() {
-        return "Employe{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", poste='" + poste + '\'' +
-                ", salaire=" + salaire +
-                ", rib='" + rib + '\'' +
-                ", codeSociale='" + codeSociale + '\'' +
-                ", departement=" + nomDepartement +
-                ", demandes=" + demandes +
-                ", RepQuestionnaires=" + RepQuestionnaires +
-                ", pointages=" + pointages +
-                ", clFrs=" + clFrs +
-                '}';
+        return username;
     }
 }

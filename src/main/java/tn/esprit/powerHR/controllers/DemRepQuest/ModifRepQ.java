@@ -9,12 +9,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.DemRepQuest.RepQuestionnaire;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.DemRepQuest.ServiceRepQuestionnaire;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
@@ -30,6 +34,9 @@ public class ModifRepQ {
     private Button bt_submit;
 
     @FXML
+    private AnchorPane mainPane;
+
+    @FXML
     private Button bt_supreponse;
 
     @FXML
@@ -40,6 +47,7 @@ public class ModifRepQ {
 
     @FXML
     private TextField tf_Reponse;
+    private ServiceRepQuestionnaire sq = new ServiceRepQuestionnaire();
 
     private RepQuestionnaire p;
     public void setListRepQuestionnaire(RepQuestionnaire p) {
@@ -56,10 +64,15 @@ public class ModifRepQ {
     }
 
     private void loadRepQuestionnaires() {
-        ServiceRepQuestionnaire ps = new ServiceRepQuestionnaire();
         try {
-            List<RepQuestionnaire> repQuestionnaires = ps.getAll();
-            ObservableList<RepQuestionnaire> observableList = FXCollections.observableArrayList(repQuestionnaires);
+            Employe employe = new Employe(3, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
+
+            // Filtrer les réponses de l'employé connecté
+            List<RepQuestionnaire> repQuest = sq.getAll().stream()
+                    .filter(e -> e.getEmploye().getId() == employe.getId())
+                    .toList();
+
+            ObservableList<RepQuestionnaire> observableList = FXCollections.observableArrayList(repQuest);
             lv_RepQ.setItems(observableList);
 
             lv_RepQ.setCellFactory(param -> new ListCell<RepQuestionnaire>() {
@@ -70,15 +83,17 @@ public class ModifRepQ {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        HBox hbox = new HBox(15);
+                        HBox hbox = new HBox(20);
 
+                        // Création des textes
                         Text dateReponse = new Text(repQuestionnaire.getDateCreation().toString());
                         Text reponse = new Text(repQuestionnaire.getReponse());
 
-                        dateReponse.setWrappingWidth(200);
+                        // Définition de la largeur pour un affichage correct
+                        dateReponse.setWrappingWidth(270);
                         reponse.setWrappingWidth(260);
 
-
+                        // Ajout des éléments au conteneur HBox
                         hbox.getChildren().addAll(dateReponse, reponse);
                         setGraphic(hbox);
                     }
@@ -89,29 +104,24 @@ public class ModifRepQ {
         }
     }
 
-
     @FXML
     void ChooseLine(MouseEvent event) {
         RepQuestionnaire rq = lv_RepQ.getSelectionModel().getSelectedItem();
-
-        rq.setReponse(tf_Reponse.getText());
-        setListRepQuestionnaire(p);
-
-    }
+        if (rq != null) {
+            tf_Reponse.setText(rq.getReponse());  // Remplir le champ avec la réponse sélectionnée
+            setListRepQuestionnaire(rq);  // Mettre à jour l'objet sélectionné
+        }}
 
     @FXML
-    void AjoutNav(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/DemRepQuest/AjoutRepQ.fxml"));
+    void NavigateAjoutR(ActionEvent event) {
         try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Ajouter Reponse Questionnaire");
-            Stage.setScene(scene);
-            Stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutRepQ.fxml"));
+            Parent addEmployeView = loader.load();
+
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -122,12 +132,22 @@ public class ModifRepQ {
         RepQuestionnaire rq = getListRepQuestionnaire();
         rq.setReponse(tf_Reponse.getText());
         try {
-            ps.update(p);
-            initialize();
+            ps.update(rq);
+          initialize();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
     }
+    public void Retour(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutRepQ.fxml"));
+            Parent addEmployeView = loader.load();
 
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

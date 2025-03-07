@@ -64,7 +64,7 @@ public class OuvrierHomeController {
             Parent statView = loader.load();
 
             AjoutController demandeController = loader.getController();
-            demandeController.setLoggedInUser(loggedInUser);
+            demandeController.setLoggedInUser(getLoggedInUser());
 
             mainPane.getChildren().setAll(statView);
         } catch (IOException e) {

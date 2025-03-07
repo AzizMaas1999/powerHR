@@ -83,6 +83,7 @@ public class ModifController {
 
     public void setLoggedInUser(Employe loggedInUser) {
         this.loggedInUser = loggedInUser;
+        initialize();
     }
 
     @FXML
@@ -207,6 +208,9 @@ public class ModifController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutD.fxml"));
             Parent addEmployeView = loader.load();
+
+            AjoutController ajoutController = loader.getController();
+            ajoutController.setLoggedInUser(getLoggedInUser());
 
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
