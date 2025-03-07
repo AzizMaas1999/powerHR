@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="MainPane" prefHeight="475.0" prefWidth="892.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.User.CandidatAjoutController">
+
+    <AnchorPane minHeight="-Infinity" prefHeight="54.0" prefWidth="892.0" style="-fx-background-color: #292e30;">
+        <ImageView fx:id="backIcon" blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="54.0" fitWidth="74.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/back-icon.png" />
+            </image>
+        </ImageView>
+
+
+        <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="710.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/PowerHR.png" />
+            </image>
+        </ImageView>
+    </AnchorPane>
+
+    <VBox alignment="CENTER" layoutX="259.0" layoutY="66.0" prefHeight="404.0" prefWidth="384.0" spacing="15" style="-fx-border-color: #292e30; -fx-border-width: 2; -fx-border-radius: 10; -fx-padding: 20; -fx-background-radius: 10; -fx-background-color: #f5f5f5;">
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Formulaire de Candidature" />
+
+        <TextField fx:id="tf_nom" promptText="Nom" />
+        <TextField fx:id="tf_prenom" promptText="Prénom" />
+        <TextField fx:id="tf_email" promptText="Email" />
+        <TextField fx:id="tf_Num" promptText="Téléphone" />
+        <ComboBox fx:id="cb_entreprise" promptText="Sélectionner une entreprise" />
+
+        <Button fx:id="bt_upload" onAction="#initialize" text="Télécharger CV" />
+
+        <Button fx:id="bt_submit" alignment="CENTER" onAction="#AjouterCandidat" style="-fx-background-color: #56aeff; -fx-border-radius: 5;" text="Ajouter" textFill="WHITE">
+            <font>
+                <Font name="Arial Narrow" size="14.0" />
+            </font>
+        </Button>
+    </VBox>
+
+</AnchorPane>
