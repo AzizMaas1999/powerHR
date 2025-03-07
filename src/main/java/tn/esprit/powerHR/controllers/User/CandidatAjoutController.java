@@ -44,7 +44,7 @@ public class CandidatAjoutController {
     private AnchorPane MainPane;
 
     private String cvFileName;
-    private String cvPdfUrl; // Add this for storing the URL
+    private String cvPdfUrl;
 
     private ServiceCandidat sc = new ServiceCandidat();
     private EntrepriseService se = new EntrepriseService();
@@ -104,7 +104,7 @@ public class CandidatAjoutController {
     }
 
         private void loadEntreprises() {
-        List<Entreprise> entreprises = se.getAll(); // Get all entreprises
+        List<Entreprise> entreprises = se.getAll();
         ObservableList<String> entrepriseNames = FXCollections.observableArrayList(
                 entreprises.stream().map(Entreprise::getNom).toList()
         );
@@ -133,9 +133,8 @@ public class CandidatAjoutController {
         String prenom = tf_prenom.getText();
         String email = tf_email.getText();
         String telephone = tf_Num.getText();
-        String entrepriseName = cb_entreprise.getValue(); // Get the selected entreprise name
+        String entrepriseName = cb_entreprise.getValue();
 
-        // Retrieve the actual Entreprise object from the database
         List<Entreprise> entreprises = se.getAll();
         Entreprise selectedEntreprise = entreprises.stream()
                 .filter(e -> e.getNom().equals(entrepriseName))
@@ -147,11 +146,10 @@ public class CandidatAjoutController {
             return;
         }
 
-        // Debugging line to check the CV URL before saving it
         System.out.println("Final CV URL: " + cvPdfUrl);
 
         if (cvPdfUrl == null || cvPdfUrl.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Le chemin du fichier CV est vide.5555");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le chemin du fichier CV est vide.");
             return;
         }
 
@@ -160,12 +158,12 @@ public class CandidatAjoutController {
         candidat.setPrenom(prenom);
         candidat.setEmail(email);
         candidat.setTelephone(telephone);
-        candidat.setCvPdfUrl(cvPdfUrl); // Set the CV URL
+        candidat.setCvPdfUrl(cvPdfUrl);
         candidat.setEntreprise(selectedEntreprise); // Set the actual Entreprise object
 
         try {
             sc.add(candidat);
-            //clearFields();
+            clearFields();
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Candidat ajouté avec succès !");
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s'est produite : " + e.getMessage());
@@ -194,7 +192,6 @@ public class CandidatAjoutController {
         tf_email.clear();
         tf_Num.clear();
         cb_entreprise.getSelectionModel().clearSelection();
-        cvFileName = null; // Clear the file name as well
-        cvPdfUrl = null; // Clear the URL as well
+        cvPdfUrl = null;
     }
 }

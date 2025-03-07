@@ -109,13 +109,14 @@ public class ManageFicheController implements Initializable {
                     Hyperlink cv = new Hyperlink("View CV");
                     cv.setOnAction(event -> openCV(ficheEmploye.getCvPdfUrl()));
 
-                    cin.setWrappingWidth(100);
+                    cin.setWrappingWidth(80);
                     name.setWrappingWidth(100);
                     email.setWrappingWidth(100);
                     adresse.setWrappingWidth(100);
-                    city.setWrappingWidth(100);
-                    zip.setWrappingWidth(100);
-                    phone.setWrappingWidth(100);
+                    city.setWrappingWidth(80);
+                    zip.setWrappingWidth(80);
+                    phone.setWrappingWidth(70);
+                    cv.setMinWidth(70);
 
                     Button deleteButton = new Button();
                     ImageView icon = new ImageView(deleteIcon.getImage());

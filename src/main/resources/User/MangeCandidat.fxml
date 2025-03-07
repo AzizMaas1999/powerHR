@@ -47,7 +47,7 @@
 
     <ImageView fx:id="deleteIcon" fitHeight="16" fitWidth="16" visible="false">
         <image>
-            <Image url="@/images/Delete-icon.png" />
+            <Image url="@/images/dele.png" />
         </image>
     </ImageView>
 
