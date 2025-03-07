@@ -1,22 +1,23 @@
 package tn.esprit.powerHR.test.ArtFactPaiement;
 
-import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.controllers.enums.Poste;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
+import tn.esprit.powerHR.models.ClfrFeedback.Feedback;
+import tn.esprit.powerHR.models.User.Employe;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceCLFr;
+import tn.esprit.powerHR.services.ClfrFeedback.ServiceFeedback;
 import tn.esprit.powerHR.utils.MyDataBase;
-import tn.esprit.powerHR.models.CLFr;
-import tn.esprit.powerHR.services.ServiceCLFr;
-import tn.esprit.powerHR.models.Feedback;
-import tn.esprit.powerHR.services.ServiceFeedback;
 
 import java.sql.*;
 
 public class Main {
     public static void main(String[] args) {
         // Initialisation de la connexion à la base de données
-        MyDataBase.getInstance();
-
-        ServiceCLFr serviceCLFr = new ServiceCLFr();
-        Employe e = new Employe(1,"fdkbgkndfg","fdkbgkndfg","chargesRH",445.2,"123456789125","fdkbgkndfg");
-        CLFr c = new CLFr(1,"haifa","1518yh","rue hghghggh","+5154545","Client",null,e,null);
+//        MyDataBase.getInstance();
+//
+//        ServiceCLFr serviceCLFr = new ServiceCLFr();
+//        Employe e = new Employe(1,"fdkbgkndfg","fdkbgkndfg", Poste.Charges,445.2,"123456789125","fdkbgkndfg", null, null, null, null, null);
+//        CLFr c = new CLFr(1,"haifa","1518yh","rue hghghggh","+5154545","Client",null,e,null);
 //        // 1. Création d'un nouveau CLFr
 //        CLFr newClfr = new CLFr(10,"haifa","1518yh","rue hghghggh","+5154545","Client",null,e,null);
 
@@ -36,10 +37,10 @@ public class Main {
 //        System.out.println("Après suppression du CLFr :");
 //        serviceCLFr.getAll().forEach(System.out::println);
 
-        ServiceFeedback serviceFeedback = new ServiceFeedback();
-        // 1. Création d'un nouveau Feedback
-        Date d = Date.valueOf("2025-10-19");
-        Feedback newFeedback = new Feedback(0,d,"ghbfgubdy","kjndfghdfg",c);
+//        ServiceFeedback serviceFeedback = new ServiceFeedback();
+//        // 1. Création d'un nouveau Feedback
+//        Date d = Date.valueOf("2025-10-19");
+//        Feedback newFeedback = new Feedback(0,d,"ghbfgubdy","kjndfghdfg",c);
 
 //        // Ajout du Feedback
 //        serviceFeedback.add(newFeedback);
@@ -47,7 +48,7 @@ public class Main {
 //        serviceFeedback.getAll().forEach(System.out::println);
 
         // Modif
-        Feedback feedbackToUpdate = new Feedback(4,d,"hhhhhhhh","aaaaaaaaaa",c);
+//        Feedback feedbackToUpdate = new Feedback(4,d,"hhhhhhhh","aaaaaaaaaa",c);
 //        serviceFeedback.update(feedbackToUpdate);
 //        System.out.println("Après mise à jour du feedback :");
 //        serviceFeedback.getAll().forEach(System.out::println);
