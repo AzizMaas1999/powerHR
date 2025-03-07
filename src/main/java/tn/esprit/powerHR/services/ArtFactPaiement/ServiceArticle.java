@@ -90,26 +90,30 @@ public class ServiceArticle implements IService<Article> {
     }
 
     // Méthode pour récupérer tous les articles (utile pour ComboBox)
-    public List<Article> getAllArticles() {
+    public List<Article> getArticlesByFacture(Facture facture) {
         List<Article> articles = new ArrayList<>();
-        String req = "SELECT id, description, quantity, prixUni, TVA FROM article";
+        String qry = "SELECT * FROM article WHERE facture_id = ?";
 
-        try (PreparedStatement ps = cnx.prepareStatement(req);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = cnx.prepareStatement(qry)) {
+            ps.setInt(1, facture.getId());
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                articles.add(new Article(
+                Article article = new Article(
                         rs.getInt("id"),
                         rs.getString("description"),
                         rs.getInt("quantity"),
                         rs.getDouble("prixUni"),
                         rs.getDouble("TVA"),
-                        null // Pas besoin de facture ici
-                ));
+                        facture // On associe la facture ici
+                );
+                articles.add(article);
             }
         } catch (SQLException e) {
-            System.err.println(" Erreur SQL: " + e.getMessage());
+            System.err.println("Erreur lors de la récupération des articles pour la facture : " + e.getMessage());
         }
         return articles;
     }
 }
+
+
