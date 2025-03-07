@@ -15,10 +15,15 @@ public class FeedbackListCell extends ListCell<Feedback> {
 
     public FeedbackListCell() {
         super();
+        // Largeurs fixes pour aligner avec l'en-tête
         descriptionLabel = new Label();
+        descriptionLabel.setPrefWidth(400);
         dateLabel = new Label();
+        dateLabel.setPrefWidth(250);
         typeLabel = new Label();
-        content = new HBox(20, descriptionLabel, dateLabel, typeLabel);
+        typeLabel.setPrefWidth(150);
+
+        content = new HBox(0, descriptionLabel, dateLabel, typeLabel);
         content.setAlignment(Pos.CENTER_LEFT);
     }
 

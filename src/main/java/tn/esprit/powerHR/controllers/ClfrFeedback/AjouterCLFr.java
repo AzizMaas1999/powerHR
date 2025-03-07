@@ -232,6 +232,7 @@ public class AjouterCLFr {
         try {
             List<CLFr> list = service.getAll();
             lv_ShowCLFr.setItems(FXCollections.observableArrayList(list));
+            lv_ShowCLFr.refresh();
         } catch (Exception e) {
             System.out.println("Erreur rafraîchissement: " + e.getMessage());
         }

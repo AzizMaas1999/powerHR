@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import okhttp3.OkHttpClient;
 public class OpenRouterService {
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String API_URL = "https://openrouter.ai/api/v1/chat/completions";
     private final OkHttpClient client = new OkHttpClient();
 
