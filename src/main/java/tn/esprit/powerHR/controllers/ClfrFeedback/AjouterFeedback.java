@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.models.ClfrFeedback.Feedback;
@@ -36,6 +38,10 @@ public class AjouterFeedback {
     private Label lblSentiment;
     @FXML
     private ComboBox<String> feedbackTypeComboBox;
+    @FXML
+    private Button bt_fiche;
+    @FXML
+    private AnchorPane mainPane;
 
     private final ServiceFeedback serviceFeedback = new ServiceFeedback();
 
@@ -194,5 +200,18 @@ public class AjouterFeedback {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    void Retour(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FacturationHome.fxml"));
+            Parent statView = loader.load();
+
+
+            mainPane.getChildren().setAll(statView);
+        } catch (IOException e) {
+            System.err.println("Error loading " + e.getMessage());
+        }
     }
 }

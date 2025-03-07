@@ -7,6 +7,8 @@ import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.controllers.enums.Poste;
@@ -60,6 +62,8 @@ public class AjouterCLFr {
     private TextField photoPathField;
     @FXML
     private Button btnChoisirPhoto;
+    @FXML
+    private AnchorPane mainPane;
 
 
 
@@ -358,6 +362,17 @@ public class AjouterCLFr {
             alert.setHeaderText("Impossible d'ouvrir l'assistance");
             alert.setContentText("Une erreur est survenue lors de l'ouverture du ChatBot.");
             alert.showAndWait();
+        }
+    }
+    @FXML
+    void Retour(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FacturationHome.fxml"));
+            Parent statView = loader.load();
+
+            mainPane.getChildren().setAll(statView);
+        } catch (IOException e) {
+            System.err.println("Error loading " + e.getMessage());
         }
     }
 

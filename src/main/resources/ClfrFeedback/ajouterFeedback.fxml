@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.ClfrFeedback.AjouterFeedback">
+<AnchorPane fx:id="mainPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.ClfrFeedback.AjouterFeedback">
 
    <Button fx:id="bt_submit" layoutX="345.0" layoutY="397.0" mnemonicParsing="false" onAction="#AjouterFeedBack" style="-fx-background-color: #56aeff;" text="Ajouter" textFill="WHITE">
       <font>
@@ -27,6 +27,11 @@
          <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
             <image>
                <Image url="@../images/Logo.png.png" />
+            </image>
+         </ImageView>
+         <ImageView fx:id="bt_back" accessibleRole="BUTTON" fitHeight="24.0" fitWidth="36.0" layoutX="8.0" layoutY="18.0" onMouseClicked="#Retour" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../images/backIcon.png" />
             </image>
          </ImageView>
       </children></AnchorPane>
