@@ -1,7 +1,7 @@
 package tn.esprit.powerHR.models.ClfrFeedback;
 
+import tn.esprit.powerHR.models.ArtFactPaiement.Facture;
 import tn.esprit.powerHR.models.User.*;
-import tn.esprit.powerHR.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
