@@ -1,7 +1,7 @@
 package tn.esprit.powerHR.services;
 
 import tn.esprit.powerHR.interfaces.IService;
-import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.models.Questionnaire;
 import tn.esprit.powerHR.models.RepQuestionnaire;
 import tn.esprit.powerHR.utils.MyDataBase;

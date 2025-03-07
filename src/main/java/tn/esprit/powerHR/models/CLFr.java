@@ -1,5 +1,7 @@
 package tn.esprit.powerHR.models;
 
+import tn.esprit.powerHR.models.User.Employe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class CLFr {
     private String nom;
     private String matriculeFiscale;
     private String adresse;
-    private String numTel;  // Ajoutez ce champ si ce n'est pas déjà fait
+    private String numTel;
     private String type;
     private List<Feedback> feedbacks = new ArrayList<>();
     private Employe employe ;

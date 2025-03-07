@@ -4,5 +4,6 @@ public enum Poste {
     Directeur,
     Charges,
     Ouvrier,
-    Facturation
+    Facturation,
+    Admin
 }

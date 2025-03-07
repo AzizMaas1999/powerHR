@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+
+<AnchorPane fx:id="mainPane" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.User.ManageFicheController">
+
+    <AnchorPane minHeight="-Infinity" prefHeight="54.0" prefWidth="900.0" style="-fx-background-color: #292e30;">
+        <Label layoutX="348.0" layoutY="15.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="Manage Fiche Employes" />
+        <ImageView fx:id="backIcon" blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="54.0" fitWidth="74.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/back-icon.png" />
+            </image>
+        </ImageView>
+        <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="710.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/PowerHR.png" />
+            </image>
+        </ImageView>
+    </AnchorPane>
+
+    <HBox layoutX="10.0" layoutY="80.0" prefWidth="880.0" spacing="10">
+        <TextField fx:id="searchField" prefWidth="300.0" promptText="Rechercher" />
+        <Button onAction="#handleSearch" text="Rechercher" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button onAction="#handleAddFiche" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Fiche" />
+    </HBox>
+
+    <HBox layoutX="10.0" layoutY="120.0" prefHeight="30.0" prefWidth="880.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ddd; -fx-border-width: 1;">
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Cin" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Name" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Email" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Adresse" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="City" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Zip" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Phone" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="CV" />
+        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Actions" />
+    </HBox>
+
+    <ListView fx:id="list_fiches" layoutX="10.0" layoutY="149.0" prefHeight="302.0" prefWidth="880.0" />
+
+    <ImageView fx:id="deleteIcon" fitHeight="16" fitWidth="16" visible="false">
+        <image>
+            <Image url="@/images/Delete-icon.png" />
+        </image>
+    </ImageView>
+    <ImageView fx:id="ModifIcon" fitHeight="16" fitWidth="16" visible="false">
+        <image>
+            <Image url="@/images/Modif-icon.png" />
+        </image>
+    </ImageView>
+
+</AnchorPane>

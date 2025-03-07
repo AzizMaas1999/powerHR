@@ -11,7 +11,7 @@ public class MyDataBase {
 
     private static MyDataBase instance;
 
-    private final String URL = "jdbc:mysql://localhost:3306/powerhr2";
+    private final String URL = "jdbc:mysql://localhost:3306/powerhr";
     private final String USERNAME = "root";
     private final String PASSWORD = "";
 

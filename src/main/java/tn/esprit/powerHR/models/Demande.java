@@ -1,5 +1,7 @@
 package tn.esprit.powerHR.models;
 
+import tn.esprit.powerHR.models.User.Employe;
+
 import java.sql.Date;
 
 public class Demande {
