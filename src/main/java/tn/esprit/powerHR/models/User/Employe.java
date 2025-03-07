@@ -4,6 +4,7 @@ import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.models.DemRepQuest.Demande;
 import tn.esprit.powerHR.models.DemRepQuest.RepQuestionnaire;
+import tn.esprit.powerHR.models.PaiePointage.Pointage;
 
 
 import java.util.ArrayList;

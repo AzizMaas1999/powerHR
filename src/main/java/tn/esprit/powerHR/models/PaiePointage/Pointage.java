@@ -1,5 +1,7 @@
 package tn.esprit.powerHR.models.PaiePointage;
 
+import tn.esprit.powerHR.models.User.Employe;
+
 import java.sql.Time;
 import java.sql.Date;
 

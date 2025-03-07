@@ -25,12 +25,11 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import tn.esprit.powerHR.controllers.enums.Poste;
-import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.PaiePointage.Paie;
 import tn.esprit.powerHR.models.PaiePointage.Pointage; // Import your model
-import tn.esprit.powerHR.services.ServiceEmploye;
 import tn.esprit.powerHR.services.PaiePointage.ServicePaie;
 import tn.esprit.powerHR.services.PaiePointage.ServicePointage;
+import tn.esprit.powerHR.services.User.ServiceEmploye;
 
 public class AddPointageController {
 

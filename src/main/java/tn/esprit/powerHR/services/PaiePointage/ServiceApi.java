@@ -1,7 +1,9 @@
 package tn.esprit.powerHR.services.PaiePointage;
 
-import tn.esprit.powerHR.models.Employe;
-import tn.esprit.powerHR.models.FicheEmploye;
+
+import tn.esprit.powerHR.models.User.Employe;
+import tn.esprit.powerHR.models.User.FicheEmploye;
+import tn.esprit.powerHR.services.User.ServiceFicheEmploye;
 
 import java.net.URI;
 import java.net.http.HttpClient;

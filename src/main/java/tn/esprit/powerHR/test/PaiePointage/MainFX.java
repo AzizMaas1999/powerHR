@@ -6,12 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import tn.esprit.powerHR.controllers.enums.Poste;
-import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.PaiePointage.Paie;
 import tn.esprit.powerHR.models.PaiePointage.Pointage;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.PaiePointage.ServiceApi;
-import tn.esprit.powerHR.services.ServiceEmploye;
 import tn.esprit.powerHR.services.PaiePointage.ServicePaie;
 import tn.esprit.powerHR.services.PaiePointage.ServicePointage;
 

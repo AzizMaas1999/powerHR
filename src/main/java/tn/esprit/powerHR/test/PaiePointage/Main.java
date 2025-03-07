@@ -1,7 +1,8 @@
 package tn.esprit.powerHR.test.PaiePointage;
 
 import tn.esprit.powerHR.controllers.enums.Poste;
-import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.User.Employe;
+import tn.esprit.powerHR.services.User.ServiceEmploye;
 
 import java.util.List;
 

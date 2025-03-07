@@ -11,9 +11,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.PaiePointage.Paie;
 import tn.esprit.powerHR.models.PaiePointage.Pointage;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.PaiePointage.ServicePaie;
 import tn.esprit.powerHR.services.PaiePointage.ServicePointage;
 

@@ -2,9 +2,10 @@ package tn.esprit.powerHR.services.PaiePointage;
 
 import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.interfaces.IService;
-import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.PaiePointage.Paie;
 import tn.esprit.powerHR.models.PaiePointage.Pointage;
+import tn.esprit.powerHR.models.User.Employe;
+import tn.esprit.powerHR.services.User.ServiceEmploye;
 import tn.esprit.powerHR.utils.MyDataBase;
 
 import java.sql.*;
