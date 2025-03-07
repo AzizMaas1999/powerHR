@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import tn.esprit.powerHR.models.DemRepQuest.Demande;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.DemRepQuest.DemandeService;
 import tn.esprit.powerHR.services.User.ServiceEmploye;
 
@@ -74,6 +75,16 @@ public class ModifController {
 
     private ServiceEmploye empService = new ServiceEmploye();
 
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     @FXML
     public void initialize() {
         loadDemandes();
@@ -87,7 +98,7 @@ public class ModifController {
 
             List<Demande> demandesFiltrees = new ArrayList<>();
             for (Demande d : demandes) {
-                if (d.getEmploye().getId() == 2) {
+                if (d.getEmploye().getId() == getLoggedInUser().getId()) {
                     demandesFiltrees.add(d);
                 }
             }

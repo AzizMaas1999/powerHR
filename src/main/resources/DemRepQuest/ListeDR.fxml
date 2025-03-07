@@ -24,12 +24,12 @@
                <Image url="@../images/Logo.png" />
             </image>
          </ImageView>
-         <TextField fx:id="recherche_id" layoutX="1075.0" layoutY="12.0" onKeyPressed="#searchDemande" prefHeight="38.0" prefWidth="149.0" promptText="Recherche" style="-fx-background-color: #ffffff;" />
-         <ImageView fitHeight="23.0" fitWidth="25.0" layoutX="1199.0" layoutY="19.0" style="-fx-background-color: #ffffff;">
+         <ImageView fx:id="bt_back" accessibleRole="BUTTON" fitHeight="24.0" fitWidth="36.0" layoutX="8.0" layoutY="18.0" onMouseClicked="#Retour" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@../../../../../OneDrive/Images/aa.png" />
+               <Image url="@../images/backIcon.png" />
             </image>
          </ImageView>
+         <TextField fx:id="recherche_id" layoutX="1075.0" layoutY="12.0" onKeyPressed="#searchDemande" prefHeight="38.0" prefWidth="149.0" promptText="Recherche" style="-fx-background-color: #ffffff;" />
       </children>
    </AnchorPane>
    <Button layoutX="618.0" layoutY="694.0" mnemonicParsing="false" onMouseClicked="#statistique" prefHeight="31.0" prefWidth="94.0" style="-fx-background-color: #56aeff;" text="Statistique" />

@@ -93,9 +93,11 @@ public class ListeQue {
     }
     public void Retour(MouseEvent mouseEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/DemQuestRepHome.fxml"));
+            // Load the addEmploye.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/OuvrierHome.fxml"));
             Parent addEmployeView = loader.load();
 
+            // Replace the current content of the mainPane with the addEmployeView
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
