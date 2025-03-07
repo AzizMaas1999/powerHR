@@ -297,8 +297,8 @@ public class AjoutPaiementController {
             // Création de la session Stripe Checkout
             SessionCreateParams params = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl("https://ebc3-196-225-209-215.ngrok-free.app/succes")  // URL de succès
-                    .setCancelUrl("https://ebc3-196-225-209-215.ngrok-free.app/cancel")
+                    .setSuccessUrl("http://localhost:8080/succes")  // URL de succès
+                    .setCancelUrl("http://localhost:54751/cancel")   // URL d'annulation
 
                     .addLineItem(SessionCreateParams.LineItem.builder()
                             .setQuantity(1L)
