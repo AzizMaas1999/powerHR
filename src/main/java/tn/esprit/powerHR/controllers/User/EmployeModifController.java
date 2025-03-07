@@ -58,6 +58,16 @@ public class EmployeModifController {
     ServiceEmploye se = new ServiceEmploye();
     DepartementService sd = new DepartementService();
 
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     @FXML
     private Employe selectedEmploye;
 
@@ -77,6 +87,9 @@ public class EmployeModifController {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ManageEmploye.fxml"));
                 Parent previousPage = loader.load();
+
+                ManageEmployeController manageEmployeController = loader.getController();
+                manageEmployeController.setLoggedInUser(getLoggedInUser());
 
                 Stage stage = (Stage) MainPane.getScene().getWindow();
                 Scene scene = new Scene(previousPage);

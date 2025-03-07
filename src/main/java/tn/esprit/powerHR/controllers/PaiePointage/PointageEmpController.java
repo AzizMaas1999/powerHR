@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import tn.esprit.powerHR.models.PaiePointage.Pointage;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.PaiePointage.ServicePointage;
 
 import java.io.IOException;
@@ -34,6 +35,17 @@ public class PointageEmpController {
     private DatePicker tf_search_pointage;
 
     ObservableList<Pointage> observableList = FXCollections.observableArrayList();
+
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+        initialize();
+    }
 
     @FXML
     public void initialize() {
@@ -86,6 +98,9 @@ public class PointageEmpController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/PaiePointage/FichePaie.fxml"));
             Parent statView = loader.load();
+
+            FichePaieController fichePaieController = loader.getController();
+            fichePaieController.setLoggedInUser(getLoggedInUser());
 
             mainPane.getChildren().setAll(statView);
         } catch (IOException e) {

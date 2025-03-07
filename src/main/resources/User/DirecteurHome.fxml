@@ -52,26 +52,8 @@
                     </Button>
                 </children>
             </HBox>
-            <HBox spacing="20.0">
+            <HBox alignment="CENTER" spacing="20.0">
                 <children>
-                    <Button contentDisplay="TOP" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,#56aeff, #ffffff); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 10px 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 0, 2);" text="Paie" textAlignment="CENTER">
-                        <graphic>
-                            <ImageView fitHeight="103.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/PaieIcon.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button contentDisplay="TOP" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,#56aeff, #ffffff); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 10px 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 0, 2);" text="Paie" textAlignment="CENTER">
-                        <graphic>
-                            <ImageView fitHeight="103.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/PaieIcon.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
                     <Button fx:id="bt_logout" contentDisplay="TOP" onAction="#Logout" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top, #d9273b, #ffffff); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 10px 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 0, 2);" text="Logout">
                         <graphic>
                             <ImageView fitHeight="103.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">

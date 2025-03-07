@@ -49,6 +49,17 @@ public class EmployeAjoutController {
 
     ServiceEmploye se = new ServiceEmploye();
     DepartementService sd = new DepartementService();
+
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     @FXML
     private void initialize() {
         cb_poste.setItems(FXCollections.observableArrayList(Poste.values()));
@@ -62,6 +73,9 @@ public class EmployeAjoutController {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ManageEmploye.fxml"));
                 Parent previousPage = loader.load();
+
+                ManageEmployeController controller = loader.getController();
+                controller.setLoggedInUser(getLoggedInUser());
 
                 Stage stage = (Stage) MainPane.getScene().getWindow();
                 Scene scene = new Scene(previousPage);

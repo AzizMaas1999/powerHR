@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.DemRepQuest.Questionnaire;
 import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.DemRepQuest.ServiceQuestionnaire;
@@ -61,6 +62,16 @@ public class AjoutQ {
     private ServiceQuestionnaire sq = new ServiceQuestionnaire();
     private ObservableList<Questionnaire> listQuestionnaires;
     private Questionnaire selectedQuestionnaire;
+
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
 
     public void initialize() {
         loadQuestionnaires();
@@ -198,7 +209,13 @@ public class AjoutQ {
     public void Retour(MouseEvent mouseEvent) {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/DemQuestRepHome.fxml"));
+            FXMLLoader loader = null;
+            if (getLoggedInUser().getPoste().equals(Poste.Directeur)) {
+                loader = new FXMLLoader(getClass().getResource("/User/DirecteurHome.fxml"));
+            }
+            if (getLoggedInUser().getPoste().equals(Poste.Charges)) {
+                loader = new FXMLLoader(getClass().getResource("/User/ChargesHome.fxml"));
+            }
             Parent addEmployeView = loader.load();
 
 

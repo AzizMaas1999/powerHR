@@ -4,6 +4,8 @@ import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -12,6 +14,7 @@ import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.User.*;
 import tn.esprit.powerHR.services.User.ServiceEmploye;
 
+import java.io.IOException;
 import java.util.List;
 
 public class LogInController {
@@ -54,19 +57,67 @@ public class LogInController {
                         alertI.setContentText("Bienvenue " + employe.getUsername());
                         alertI.showAndWait();
                         if (employe.getPoste().equals(Poste.Directeur)) {
-                            System.out.println("Directeur");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/DirecteurHome.fxml"));
+                                Parent statView = loader.load();
+
+                                DirecteurHomeController controller = loader.getController();
+                                controller.setLoggedInUser(employe);
+
+                                mainPane.getChildren().setAll(statView);
+                            } catch (IOException e) {
+                                System.err.println("Error loading " + e.getMessage());
+                            }
                             return;
                         } else if (employe.getPoste().equals(Poste.Charges)) {
-                            System.out.println("Charges");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ChargesHome.fxml"));
+                                Parent statView = loader.load();
+
+                                ChargesHomeController controller = loader.getController();
+                                controller.setLoggedInUser(employe);
+
+                                mainPane.getChildren().setAll(statView);
+                            } catch (IOException e) {
+                                System.err.println("Error loading " + e.getMessage());
+                            }
                             return;
                         } else if (employe.getPoste().equals(Poste.Ouvrier)) {
-                            System.out.println("Ouvrier");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/OuvrierHome.fxml"));
+                                Parent statView = loader.load();
+
+                                OuvrierHomeController controller = loader.getController();
+                                controller.setLoggedInUser(employe);
+                                System.out.println(employe.getUsername());
+
+                                mainPane.getChildren().setAll(statView);
+                            } catch (IOException e) {
+                                System.err.println("Error loading " + e.getMessage());
+                            }
                             return;
                         } else if (employe.getPoste().equals(Poste.Facturation)) {
-                            System.out.println("Facturation");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FacturationHome.fxml"));
+                                Parent statView = loader.load();
+
+                                FacturationHomeController controller = loader.getController();
+                                controller.setLoggedInUser(employe);
+
+                                mainPane.getChildren().setAll(statView);
+                            } catch (IOException e) {
+                                System.err.println("Error loading " + e.getMessage());
+                            }
                             return;
                         } else if (employe.getPoste().equals(Poste.Admin)) {
-                            System.out.println("Admin");
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("EntrepriseDep/fxml/EntrepriseView.fxml"));
+                                Parent statView = loader.load();
+
+                                mainPane.getChildren().setAll(statView);
+                            } catch (IOException e) {
+                                System.err.println("Error loading " + e.getMessage());
+                            }
                             return;
                         }
                     }
