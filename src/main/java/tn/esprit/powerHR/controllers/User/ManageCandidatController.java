@@ -54,7 +54,7 @@ public class ManageCandidatController implements Initializable {
         backIcon.setOnMouseClicked(event -> {
             try {
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/MangeCandidat.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/Home.fxml"));
                 Parent previousPage = loader.load();
 
                 Stage stage = (Stage) mainPane.getScene().getWindow();
@@ -89,9 +89,13 @@ public class ManageCandidatController implements Initializable {
                     Text name = new Text(candidat.getNom() + " " + candidat.getPrenom());
                     Text email = new Text(candidat.getEmail());
                     Text phone = new Text(candidat.getTelephone());
+                    name.setWrappingWidth(180);
+                    email.setWrappingWidth(180);
+                    phone.setWrappingWidth(180);
 
                     Hyperlink cvLink = new Hyperlink("View CV");
                     cvLink.setOnAction(event -> openCV(candidat.getCvPdfUrl()));
+                    cvLink.setMinWidth(200);
 
                     Button deleteButton = new Button();
                     ImageView icon = new ImageView(deleteIcon.getImage());

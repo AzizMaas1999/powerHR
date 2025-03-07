@@ -133,13 +133,13 @@ public class ManageEmployeController implements Initializable {
                         Text codeSociale = new Text(employe.getCodeSociale());
                         Text nomDepartement = new Text(employe.getDepartement());
 
-                        username.setWrappingWidth(110);
-                        password.setWrappingWidth(110);
-                        salaire.setWrappingWidth(100);
-                        poste.setWrappingWidth(90);
-                        rib.setWrappingWidth(110);
-                        codeSociale.setWrappingWidth(110);
-                        nomDepartement.setWrappingWidth(110);
+                        username.setWrappingWidth(90);
+                        password.setWrappingWidth(150);
+                        salaire.setWrappingWidth(80);
+                        poste.setWrappingWidth(70);
+                        rib.setWrappingWidth(120);
+                        codeSociale.setWrappingWidth(120);
+                        nomDepartement.setWrappingWidth(70);
 
                         Button deleteButton = new Button();
                         ImageView icon = new ImageView(deleteIcon.getImage());

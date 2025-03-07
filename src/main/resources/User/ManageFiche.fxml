@@ -36,22 +36,22 @@
     </HBox>
 
     <HBox layoutX="10.0" layoutY="120.0" prefHeight="30.0" prefWidth="880.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ddd; -fx-border-width: 1;">
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Cin" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Name" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Email" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Adresse" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="City" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Zip" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Phone" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="CV" />
-        <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Actions" />
+        <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Cin" />
+        <Label prefWidth="200.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Name" />
+        <Label prefWidth="160.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Email" />
+        <Label prefWidth="170.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Adresse" />
+        <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="City" />
+        <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Zip" />
+        <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Phone" />
+        <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="CV" />
+        <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Actions" />
     </HBox>
 
     <ListView fx:id="list_fiches" layoutX="10.0" layoutY="149.0" prefHeight="302.0" prefWidth="880.0" />
 
     <ImageView fx:id="deleteIcon" fitHeight="16" fitWidth="16" visible="false">
         <image>
-            <Image url="@/images/Delete-icon.png" />
+            <Image url="@../images/dele.png" />
         </image>
     </ImageView>
     <ImageView fx:id="ModifIcon" fitHeight="16" fitWidth="16" visible="false">
