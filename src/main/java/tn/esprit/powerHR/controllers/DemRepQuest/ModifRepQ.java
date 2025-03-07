@@ -7,15 +7,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.DemRepQuest.RepQuestionnaire;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.DemRepQuest.ServiceRepQuestionnaire;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
@@ -31,6 +34,9 @@ public class ModifRepQ {
     private Button bt_submit;
 
     @FXML
+    private AnchorPane mainPane;
+
+    @FXML
     private Button bt_supreponse;
 
     @FXML
@@ -41,6 +47,7 @@ public class ModifRepQ {
 
     @FXML
     private TextField tf_Reponse;
+    private ServiceRepQuestionnaire sq = new ServiceRepQuestionnaire();
 
     private RepQuestionnaire p;
     public void setListRepQuestionnaire(RepQuestionnaire p) {
@@ -53,38 +60,68 @@ public class ModifRepQ {
 
     @FXML
     public void initialize() {
-        ServiceRepQuestionnaire ps = new ServiceRepQuestionnaire();
+        loadRepQuestionnaires();
+    }
+
+    private void loadRepQuestionnaires() {
         try {
-            List<RepQuestionnaire> list = ps.getAll();
-            ObservableList<RepQuestionnaire> observableList = FXCollections.observableList(list);
+            Employe employe = new Employe(3, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
+
+            // Filtrer les réponses de l'employé connecté
+            List<RepQuestionnaire> repQuest = sq.getAll().stream()
+                    .filter(e -> e.getEmploye().getId() == employe.getId())
+                    .toList();
+
+            ObservableList<RepQuestionnaire> observableList = FXCollections.observableArrayList(repQuest);
             lv_RepQ.setItems(observableList);
+
+            lv_RepQ.setCellFactory(param -> new ListCell<RepQuestionnaire>() {
+                @Override
+                protected void updateItem(RepQuestionnaire repQuestionnaire, boolean empty) {
+                    super.updateItem(repQuestionnaire, empty);
+                    if (empty || repQuestionnaire == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        HBox hbox = new HBox(20);
+
+                        // Création des textes
+                        Text dateReponse = new Text(repQuestionnaire.getDateCreation().toString());
+                        Text reponse = new Text(repQuestionnaire.getReponse());
+
+                        // Définition de la largeur pour un affichage correct
+                        dateReponse.setWrappingWidth(270);
+                        reponse.setWrappingWidth(260);
+
+                        // Ajout des éléments au conteneur HBox
+                        hbox.getChildren().addAll(dateReponse, reponse);
+                        setGraphic(hbox);
+                    }
+                }
+            });
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur lors du chargement des réponses aux questionnaires: " + e.getMessage());
         }
     }
 
     @FXML
     void ChooseLine(MouseEvent event) {
         RepQuestionnaire rq = lv_RepQ.getSelectionModel().getSelectedItem();
-        rq.setDateCreation(Date.valueOf(dc_date.getValue()));
-        rq.setReponse(tf_Reponse.getText());
-        setListRepQuestionnaire(p);
-
-    }
+        if (rq != null) {
+            tf_Reponse.setText(rq.getReponse());  // Remplir le champ avec la réponse sélectionnée
+            setListRepQuestionnaire(rq);  // Mettre à jour l'objet sélectionné
+        }}
 
     @FXML
-    void AjoutNav(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/DemRepQuest/AjoutRepQ.fxml"));
+    void NavigateAjoutR(ActionEvent event) {
         try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage Stage = new Stage();
-            Stage.setTitle("Ajouter Reponse Questionnaire");
-            Stage.setScene(scene);
-            Stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutRepQ.fxml"));
+            Parent addEmployeView = loader.load();
+
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -93,15 +130,24 @@ public class ModifRepQ {
     void ModiferReponse(ActionEvent event) {
         ServiceRepQuestionnaire ps = new ServiceRepQuestionnaire();
         RepQuestionnaire rq = getListRepQuestionnaire();
-        rq.setDateCreation(Date.valueOf(dc_date.getValue()));
         rq.setReponse(tf_Reponse.getText());
         try {
-            ps.update(p);
-            initialize();
+            ps.update(rq);
+          initialize();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
     }
+    public void Retour(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutRepQ.fxml"));
+            Parent addEmployeView = loader.load();
 
+            mainPane.getChildren().setAll(addEmployeView);
+        } catch (IOException e) {
+            System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

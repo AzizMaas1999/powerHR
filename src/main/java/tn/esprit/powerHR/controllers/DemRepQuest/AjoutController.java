@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import tn.esprit.powerHR.controllers.User.OuvrierHomeController;
 import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.DemRepQuest.Demande;
 import tn.esprit.powerHR.models.User.Employe;
@@ -67,6 +68,8 @@ public class AjoutController {
     @FXML
     private Button bt_api;
 
+    public ObservableList<Demande> observableList = FXCollections.observableArrayList();
+
 
     private Demande p;
 
@@ -78,6 +81,7 @@ public class AjoutController {
 
     public void setLoggedInUser(Employe loggedInUser) {
         this.loggedInUser = loggedInUser;
+        initialize();
     }
 
     public void setListDemande(Demande p) {
@@ -93,7 +97,6 @@ public class AjoutController {
         loadDemandes();
         cb_type.setItems(FXCollections.observableArrayList("Augmentation Salaire", "Conges"));
 
-        // Ajouter un écouteur pour détecter le changement de type
         cb_type.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if ("Conges".equals(newValue)) {
                 bt_api.setVisible(true);
@@ -102,7 +105,6 @@ public class AjoutController {
             }
         });
 
-        // Cacher le bouton API par défaut
         bt_api.setVisible(false);
     }
 
@@ -110,6 +112,7 @@ public class AjoutController {
         try {
             DemandeService ds = new DemandeService();
             List<Demande> demandes = ds.getAll();
+            System.out.println(getLoggedInUser().getUsername());
 
             List<Demande> demandesFiltrees = new ArrayList<>();
             for (Demande d : demandes) {
@@ -118,11 +121,9 @@ public class AjoutController {
                 }
             }
 
-            // Mettre à jour la ListView avec la liste filtrée
-            ObservableList<Demande> observableList = FXCollections.observableArrayList(demandesFiltrees);
+            observableList = FXCollections.observableArrayList(demandesFiltrees);
             lv_demande.setItems(observableList);
 
-            // Définition de l'affichage personnalisé pour chaque demande
             lv_demande.setCellFactory(param -> new ListCell<Demande>() {
                 @Override
                 protected void updateItem(Demande item, boolean empty) {
@@ -217,8 +218,7 @@ public class AjoutController {
         d.setSalaire(salaire);
 
 
-        Employe employe = new Employe(2, "kk", "fdkbgkndfg", Poste.Charges, 445.2, "123456789125", "fdkbgkndfg", null, null, null, null, null);
-        d.setEmploye(employe);
+        d.setEmploye(getLoggedInUser());
 
         try {
             ds.add(d);
@@ -242,11 +242,12 @@ public class AjoutController {
     @FXML
     void NavigateModif(ActionEvent event) {
         try {
-            // Load the addEmploye.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/ModifD.fxml"));
             Parent addEmployeView = loader.load();
 
-            // Replace the current content of the mainPane with the addEmployeView
+            ModifController mc = loader.getController();
+            mc.setLoggedInUser(getLoggedInUser());
+
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
@@ -271,12 +272,10 @@ public class AjoutController {
     void searchDemande(KeyEvent event) {
 
         try {
-            List<Demande> list = ds.getAll();
-            ObservableList<Demande> observableList = FXCollections.observableArrayList(list);
             ObservableList<Demande> observableList1 = FXCollections.observableArrayList();
 
             for (Demande d : observableList) {
-                if (d.getType().contains(re_id.getText())) {
+                if (d.getType().toLowerCase().contains(re_id.getText().toLowerCase())) {
                     observableList1.add(d);
                 }
             }
@@ -293,6 +292,9 @@ public class AjoutController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/OuvrierHome.fxml"));
             Parent addEmployeView = loader.load();
 
+            OuvrierHomeController oc = loader.getController();
+            oc.setLoggedInUser(getLoggedInUser());
+
 
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
@@ -304,11 +306,12 @@ public class AjoutController {
     @FXML
     void BTAPI(MouseEvent event) {
         try {
-            // Load the addEmploye.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/tr.fxml"));
             Parent addEmployeView = loader.load();
 
-            // Replace the current content of the mainPane with the addEmployeView
+            HolidayController hc = loader.getController();
+            hc.setLoggedInUser(getLoggedInUser());
+
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());

@@ -141,7 +141,7 @@ private AnchorPane mainPane;
             ObservableList<Demande> observableList1 = FXCollections.observableArrayList();
 
             for (Demande d : observableList) {
-                if (d.getStatus().equals("En Attente") && d.getEmploye().getUsername().contains(recherche_id.getText())) {
+                if (d.getStatus().equals("En Attente") && d.getEmploye().getUsername().toLowerCase().contains(recherche_id.getText())) {
                     observableList1.add(d);
                 }
             }

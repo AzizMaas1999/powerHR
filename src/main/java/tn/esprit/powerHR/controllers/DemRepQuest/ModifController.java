@@ -83,6 +83,7 @@ public class ModifController {
 
     public void setLoggedInUser(Employe loggedInUser) {
         this.loggedInUser = loggedInUser;
+        initialize();
     }
 
     @FXML
@@ -96,7 +97,6 @@ public class ModifController {
             DemandeService ds = new DemandeService();
             List<Demande> demandes = ds.getAll();
 
-            // Créer une liste filtrée contenant uniquement les demandes de l'employé avec ID 2
             List<Demande> demandesFiltrees = new ArrayList<>();
             for (Demande d : demandes) {
                 if (d.getEmploye().getId() == getLoggedInUser().getId()) {
@@ -104,11 +104,9 @@ public class ModifController {
                 }
             }
 
-            // Mettre à jour la ListView avec la liste filtrée
             ObservableList<Demande> observableList = FXCollections.observableArrayList(demandesFiltrees);
             lv_demande.setItems(observableList);
 
-            // Définition de l'affichage personnalisé pour chaque demande
             lv_demande.setCellFactory(param -> new ListCell<Demande>() {
                 @Override
                 protected void updateItem(Demande item, boolean empty) {
@@ -196,11 +194,9 @@ public class ModifController {
     @FXML
     void NavigateAjout(ActionEvent event) {
         try {
-            // Load the addEmploye.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutD.fxml"));
             Parent addEmployeView = loader.load();
 
-            // Replace the current content of the mainPane with the addEmployeView
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());
@@ -210,11 +206,12 @@ public class ModifController {
     }
     public void Retour(MouseEvent mouseEvent) {
         try {
-            // Load the addEmploye.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutD.fxml"));
             Parent addEmployeView = loader.load();
 
-            // Replace the current content of the mainPane with the addEmployeView
+            AjoutController ajoutController = loader.getController();
+            ajoutController.setLoggedInUser(getLoggedInUser());
+
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading addEmploye.fxml: " + e.getMessage());

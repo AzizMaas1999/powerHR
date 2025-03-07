@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="808.0" prefWidth="1124.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="tn.esprit.powerHR.controllers.DemRepQuest.HolidayController">
+<AnchorPane fx:id="mainPane" prefHeight="808.0" prefWidth="1124.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.powerHR.controllers.DemRepQuest.HolidayController">
     <children>
         <VBox alignment="CENTER" layoutX="432.0" layoutY="170.0" prefHeight="518.0" prefWidth="628.0" spacing="10.0" AnchorPane.leftAnchor="432.0" AnchorPane.rightAnchor="239.0" AnchorPane.topAnchor="170.0">
             <children>
@@ -23,10 +23,15 @@
           <Label layoutX="631.0" layoutY="87.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Jours Fériés en Tunisie" />
       <AnchorPane layoutY="71.0" prefHeight="787.0" prefWidth="205.0" style="-fx-background-color: #3498DB;" />
       <AnchorPane layoutX="-11.0" prefHeight="71.0" prefWidth="1310.0" style="-fx-background-color: #2C3E50;" />
-      <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="32.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Logo.png" />
-         </image>
-      </ImageView>
+        <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
+            <image>
+                <Image url="@../images/Logo.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="bt_back" accessibleRole="BUTTON" fitHeight="24.0" fitWidth="36.0" layoutX="8.0" layoutY="18.0" onMouseClicked="#Retour" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/backIcon.png" />
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>
