@@ -2,7 +2,7 @@ package tn.esprit.powerHR.services.DemRepQuest;
 
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.DemRepQuest.Demande;
-import tn.esprit.powerHR.services.ServiceEmploye;
+import tn.esprit.powerHR.services.User.ServiceEmploye;
 import tn.esprit.powerHR.utils.MyDataBase;
 
 import java.sql.*;

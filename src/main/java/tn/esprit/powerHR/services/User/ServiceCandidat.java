@@ -1,8 +1,8 @@
 package tn.esprit.powerHR.services.User;
 
 import tn.esprit.powerHR.interfaces.IService;
+import tn.esprit.powerHR.models.EntrepriseDep.Entreprise;
 import tn.esprit.powerHR.models.User.Candidat;
-import tn.esprit.powerHR.models.Entreprise;
 import tn.esprit.powerHR.utils.MyDataBase;
 import tn.esprit.powerHR.utils.User.MinIOUtils;
 import java.io.File;
@@ -111,7 +111,7 @@ public class ServiceCandidat implements IService<Candidat> {
                 candidat.setEmail(resultSet.getString("email"));
                 candidat.setTelephone(resultSet.getString("telephone"));
                 candidat.setCvPdfUrl(resultSet.getString("cvPdfUrl"));
-                Entreprise entreprise = new Entreprise(resultSet.getInt("entreprise_id"), "", null, null);
+                Entreprise entreprise = new Entreprise(resultSet.getInt("entreprise_id"), "", null, null, null, false);
                 candidat.setEntreprise(entreprise);
 
                 candidats.add(candidat);

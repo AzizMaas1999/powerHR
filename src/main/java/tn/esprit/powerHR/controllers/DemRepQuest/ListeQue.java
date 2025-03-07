@@ -11,8 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import tn.esprit.powerHR.controllers.enums.Poste;
-import tn.esprit.powerHR.models.Employe;
 import tn.esprit.powerHR.models.DemRepQuest.Questionnaire;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.DemRepQuest.ServiceQuestionnaire;
 import javafx.scene.input.MouseEvent;
 

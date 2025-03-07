@@ -1,6 +1,7 @@
 package tn.esprit.powerHR.models.User;
 
-import tn.esprit.powerHR.models.Entreprise;
+
+import tn.esprit.powerHR.models.EntrepriseDep.Entreprise;
 
 public class Candidat {
     private int id;

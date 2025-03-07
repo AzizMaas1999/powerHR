@@ -11,7 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
-import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.User.*;
 import tn.esprit.powerHR.services.ClfrFeedback.ServiceCLFr;
 
 import java.io.File;

@@ -3,7 +3,7 @@ package tn.esprit.powerHR.services.ClfrFeedback;
 import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.interfaces.IService;
 import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
-import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.utils.MyDataBase;
 
 import java.sql.*;

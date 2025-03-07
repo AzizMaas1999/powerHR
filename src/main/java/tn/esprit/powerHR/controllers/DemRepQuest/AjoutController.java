@@ -13,9 +13,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.DemRepQuest.Demande;
-import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.DemRepQuest.DemandeService;
-import tn.esprit.powerHR.services.ServiceEmploye;
+import tn.esprit.powerHR.services.User.ServiceEmploye;
 
 import java.io.IOException;
 import java.sql.Date;

@@ -1,6 +1,6 @@
 package tn.esprit.powerHR.models.DemRepQuest;
 
-import tn.esprit.powerHR.models.Employe;
+import tn.esprit.powerHR.models.User.Employe;
 
 import java.sql.Date;
 

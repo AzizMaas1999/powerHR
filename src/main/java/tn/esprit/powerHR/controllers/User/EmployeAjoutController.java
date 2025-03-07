@@ -12,9 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.controllers.enums.Poste;
-import tn.esprit.powerHR.models.Departement;
+import tn.esprit.powerHR.models.EntrepriseDep.Departement;
 import tn.esprit.powerHR.models.User.Employe;
-import tn.esprit.powerHR.services.DepartementService;
+import tn.esprit.powerHR.services.EntrepriseDep.DepartementService;
 import tn.esprit.powerHR.services.User.ServiceEmploye;
 
 import java.io.IOException;

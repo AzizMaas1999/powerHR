@@ -1,11 +1,4 @@
-<<<<<<<< HEAD:src/main/java/tn/esprit/powerHR/test/DemRepQuest/Main.java
-package tn.esprit.powerHR.test.DemRepQuest;
-
-//import tn.esprit.powerHR.services.ApiService;
-
-========
 package tn.esprit.powerHR.test.User;
->>>>>>>> refs/remotes/origin/yassine:src/main/java/tn/esprit/powerHR/test/User/Main.java
 
 public class Main {
     public static void main(String[] args) {

@@ -12,10 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.models.EntrepriseDep.Entreprise;
 import tn.esprit.powerHR.models.User.Candidat;
-import tn.esprit.powerHR.models.Entreprise;
+import tn.esprit.powerHR.services.EntrepriseDep.EntrepriseService;
 import tn.esprit.powerHR.services.User.ServiceCandidat;
-import tn.esprit.powerHR.services.EntrepriseService;
 import tn.esprit.powerHR.utils.User.MinIOUtils;
 
 import java.io.File;

@@ -1,10 +1,10 @@
 package tn.esprit.powerHR.models.User;
 
 import tn.esprit.powerHR.controllers.enums.Poste;
-import tn.esprit.powerHR.models.CLFr;
-import tn.esprit.powerHR.models.Demande;
-import tn.esprit.powerHR.models.Pointage;
-import tn.esprit.powerHR.models.RepQuestionnaire;
+import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
+import tn.esprit.powerHR.models.DemRepQuest.Demande;
+import tn.esprit.powerHR.models.DemRepQuest.RepQuestionnaire;
+
 
 import java.util.ArrayList;
 import java.util.List;
