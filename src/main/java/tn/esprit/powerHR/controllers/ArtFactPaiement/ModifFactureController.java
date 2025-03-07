@@ -139,7 +139,10 @@ public class ModifFactureController {
             e.printStackTrace();
         }
     }
-
+    private void refreshTable() {
+        factures.setAll(ps.getAll()); // Récupérer les paiements mis à jour depuis la base
+        tv_facture.setItems(factures);
+    }
 
     @FXML
     void ChooseLine(MouseEvent event) {
