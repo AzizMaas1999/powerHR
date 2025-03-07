@@ -31,6 +31,9 @@ public class ChargesHomeController {
     @FXML
     private AnchorPane mainPane;
 
+    @FXML
+    private Button bt_fiche;
+
     private Employe loggedInUser;
 
     public Employe getLoggedInUser() {
@@ -45,7 +48,7 @@ public class ChargesHomeController {
     @FXML
     void emp(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/Ajout.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ManageEmploye.fxml"));
             Parent statView = loader.load();
 
             mainPane.getChildren().setAll(statView);
@@ -92,6 +95,18 @@ public class ChargesHomeController {
             System.err.println("Error loading " + e.getMessage());
         }
 
+    }
+
+    @FXML
+    void fiche(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ManageFiche.fxml"));
+            Parent statView = loader.load();
+
+            mainPane.getChildren().setAll(statView);
+        } catch (IOException e) {
+            System.err.println("Error loading " + e.getMessage());
+        }
     }
 
 }

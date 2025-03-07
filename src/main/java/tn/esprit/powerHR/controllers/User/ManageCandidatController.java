@@ -141,16 +141,4 @@ public class ManageCandidatController implements Initializable {
 
     @FXML
     private void handleSearch() {}
-
-    @FXML
-    private void handleAddCandidat() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/AjoutCandidat.fxml"));
-            Parent addCandidatView = loader.load();
-            mainPane.getChildren().setAll(addCandidatView);
-        } catch (IOException e) {
-            System.err.println("Error loading addCandidat.fxml: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 }
