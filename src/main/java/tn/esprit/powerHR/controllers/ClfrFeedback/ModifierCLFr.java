@@ -7,7 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tn.esprit.powerHR.models.ClfrFeedback.CLFr;
 import tn.esprit.powerHR.services.ClfrFeedback.ServiceCLFr;
-
+import javafx.scene.Node;
+import javafx.stage.FileChooser;
+import java.io.File;
 public class ModifierCLFr {
 
     @FXML
@@ -40,7 +42,16 @@ public class ModifierCLFr {
 
     // Method for the "Choisir Photo" button
     public void choisirPhoto(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
         // Add your code to handle the "Choisir Photo" action
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            photoPathField.setText(file.getAbsolutePath());
+        }
     }
 
     // Method for the "Modifier" button
@@ -53,6 +64,8 @@ public class ModifierCLFr {
         this.selectedCLFr = clfr;
         this.parentController = parent;
 
+        // Initialiser les choix du type
+        type2.getItems().setAll("Client", "Fournisseur"); // Ajouté
         // Remplir les champs
         nom.setText(clfr.getNom());
         matriculeFicale.setText(clfr.getMatriculeFiscale());
@@ -87,10 +100,14 @@ public class ModifierCLFr {
         }
     }
 
+
     @FXML
     void Annuler(ActionEvent event) {
         ((Stage) nom.getScene().getWindow()).close();
     }
+    // Méthodes non utilisées (à conserver pour la compatibilité FXML)
+  //  public void NavigateAjouter(ActionEvent event) {}
+  //  public void Supp(ActionEvent event) {}
 }
 
 

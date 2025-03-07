@@ -22,7 +22,7 @@
       <font>
          <Font name="Arial Narrow" size="14.0" />
       </font></Button>
-   <AnchorPane prefHeight="17.0" prefWidth="892.0" style="-fx-background-color: #292e30;">
+   <AnchorPane prefHeight="62.0" prefWidth="1346.0" style="-fx-background-color: #292e30;">
       <children>
          <ImageView blendMode="SCREEN" cache="true" cacheHint="QUALITY" fitHeight="147.0" fitWidth="160.0" layoutX="22.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-43.2" AnchorPane.topAnchor="-43.0">
             <image>
@@ -60,7 +60,7 @@
 
    </VBox>
 
-   <HBox layoutX="546.0" layoutY="120.0" prefHeight="30.0" prefWidth="700.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ddd; -fx-border-width: 1;">
+   <HBox layoutX="546.0" layoutY="120.0" prefHeight="30.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ddd; -fx-border-width: 1;">
       <Label prefWidth="400.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Description" />
       <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Date" />
       <Label prefHeight="28.0" prefWidth="94.0" style="-fx-font-weight: bold; -fx-padding: 5;" text="Type" />
@@ -72,7 +72,7 @@
    <TextField fx:id="Description" layoutX="243.0" layoutY="227.0" prefHeight="61.0" prefWidth="257.0" promptText="Description" style="-fx-background-color: #FFFFFF; -fx-border-color: #292e30; -fx-border-radius: 7;" />
 
    <Text layoutX="257.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
-   <Label fx:id="lblSentiment" layoutX="260.0" layoutY="454.0" style="-fx-font-size: 14px; -fx-text-fill: #292e30;" text="Sentiment: En attente..." />
+   <Label fx:id="lblSentiment" layoutX="260.0" layoutY="454.0" style="-fx-font-size: 14px; -fx-text-fill: #292e30;" />
    <ComboBox fx:id="feedbackTypeComboBox" layoutX="226.0" layoutY="340.0" prefWidth="257.0">
       <items>
          <FXCollections fx:factory="observableArrayList">

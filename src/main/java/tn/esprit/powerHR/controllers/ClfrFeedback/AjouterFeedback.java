@@ -18,6 +18,8 @@ import tn.esprit.powerHR.utils.ClfrFeedback.EmojiUtils;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class AjouterFeedback {
@@ -32,13 +34,10 @@ public class AjouterFeedback {
     private Button bt_ajouterfeedback, bt_modiferfeedback, bt_submit, bt_supppfeedback;
     @FXML
     private Label lblSentiment;
-
-    private Stage stage;
-    private Scene scene;
+    @FXML
+    private ComboBox<String> feedbackTypeComboBox;
 
     private final ServiceFeedback serviceFeedback = new ServiceFeedback();
-   @FXML
-   private ComboBox<String> feedbackTypeComboBox;
 
     public void refreshListView() {
         try {
@@ -77,26 +76,31 @@ public class AjouterFeedback {
 
             // Création du feedback
             Feedback feedback = new Feedback();
-            feedback.setDateCreation(Timestamp.valueOf(Date_creation.getValue().atStartOfDay())); // Conversion LocalDate -> Timestamp
+
+            // Combiner la date choisie et l'heure actuelle
+            LocalDate selectedDate = Date_creation.getValue();
+            LocalTime currentTime = LocalTime.now();
+            LocalDateTime dateTime = LocalDateTime.of(selectedDate, currentTime);
+            feedback.setDateCreation(Timestamp.valueOf(dateTime));
+
             feedback.setDescription(descriptionText);
             feedback.setType(feedbackTypeComboBox.getValue());
 
-            // Simulation d'un CLFr (À REMPLACER par votre logique métier)
+            // Simulation d'un CLFr (à adapter selon votre logique métier)
             CLFr clfr = new CLFr();
-            clfr.setId(1); // ID temporaire - À récupérer depuis la session/utilisateur connecté
+            clfr.setId(1); // ID temporaire – à remplacer par l'ID réel de l'utilisateur connecté
             feedback.setClfr(clfr);
 
             // Ajout en base
             serviceFeedback.add(feedback);
-            refreshListView(); // Rafraîchir la liste
+            refreshListView();
 
             // Réinitialisation du formulaire
-            Date_creation.setValue(null);
+            Date_creation.setValue(LocalDate.now());
             Description.clear();
             feedbackTypeComboBox.setValue(null);
 
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Feedback ajouté avec succès !");
-
         } catch (Exception e) {
             System.err.println("Erreur d'ajout : " + e.getMessage());
             showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout : " + e.getMessage());
@@ -137,7 +141,9 @@ public class AjouterFeedback {
 
     @FXML
     public void initialize() {
+        // Initialisation du DatePicker sur la date d'aujourd'hui
         Date_creation.setValue(LocalDate.now());
+        // Définir la cellule personnalisée pour la ListView
         lv_ShowFeedback.setCellFactory(param -> new FeedbackListCell());
         refreshListView();
 
@@ -149,7 +155,7 @@ public class AjouterFeedback {
                 "Neutre"
         ));
 
-        // Conversion des émoticônes en emojis
+        // Conversion des émoticônes en emojis dans le champ Description
         Description.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
                 String convertedText = EmojiUtils.replaceEmoticons(newValue);

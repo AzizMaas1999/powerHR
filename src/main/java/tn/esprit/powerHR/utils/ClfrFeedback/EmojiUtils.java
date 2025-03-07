@@ -6,7 +6,10 @@ public class EmojiUtils {
     public static String replaceEmoticons(String text) {
         text = text.replace(";)", ":wink:")
                 .replace("<3", ":heart:")
-                .replace(":D", ":grinning:");
+                .replace(":D", ":grinning:")
+                .replace(":'(", ":cry:")
+                .replace(":(", ":disappointed:")
+                .replace("XD", ":laughing:") ;
 
         return EmojiParser.parseToUnicode(text);
     }
