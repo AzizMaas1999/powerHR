@@ -52,22 +52,13 @@
                     </Button>
                 </children>
             </HBox>
-            <HBox spacing="20.0">
+            <HBox alignment="CENTER" spacing="20.0">
                 <children>
                     <Button fx:id="bt_fiche" contentDisplay="TOP" onAction="#fiche" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,#56aeff, #ffffff); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 10px 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 0, 2);" text="Fiche Employé" textAlignment="CENTER">
                         <graphic>
                             <ImageView fitHeight="103.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
                                     <Image url="@../images/FicheIcon.png" />
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                    <Button contentDisplay="TOP" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,#56aeff, #ffffff); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 10px 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 0, 2);" text="Paie" textAlignment="CENTER">
-                        <graphic>
-                            <ImageView fitHeight="103.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/PaieIcon.png" />
                                 </image>
                             </ImageView>
                         </graphic>
