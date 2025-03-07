@@ -1,4 +1,4 @@
-package tn.esprit.powerHR.controllers;
+package tn.esprit.powerHR.controllers.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
