@@ -7,10 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import tn.esprit.powerHR.models.PaiePointage.Paie;
 import tn.esprit.powerHR.models.PaiePointage.Pointage;
 import tn.esprit.powerHR.models.User.Employe;
@@ -59,15 +61,13 @@ public class PaieController {
                             .findFirst()
                             .get();
                     listShow.add(
-                            user.getUsername()
-                                    + "                                                      " +
-                                    p.getNbjour()
-                                    + "                                             " +
-                                    p.getMontant()
-                                    + "                    " +
-                                    p.getMois()
-                                    + "               " +
-                                    p.getAnnee());
+                            String.format("%-25s %-14d %-14.2f %-6s %-4s",
+                                    user.getUsername(),
+                                    p.getNbjour(),
+                                    p.getMontant(),
+                                    p.getMois(),
+                                    p.getAnnee()
+                            ));
                 }
                     observableList.addAll(listShow);
             } catch (Exception e) {
@@ -75,6 +75,18 @@ public class PaieController {
             }
         }
         lv_paie.setItems(observableList);
+        lv_paie.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setFont(Font.font("Courier New", 14));
+                    setText(item);
+                }
+            }
+        });
     }
 
     @FXML

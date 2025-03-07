@@ -394,7 +394,7 @@ public class AjoutFactureController {
     public void Retour(MouseEvent mouseEvent) {
         try {
             // Load the addEmploye.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ArtFactPaiement/FactArtPaieHome.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FacturationHome.fxml"));
             Parent addEmployeView = loader.load();
 
             // Replace the current content of the mainPane with the addEmployeView

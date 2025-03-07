@@ -33,26 +33,26 @@ public class MainFX extends Application {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/PaiePointage/PaieHome.fxml"));
         try {
-            if (LocalDate.now().getDayOfMonth() == 1 && LocalTime.now().getHour() == 8 && LocalTime.now().getMinute() <= 30 ) {
-                ServicePointage spoi = new ServicePointage();
-                ServicePaie sp = new ServicePaie();
-                List<Integer> IdsPaie = sp.getAll().stream()
-                        .filter(p -> p.getMois().equals(LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH))
-                                && p.getAnnee().equals(String.valueOf(LocalDate.now().getYear())))
-                        .filter(p -> p.getAnnee().equals(String.valueOf(LocalDate.now().getYear())))
-                        .map(Paie::getId)
-                        .toList();
-                List<Employe> employes = new ArrayList<>();
-                for (int id : IdsPaie) {
-                    employes.add(spoi.getAll().stream()
-                            .filter(p -> p.getPaie().getId() == id)
-                            .map(Pointage::getEmploye)
-                            .findFirst()
-                            .get());
-                }
-                ServiceApi srvApi = new ServiceApi();
-                srvApi.response(employes);
-            }
+//            if (LocalDate.now().getDayOfMonth() == 1 && LocalTime.now().getHour() == 8 && LocalTime.now().getMinute() <= 30 ) {
+//                ServicePointage spoi = new ServicePointage();
+//                ServicePaie sp = new ServicePaie();
+//                List<Integer> IdsPaie = sp.getAll().stream()
+//                        .filter(p -> p.getMois().equals(LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH))
+//                                && p.getAnnee().equals(String.valueOf(LocalDate.now().getYear())))
+//                        .filter(p -> p.getAnnee().equals(String.valueOf(LocalDate.now().getYear())))
+//                        .map(Paie::getId)
+//                        .toList();
+//                List<Employe> employes = new ArrayList<>();
+//                for (int id : IdsPaie) {
+//                    employes.add(spoi.getAll().stream()
+//                            .filter(p -> p.getPaie().getId() == id)
+//                            .map(Pointage::getEmploye)
+//                            .findFirst()
+//                            .get());
+//                }
+//                ServiceApi srvApi = new ServiceApi();
+//                srvApi.response(employes);
+//            }
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);

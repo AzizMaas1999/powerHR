@@ -45,7 +45,7 @@
                <Button fx:id="bt_submit" onAction="#Ajout" style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5;" text="Ajouter Paiement" />
             </children>
          </VBox>
-         <Label fx:id="lblMessage" text="Label" />
+         <Label fx:id="lblMessage" />
       </children>
    </VBox>
 

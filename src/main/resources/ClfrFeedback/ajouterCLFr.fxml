@@ -49,6 +49,11 @@
                     <DropShadow color="#ffffff" radius="15" spread="0.1" />
                 </effect>
             </ImageView>
+            <ImageView fx:id="bt_back" accessibleRole="BUTTON" fitHeight="24.0" fitWidth="36.0" layoutX="8.0" layoutY="18.0" onMouseClicked="#Retour" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../images/backIcon.png" />
+                </image>
+            </ImageView>
            <TextField fx:id="searchField" layoutX="518.0" layoutY="77.0" prefWidth="250.0" promptText="Rechercher..." style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 14; -fx-prompt-text-fill: #a0a0a0;" />
            <ImageView fitHeight="20" fitWidth="20" layoutX="708.0" layoutY="81.0" style="-fx-opacity: 0.6;">
                <image>

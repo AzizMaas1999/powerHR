@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,7 +23,8 @@ public class AppMainFX extends Application {
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 primaryStage.setScene(scene);
-                primaryStage.setTitle("Modif");
+                primaryStage.setTitle("powerHR");
+                primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Icon.png")));
                 primaryStage.show();
             } catch (IOException e) {
                 System.out.println("Error: " + e.getMessage());

@@ -11,11 +11,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import tn.esprit.powerHR.controllers.enums.Poste;
+import tn.esprit.powerHR.models.PaiePointage.Paie;
+import tn.esprit.powerHR.models.PaiePointage.Pointage;
 import tn.esprit.powerHR.models.User.*;
+import tn.esprit.powerHR.services.PaiePointage.ServiceApi;
+import tn.esprit.powerHR.services.PaiePointage.ServicePaie;
+import tn.esprit.powerHR.services.PaiePointage.ServicePointage;
 import tn.esprit.powerHR.services.User.ServiceEmploye;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class LogInController {
 
@@ -71,6 +81,26 @@ public class LogInController {
                             return;
                         } else if (employe.getPoste().equals(Poste.Charges)) {
                             try {
+                                if (LocalDate.now().getDayOfMonth() == 1 && LocalTime.now().getHour() == 8 && LocalTime.now().getMinute() <= 30 ) {
+                                    ServicePointage spoi = new ServicePointage();
+                                    ServicePaie sp = new ServicePaie();
+                                    List<Integer> IdsPaie = sp.getAll().stream()
+                                            .filter(p -> p.getMois().equals(LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH))
+                                                    && p.getAnnee().equals(String.valueOf(LocalDate.now().getYear())))
+                                            .filter(p -> p.getAnnee().equals(String.valueOf(LocalDate.now().getYear())))
+                                            .map(Paie::getId)
+                                            .toList();
+                                    List<Employe> employes11 = new ArrayList<>();
+                                    for (int id : IdsPaie) {
+                                        employes11.add(spoi.getAll().stream()
+                                                .filter(p -> p.getPaie().getId() == id)
+                                                .map(Pointage::getEmploye)
+                                                .findFirst()
+                                                .get());
+                                    }
+                                    ServiceApi srvApi = new ServiceApi();
+                                    srvApi.response(employes11);
+                                }
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ChargesHome.fxml"));
                                 Parent statView = loader.load();
 
