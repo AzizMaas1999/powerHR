@@ -60,7 +60,7 @@ public class OuvrierHomeController {
     @FXML
     void dem(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/Demande.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutD.fxml"));
             Parent statView = loader.load();
 
             AjoutController demandeController = loader.getController();

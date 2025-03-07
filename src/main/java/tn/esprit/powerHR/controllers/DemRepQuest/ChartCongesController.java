@@ -64,7 +64,7 @@ public class ChartCongesController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/DemQuestRepHome.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/ListeDR.fxml"));
             Parent chart = loader.load();
 
 

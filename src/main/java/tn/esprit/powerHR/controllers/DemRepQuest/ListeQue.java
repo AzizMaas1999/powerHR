@@ -94,7 +94,7 @@ public class ListeQue {
     public void Retour(MouseEvent mouseEvent) {
         try {
             // Load the addEmploye.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/DemQuestRepHome.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/OuvrierHome.fxml"));
             Parent addEmployeView = loader.load();
 
             // Replace the current content of the mainPane with the addEmployeView

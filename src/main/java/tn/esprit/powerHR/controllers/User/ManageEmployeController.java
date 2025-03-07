@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import tn.esprit.powerHR.controllers.enums.Poste;
 import tn.esprit.powerHR.models.User.Employe;
 import tn.esprit.powerHR.services.User.ServiceEmploye;
 
@@ -50,6 +51,16 @@ public class ManageEmployeController implements Initializable {
 
     private ServiceEmploye se = new ServiceEmploye();
 
+    private Employe loggedInUser;
+
+    public Employe getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(Employe loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadEmployes();
@@ -61,12 +72,32 @@ public class ManageEmployeController implements Initializable {
             backIcon.setOnMouseClicked(event -> {
                 try {
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/Modif.fxml"));
-                    Parent previousPage = loader.load();
+                    FXMLLoader loader = null;
+                    if (getLoggedInUser().getPoste().equals(Poste.Charges)) {
+                        loader = new FXMLLoader(getClass().getResource("/User/ChargesHome.fxml"));
+                        Parent previousPage = loader.load();
 
-                    Stage stage = (Stage) mainPane.getScene().getWindow();
-                    Scene scene = new Scene(previousPage);
-                    stage.setScene(scene);
+                        ChargesHomeController chargesHomeController = loader.getController();
+                        chargesHomeController.setLoggedInUser(getLoggedInUser());
+
+                        Stage stage = (Stage) mainPane.getScene().getWindow();
+                        Scene scene = new Scene(previousPage);
+                        stage.setScene(scene);
+                    }
+                    if (getLoggedInUser().getPoste().equals(Poste.Directeur)) {
+                        loader = new FXMLLoader(getClass().getResource("/User/DirecteurHome.fxml"));
+                        Parent previousPage = loader.load();
+
+                        DirecteurHomeController directeurHomeController = loader.getController();
+                        directeurHomeController.setLoggedInUser(getLoggedInUser());
+
+
+
+                        Stage stage = (Stage) mainPane.getScene().getWindow();
+                        Scene scene = new Scene(previousPage);
+                        stage.setScene(scene);
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -141,6 +172,7 @@ public class ManageEmployeController implements Initializable {
                                 EmployeModifController modifController = loader.getController();
 
                                 modifController.setSelectedEmploye(employe);
+                                modifController.setLoggedInUser(getLoggedInUser());
 
                                 mainPane.getChildren().setAll(modifEmployeView);
                             } catch (IOException e) {
@@ -181,6 +213,10 @@ public class ManageEmployeController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/Ajout.fxml"));
             Parent addEmployeView = loader.load();
+
+            EmployeAjoutController ajoutController = loader.getController();
+            ajoutController.setLoggedInUser(getLoggedInUser());
+
             mainPane.getChildren().setAll(addEmployeView);
         } catch (IOException e) {
             System.err.println("Error loading Ajout.fxml: " + e.getMessage());

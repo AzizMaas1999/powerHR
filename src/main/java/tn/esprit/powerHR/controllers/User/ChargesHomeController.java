@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import tn.esprit.powerHR.controllers.DemRepQuest.AjoutQ;
 import tn.esprit.powerHR.models.User.Employe;
 
 import java.io.IOException;
@@ -51,6 +52,9 @@ public class ChargesHomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ManageEmploye.fxml"));
             Parent statView = loader.load();
 
+            ManageEmployeController controller = loader.getController();
+            controller.setLoggedInUser(getLoggedInUser());
+
             mainPane.getChildren().setAll(statView);
         } catch (IOException e) {
             System.err.println("Error loading " + e.getMessage());
@@ -89,6 +93,9 @@ public class ChargesHomeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DemRepQuest/AjoutQ.fxml"));
             Parent statView = loader.load();
+
+            AjoutQ controller = loader.getController();
+            controller.setLoggedInUser(getLoggedInUser());
 
             mainPane.getChildren().setAll(statView);
         } catch (IOException e) {
